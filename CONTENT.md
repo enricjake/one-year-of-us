@@ -1,178 +1,43 @@
-# Content checklist
+# Ideas for what to write
 
-Fill this in before you edit the template. The writing is the hard part; the code is already done.
+A page is waiting at <https://enricjake.github.io/one-year-of-us/>. It starts empty — that's on purpose. Add a memory with a photo and a few words. Nothing is sent anywhere; it saves in your browser, and **Save & share → Download a copy** keeps a file you can send back.
 
-Copy this file to `my-content.md` (or just fill it here and delete it later). Don't overthink the first pass — write badly, then cut.
-
----
-
-## 1. The basics
-
-| Thing | Yours |
-|---|---|
-| Her name | Nicole |
-| Your name | Enric |
-| Together since (YYYY-MM-DD) | 2025-11-25 |
-| Anniversary date | 2026-11-25 |
-| Where it started | Instagram (where you matched) |
-| One word that sums up the year | Devoted |
-| Long distance? | Yes — the year was lived through calls, messages and photos |
+No word counts, no right order. Start with whichever one you can picture most clearly.
 
 ---
 
-## 2. The memories
+## Starting points
 
-Most templates need **4–8**. Pick the ones with a detail only the two of you would know.
+Tap one of the chips on the page, or steal one of these:
 
-| # | Date | Title (2–4 words) | The detail you remember | Photo? |
-|---|------|-------------------|--------------------------|--------|
-| 1 | Nov 25, 2025 | First message | A message on Instagram; the first call ran past midnight | `video-call.jpg` |
-| 2 | Dec 2025 | That face | The duck face that never stops working | `nicole-duckface.jpg` |
-| 3 | Dec 2025 | Snack aisle | Purple signs at 11pm, sent as a photo | `convenience-store.jpg` |
-| 4 | Jan 2026 | Green booth | Warm light, the drink with the straw | `dinner-drink.jpg` |
-| 5 | Mar 2026 | Night café | String lights, stacked chairs, told later | `night-cafe.jpg` |
-| 6 | Aug 2026 | The concert | Lightstick and fanchants | `concert.jpg` |
-| 7 | Sep 2026 | Weekend away | Stone pillars, long verandas | `weekend-resort.jpg` |
-| 8 | Nov 25, 2026 | Tonight | One year, same smile | `car-selfie.jpg` |
-
-### Prompts if you're stuck
-
-- The first night — what did you notice first? What did you get wrong?
-- The first ordinary day — the nothing-day that became a ritual.
-- The first time you cooked / travelled / got lost together.
-- The first fight and how you came back.
-- The week that was hard, and how she showed up.
-- The running joke you can't explain to other people.
-- The place that became "yours".
-- The moment you knew — and the moment you almost said it.
-- The most recent ordinary Tuesday. End there.
-
-### The one-line test
-
-If a memory can be swapped into any couple's story, it's not specific enough yet. Add the 11pm snack aisle, the lightstick, the exact song.
+- **The first message** — what did it say? What did you do after reading it?
+- **A face you made** — the one that always makes him laugh.
+- **11pm snack aisle** — what were you looking for? What did you actually get?
+- **The green booth** — what did you talk about? What was the drink?
+- **The night café** — who told you about it afterwards?
+- **The concert** — which song, and what did the crowd do?
+- **Somewhere you went** — the one photo you keep reopening.
+- **An ordinary Tuesday** — the nothing-day that turned into a ritual.
+- **A hard week** — what got you through it, and who showed up.
+- **A running joke** — the one that makes no sense to anyone else.
+- **Today** — end with the most recent ordinary moment.
 
 ---
 
-## 3. The small stuff
+## The one-line test
 
-These fill the stats, tracklists and sidebars.
-
-**Reasons I love her** (top 5, one line each)
-
-1.
-2.
-3.
-4.
-5.
-
-**Inside jokes / recurring bits**
-
--
--
--
-
-**Rituals you accidentally built**
-
--
--
--
-
-**Places that are yours**
-
--
--
-
-**Things you want to do next year** (6 is a good number)
-
-1.
-2.
-3.
-4.
-5.
-6.
-
-**Real numbers, if you want the Wrapped template to be honest**
-
-| Stat | Number |
-|---|---|
-| Photos taken of her | |
-| Coffees together | |
-| Songs sent at 1 a.m. | |
-| Trips (planned + unplanned) | |
-| "Good morning" texts | |
-| Something ridiculous you actually counted | |
+If a memory could be swapped into any couple's story, it isn't specific enough yet. Add the exact time, the song, the thing you were eating, the phrase he always says. "We went somewhere nice" becomes a different thing when it's "stone pillars, long verandas, nowhere to be."
 
 ---
 
-## 4. The letter
+## If it's stuck
 
-This is the part she'll reread. Draft it here first.
-
-**Opening line** (don't start with "Happy anniversary" — start with a detail)
-
->
-
-**The middle** (one specific thing you're grateful for; one thing you noticed; one thing you're looking forward to)
-
->
-
->
-
-**The ending** (keep it simple; no grand promises)
-
->
-
-**Sign-off**
-
->
-
-### Rules of thumb
-
-- Say one true thing instead of five nice things.
-- Use her name once, out loud in your head.
-- Read it aloud. If you stumble, cut it.
-- No "I'm not good with words" — you wrote a whole website.
+Write it badly first. One sentence is enough. You can come back and add more — the page saves as you type.
 
 ---
 
-## 5. Photos
+## Before you send it
 
-Collect 6–10. For each: file name, what it is, and which template slot it goes in.
-
-| File | What it is | Slot |
-|---|---|---|
-| `photos/01-first-night.jpg` | | Cinema scene 1 / Constellation star 1 |
-| `photos/02-kitchen.jpg` | | |
-| `photos/03-trip.jpg` | | |
-| `photos/04-us.jpg` | | |
-| `photos/05-something.jpg` | | |
-| `photos/06-today.jpg` | | |
-
-**Prep:** crop to 4:3 or 16:9, long edge ~1600px, compress under ~300 KB. Strip location metadata if you're posting publicly (most phones add GPS by default).
-
----
-
-## 6. Which template needs what
-
-| Template | Needs | Optional |
-|---|---|---|
-| **Cinema** | 4 scenes (date, title, 2–3 sentences, photo), 1 quote, 6 contact-sheet captions, credits list | Intro line |
-| **Mixtape** | 8 tracks (title, subtitle, story, photo), liner-note letter, 6 next-year plans | Real MP3 of your song |
-| **Arcade** | 4 level stories + 1 final letter, 4 high-score moments | Custom level titles |
-| **Constellation** | 8 memories (date, title, 2–3 sentences, photo), closing letter | — |
-| **Wrapped** | 6 stats, top 5 moments, 12 monthly bars, #1 song + quote, dictionary entry | Real counts |
-| **Open When** | 6 letters (3 short paragraphs each) | Envelope note |
-
----
-
-## 7. Final check
-
-- [ ] Her name is spelled right everywhere (search for `Nicole`).
-- [ ] Your name is spelled right (search for `Enric`).
-- [ ] The date is right, including the year (search for `2025` and `2026`).
-- [ ] No leftover placeholder text: search for `Replace`, `photo 0`, `✏️`, `Ava`, `Noah`.
-- [ ] Every photo loads (no broken image icons), and you're happy for her to see each one.
-- [ ] Opened it on your phone, not just your laptop.
-- [ ] Read the letter out loud once.
-- [ ] Added `<meta name="robots" content="noindex, nofollow">` if it's public.
-- [ ] Sent the link at a time she'll actually see it.
+- Read it out loud once. If you stumble on a sentence, cut it.
+- Check every photo loads and you're happy for him to see it.
+- Download a copy from **Save & share** and send the `.json` file along with the link.
