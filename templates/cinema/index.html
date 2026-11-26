@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Year — A Feature Presentation</title>
+<meta name="description" content="A one-year anniversary film, told in scenes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' font-size='26' text-anchor='middle'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     CINEMA — "One Year: A Feature Presentation"
+     Edit the copy in the HTML (look for ✏️ EDIT).
+     Replace .still-ph blocks with <img src="photo.jpg" alt="...">.
+     ============================================================ */
+  :root{
+    --ink:#0b0908;
+    --velvet:#2a090e;
+    --velvet-2:#3d0f15;
+    --bulb:#f0c674;
+    --bulb-dim:#8a6b36;
+    --paper:#f2e8d5;
+    --paper-dim:#c9bda6;
+    --rose:#c96a5f;
+    --rule:rgba(242,232,213,.18);
+    --serif:"Playfair Display", Georgia, serif;
+    --mono:"Courier Prime", "Courier New", monospace;
+    --display:"Anton", Impact, sans-serif;
+    --pad:clamp(20px, 5vw, 72px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    overflow:hidden;
+  }
+  body.entered{overflow:auto}
+  ::selection{background:var(--bulb);color:var(--ink)}
+  img{max-width:100%;display:block}
+  a{color:inherit}
+
+  /* film grain */
+  .grain{
+    position:fixed; inset:0; z-index:90; pointer-events:none; opacity:.055;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 1.2s steps(3) infinite;
+  }
+  @keyframes grain{
+    0%{transform:translate(0,0)} 33%{transform:translate(-2%,1%)} 66%{transform:translate(1%,-2%)} 100%{transform:translate(0,0)}
+  }
+
+  .kicker{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--bulb);
+    margin:0 0 18px;
+  }
+
+  /* ---------- overture ---------- */
+  .overture{
+    position:fixed; inset:0; z-index:100;
+    display:grid; place-items:center;
+    background:
+      radial-gradient(ellipse at 50% 40%, #1a0b0d 0%, #070505 65%, #000 100%);
+    transition:opacity .9s ease, visibility .9s;
+    text-align:center;
+    padding:24px;
+  }
+  .overture.gone{opacity:0;visibility:hidden}
+  .overture-inner{max-width:560px}
+  .overture .kicker{color:var(--paper-dim);animation:fade 2s ease both}
+  .overture-title{
+    font-family:var(--display);
+    font-size:clamp(72px,18vw,180px);
+    line-height:.82;
+    letter-spacing:.04em;
+    margin:0 0 18px;
+    color:var(--paper);
+    animation:fade 2s .2s ease both;
+  }
+  .overture-sub{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:clamp(16px,2.4vw,21px);
+    color:var(--paper-dim);
+    margin:0 0 40px;
+    animation:fade 2s .4s ease both;
+  }
+  .enter{
+    appearance:none; cursor:pointer;
+    background:transparent; color:var(--bulb);
+    border:1px solid var(--bulb-dim);
+    padding:16px 28px;
+    font-family:var(--mono); font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+    transition:background .3s, color .3s, border-color .3s;
+    animation:fade 2s .7s ease both;
+  }
+  .enter:hover,.enter:focus-visible{background:var(--bulb);color:var(--ink);border-color:var(--bulb);outline:none}
+  .overture-note{margin:26px 0 0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#6d6255;animation:fade 2s 1s ease both}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:96px var(--pad) 80px;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(61,15,21,.9) 0%, transparent 62%),
+      radial-gradient(ellipse at 50% 120%, rgba(42,9,14,.8) 0%, transparent 60%),
+      var(--ink);
+    overflow:hidden;
+  }
+  .bulbs{
+    position:absolute; top:0; left:0; right:0; height:44px;
+    background-image:radial-gradient(circle, var(--bulb) 0 3px, transparent 4px);
+    background-size:34px 22px;
+    background-position:center 8px;
+    opacity:.7;
+    filter:drop-shadow(0 0 6px rgba(240,198,116,.55));
+    mask-image:linear-gradient(to bottom, #000 30%, transparent 100%);
+  }
+  .hero .kicker{margin-bottom:26px}
+  .marquee{
+    font-family:var(--display);
+    font-size:clamp(88px,23vw,260px);
+    line-height:.86;
+    letter-spacing:.015em;
+    margin:0;
+    color:var(--paper);
+    text-shadow:0 0 40px rgba(240,198,116,.08);
+  }
+  .marquee span{
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--bulb);
+    display:inline-block;
+  }
+  .hero-sub{
+    font-family:var(--serif); font-style:italic;
+    font-size:clamp(15px,2.2vw,21px);
+    color:var(--paper-dim);
+    margin:26px 0 46px;
+  }
+  .ticket{
+    display:flex;
+    align-items:stretch;
+    background:var(--paper);
+    color:#1a1512;
+    text-align:left;
+    transform:rotate(-2deg);
+    box-shadow:0 24px 60px rgba(0,0,0,.55);
+    max-width:420px; width:100%;
+    position:relative;
+  }
+  .ticket::before,.ticket::after{
+    content:""; position:absolute; top:50%; width:16px; height:16px;
+    background:var(--ink); border-radius:50%; transform:translateY(-50%);
+  }
+  .ticket::before{left:-8px}
+  .ticket::after{right:54px}
+  .ticket-main{padding:18px 22px;flex:1}
+  .ticket-main span{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#6b5f52}
+  .ticket-main .ticket-label{font-size:12px;letter-spacing:.3em;color:#1a1512;margin-bottom:6px}
+  .ticket-main strong{display:block;font-size:13px;letter-spacing:.06em;margin:2px 0 8px}
+  .ticket-stub{
+    width:56px; border-left:1px dashed #9a8b79;
+    display:grid; place-items:center; text-align:center;
+    font-size:10px; letter-spacing:.1em; line-height:1.5; color:#6b5f52;
+    padding:8px 0;
+  }
+  .scroll-cue{
+    position:absolute; bottom:26px; left:50%; transform:translateX(-50%);
+    font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+    color:var(--paper-dim); text-decoration:none;
+    animation:bob 2.4s ease-in-out infinite;
+  }
+  .scroll-cue:hover{color:var(--bulb)}
+  @keyframes bob{50%{transform:translate(-50%,7px)}}
+
+  /* ---------- reel ---------- */
+  .reel{
+    position:relative;
+    padding:clamp(64px,10vw,120px) var(--pad);
+    background:
+      linear-gradient(to bottom, #0b0908, #0e0a0a 40%, #0b0908);
+  }
+  .reel-head{max-width:1080px;margin:0 auto 54px;text-align:center}
+  .reel-head h2{
+    font-family:var(--display);
+    font-size:clamp(34px,6vw,68px);
+    line-height:1;
+    letter-spacing:.01em;
+    margin:0;
+    font-weight:400;
+  }
+  .film{
+    max-width:1080px; margin:0 auto;
+    position:relative;
+    padding:18px clamp(26px,6vw,64px);
+    border-left:16px solid transparent;
+    border-right:16px solid transparent;
+    background:
+      radial-gradient(circle, var(--paper) 0 3.5px, transparent 4px) left top / 16px 30px repeat-y,
+      radial-gradient(circle, var(--paper) 0 3.5px, transparent 4px) right top / 16px 30px repeat-y;
+    background-color:#070505;
+    background-clip:padding-box;
+  }
+  .film::before,.film::after{
+    content:""; position:absolute; top:0; bottom:0; width:16px;
+    background:#070505;
+  }
+  .film::before{left:-16px}
+  .film::after{right:-16px}
+  .scene{
+    display:grid;
+    grid-template-columns:88px 1fr;
+    gap:clamp(14px,3vw,36px);
+    padding:clamp(30px,5vw,54px) 0;
+    border-bottom:1px solid var(--rule);
+  }
+  .scene:last-child{border-bottom:0}
+  .timecode{
+    font-size:11px; letter-spacing:.08em; color:var(--bulb-dim);
+    padding-top:6px; white-space:nowrap;
+  }
+  .scene-date{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin:0 0 10px}
+  .scene h3{
+    font-family:var(--serif); font-weight:500; font-style:italic;
+    font-size:clamp(24px,3.4vw,38px); line-height:1.15; margin:0 0 14px;
+  }
+  .scene p{max-width:52ch;color:var(--paper-dim);margin:0 0 24px;font-size:15px}
+  .still{margin:0}
+  .still-ph{
+    position:relative; aspect-ratio:16/9; overflow:hidden;
+    background:
+      linear-gradient(135deg, #3b151a 0%, #1c1013 45%, #2e2a22 100%);
+    display:grid; place-items:center;
+    border:1px solid rgba(242,232,213,.12);
+  }
+  .still-ph::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.55), transparent 55%);
+  }
+  .still-ph span{
+    position:relative; z-index:1;
+    font-size:10px; letter-spacing:.24em; text-transform:uppercase;
+    color:rgba(242,232,213,.45);
+    border:1px dashed rgba(242,232,213,.25);
+    padding:8px 12px;
+  }
+  .still figcaption{
+    display:flex; justify-content:space-between; gap:16px;
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:#7d7365; padding-top:9px;
+  }
+  .still img{aspect-ratio:16/9;object-fit:cover;width:100%;filter:sepia(.15) contrast(1.03)}
+  .scene .still{transition:transform .6s ease}
+  .scene:hover .still{transform:scale(1.012)}
+
+  /* ---------- intermission ---------- */
+  .intermission{
+    position:relative;
+    padding:clamp(80px,14vw,160px) var(--pad);
+    text-align:center;
+    background:
+      radial-gradient(ellipse at 50% 50%, var(--velvet-2) 0%, var(--velvet) 45%, #120507 100%);
+    border-top:1px solid rgba(240,198,116,.12);
+    border-bottom:1px solid rgba(240,198,116,.12);
+    overflow:hidden;
+  }
+  .intermission::before{
+    content:"INTERMISSION";
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:var(--display); font-size:clamp(80px,18vw,220px);
+    color:rgba(240,198,116,.035); letter-spacing:.04em; white-space:nowrap;
+    pointer-events:none;
+  }
+  .intermission blockquote{
+    position:relative;
+    font-family:var(--serif); font-style:italic;
+    font-size:clamp(24px,4.4vw,46px);
+    line-height:1.35;
+    max-width:820px; margin:0 auto;
+    color:var(--paper);
+  }
+  .intermission cite{
+    display:block; margin-top:28px;
+    font-family:var(--mono); font-style:normal;
+    font-size:10px; letter-spacing:.3em; text-transform:uppercase; color:var(--bulb-dim);
+  }
+
+  /* ---------- contact sheet ---------- */
+  .contact{padding:clamp(64px,10vw,120px) var(--pad);max-width:1200px;margin:0 auto}
+  .contact-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:18px;margin-bottom:40px}
+  .contact-head h2{font-family:var(--display);font-size:clamp(30px,5vw,54px);font-weight:400;margin:0;line-height:1}
+  .contact-head p{margin:0;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#7d7365}
+  .sheet{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+  }
+  .sheet figure{margin:0;position:relative;overflow:hidden;background:#151011}
+  .sheet .still-ph{aspect-ratio:4/3;border:0}
+  .sheet figure:nth-child(1){grid-column:span 2}
+  .sheet figure:nth-child(1) .still-ph{aspect-ratio:16/9}
+  .sheet figcaption{
+    position:absolute;left:10px;bottom:8px;z-index:2;
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,232,213,.65);
+  }
+  .sheet img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;filter:grayscale(.5) contrast(1.05);transition:filter .5s,transform .7s}
+  .sheet figure:hover img{filter:none;transform:scale(1.04)}
+
+  /* ---------- credits ---------- */
+  .credits{
+    padding:clamp(80px,14vw,170px) var(--pad) 70px;
+    background:#050404;
+    text-align:center;
+  }
+  .credits-inner{max-width:720px;margin:0 auto}
+  .credits h2{font-family:var(--display);font-size:clamp(30px,5vw,48px);font-weight:400;letter-spacing:.02em;margin:0 0 46px}
+  .credit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px 26px;padding:11px 0;border-bottom:1px solid rgba(242,232,213,.08);font-size:12px;text-align:left}
+  .credit-row dt{color:#7d7365;letter-spacing:.14em;text-transform:uppercase;font-size:10px;align-self:center}
+  .credit-row dd{margin:0;text-align:right;color:var(--paper)}
+  .the-end{
+    font-family:var(--serif);font-style:italic;font-size:clamp(26px,4vw,40px);
+    margin:64px 0 10px;color:var(--paper);
+  }
+  .credits-note{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#6d6255;margin:0 0 34px}
+  .again{
+    display:inline-block;text-decoration:none;
+    border:1px solid var(--bulb-dim);color:var(--bulb);
+    padding:13px 22px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+    transition:background .3s,color .3s;
+  }
+  .again:hover{background:var(--bulb);color:var(--ink)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:680px){
+    .scene{grid-template-columns:1fr;gap:6px}
+    .timecode{padding-top:0}
+    .sheet{grid-template-columns:1fr 1fr}
+    .sheet figure:nth-child(1){grid-column:span 2}
+    .ticket::after{right:50px}
+    .credit-row{grid-template-columns:1fr;gap:2px}
+    .credit-row dd{text-align:left;margin-bottom:8px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ================= OVERTURE ================= -->
+<div class="overture" id="overture">
+  <div class="overture-inner">
+    <p class="kicker">A One-Year Pictures release</p>
+    <h1 class="overture-title">US</h1>
+    <p class="overture-sub">a feature presentation in one act</p>
+    <button class="enter" id="enter">Enter the theatre →</button>
+    <p class="overture-note">best viewed with the lights off</p>
+  </div>
+</div>
+<noscript><style>.overture{display:none} body{overflow:auto!important}</style></noscript>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="bulbs" aria-hidden="true"></div>
+  <p class="kicker">Now showing · one night only</p>
+  <!-- ✏️ EDIT: the big title -->
+  <h1 class="marquee">ONE<br><span>YEAR</span></h1>
+  <!-- ✏️ EDIT: names -->
+  <p class="hero-sub">Ava &amp; Noah · in a film about the two of us</p>
+
+  <div class="ticket" role="note" aria-label="Ticket">
+    <div class="ticket-main">
+      <span>One-Year Pictures presents</span>
+      <span class="ticket-label">Admit two</span>
+      <strong>Row ∞ · Seats 1 &amp; 2</strong>
+      <!-- ✏️ EDIT: dates -->
+      <span>Nov 25, 2025 — and counting</span>
+    </div>
+    <div class="ticket-stub">01<br>YR</div>
+  </div>
+
+  <a class="scroll-cue" href="#reel">↓ the picture starts</a>
+</header>
+
+<main>
+  <!-- ================= REEL / TIMELINE ================= -->
+  <section class="reel" id="reel">
+    <div class="reel-head reveal">
+      <p class="kicker">Reel one</p>
+      <h2>The first year, in scenes</h2>
+    </div>
+
+    <div class="film">
+      <!-- ✏️ EDIT: duplicate a .scene block for each memory -->
+      <article class="scene reveal">
+        <div class="timecode">00:00:00</div>
+        <div class="scene-body">
+          <p class="scene-date">Nov 25, 2025 · the meet-cute</p>
+          <h3>Where it all began</h3>
+          <p>Replace this with the story of the day you met — the small detail you still remember, the thing she said, the song that was playing. Keep it to two or three sentences; the photo does the rest.</p>
+          <figure class="still">
+            <!-- ✏️ EDIT: replace this div with <img src="photos/first-night.jpg" alt="Us on the first night"> -->
+            <div class="still-ph"><span>photo 01</span></div>
+            <figcaption><span>Frame 001</span><span>The beginning</span></figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="scene reveal">
+        <div class="timecode">00:14:22</div>
+        <div class="scene-body">
+          <p class="scene-date">Jan 2026 · the first ordinary Tuesday</p>
+          <h3>The night nothing happened</h3>
+          <p>Not every scene needs fireworks. Write about the quiet one — burnt pasta, a bad movie, falling asleep on the couch. Those are the scenes that make the film feel real.</p>
+          <figure class="still">
+            <div class="still-ph"><span>photo 02</span></div>
+            <figcaption><span>Frame 014</span><span>Nothing, and everything</span></figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="scene reveal">
+        <div class="timecode">00:31:07</div>
+        <div class="scene-body">
+          <p class="scene-date">Apr 2026 · the trip</p>
+          <h3>Somewhere we'd never been</h3>
+          <p>The place you got lost, the thing you still quote, the photo she hates and you love. This is the montage scene — make it feel like one.</p>
+          <figure class="still">
+            <div class="still-ph"><span>photo 03</span></div>
+            <figcaption><span>Frame 031</span><span>Out of frame, in love</span></figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="scene reveal">
+        <div class="timecode">00:58:40</div>
+        <div class="scene-body">
+          <p class="scene-date">Nov 25, 2026 · today</p>
+          <h3>One year later</h3>
+          <p>Close the reel on right now: how it feels to have her beside you, what you're looking forward to, the thing you'd tell yourself a year ago. Then let the credits roll.</p>
+          <figure class="still">
+            <div class="still-ph"><span>photo 04</span></div>
+            <figcaption><span>Frame 365</span><span>To be continued</span></figcaption>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= INTERMISSION ================= -->
+  <section class="intermission reveal">
+    <!-- ✏️ EDIT: one line that sounds like you -->
+    <blockquote>“I didn't know a year could feel this short and this full at the same time.”</blockquote>
+    <cite>— Noah, probably</cite>
+  </section>
+
+  <!-- ================= CONTACT SHEET ================= -->
+  <section class="contact">
+    <div class="contact-head reveal">
+      <h2>Contact sheet</h2>
+      <p>Six frames from the cutting-room floor</p>
+    </div>
+    <div class="sheet reveal">
+      <!-- ✏️ EDIT: replace each .still-ph with <img src="..."> -->
+      <figure><div class="still-ph"><span>01</span></div><figcaption>the first photo</figcaption></figure>
+      <figure><div class="still-ph"><span>02</span></div><figcaption>her laugh</figcaption></figure>
+      <figure><div class="still-ph"><span>03</span></div><figcaption>that weekend</figcaption></figure>
+      <figure><div class="still-ph"><span>04</span></div><figcaption>unposed</figcaption></figure>
+      <figure><div class="still-ph"><span>05</span></div><figcaption>our place</figcaption></figure>
+      <figure><div class="still-ph"><span>06</span></div><figcaption>to be continued</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ================= CREDITS ================= -->
+  <section class="credits">
+    <div class="credits-inner">
+      <h2>End credits</h2>
+      <dl>
+        <!-- ✏️ EDIT: the credits -->
+        <div class="credit-row"><dt>Directed by</dt><dd>Ava &amp; Noah</dd></div>
+        <div class="credit-row"><dt>Starring</dt><dd>Ava — as herself</dd></div>
+        <div class="credit-row"><dt>Supporting cast</dt><dd>Noah — as the lucky one</dd></div>
+        <div class="credit-row"><dt>Written by</dt><dd>every ordinary Tuesday</dd></div>
+        <div class="credit-row"><dt>Shot on location</dt><dd>kitchens, cars, sidewalks</dd></div>
+        <div class="credit-row"><dt>Original score</dt><dd>our song, on repeat</dd></div>
+        <div class="credit-row"><dt>Runtime</dt><dd>365 days and counting</dd></div>
+        <div class="credit-row"><dt>Rating</dt><dd>one heart, out of one</dd></div>
+      </dl>
+      <p class="the-end">The End...?</p>
+      <p class="credits-note">No sequel necessary. We're already in it.</p>
+      <a class="again" href="#top">↑ Play it again</a>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Lights down, curtain up.
+  const overture = document.getElementById('overture');
+  const enter = document.getElementById('enter');
+  enter.addEventListener('click', () => {
+    overture.classList.add('gone');
+    document.body.classList.add('entered');
+  });
+
+  // Scroll reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // If someone lands mid-page (anchor link), don't trap them behind the overture.
+  if (location.hash) {
+    overture.classList.add('gone');
+    document.body.classList.add('entered');
+  }
+</script>
+</body>
+</html>

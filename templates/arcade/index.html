@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Year Quest — Player 2 Has Entered</title>
+<meta name="description" content="A two-player love story, one level at a time.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' font-size='26' text-anchor='middle'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     ARCADE — "One Year Quest"
+     Edit the level content inside the <template> blocks at the
+     bottom of the page (look for ✏️ EDIT). No build step.
+     ============================================================ */
+  :root{
+    --void:#0b0614;
+    --screen:#140b24;
+    --panel:#1d1133;
+    --neon:#ff3d81;
+    --cyan:#39e0ff;
+    --gold:#ffd166;
+    --cream:#f7f1df;
+    --green:#7cf29c;
+    --pixel:"Press Start 2P", monospace;
+    --term:"VT323", monospace;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{height:100%}
+  body{
+    margin:0;padding:14px;
+    background:
+      radial-gradient(ellipse at 50% 0%, #1a0d2b 0%, #07040d 60%);
+    display:grid;place-items:center;
+    font-family:var(--term);
+    color:var(--cream);
+    overflow:hidden;
+  }
+  button{font-family:inherit;color:inherit;cursor:pointer}
+
+  /* ---------- cabinet / screen ---------- */
+  .crt{
+    position:relative;
+    width:min(1080px,100%);
+    height:min(780px, calc(100svh - 28px));
+    background:
+      radial-gradient(ellipse at 50% 35%, #221238 0%, var(--screen) 55%, #0a0512 100%);
+    border:2px solid #35204f;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:
+      0 0 0 6px #0a0512,
+      0 0 70px rgba(255,61,129,.16),
+      inset 0 0 140px rgba(0,0,0,.85);
+    display:flex;flex-direction:column;
+  }
+  .crt::after{
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:80;
+    background:radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0,0,0,.55) 100%);
+  }
+  .scanlines{
+    position:absolute;inset:0;pointer-events:none;z-index:79;
+    background:repeating-linear-gradient(to bottom, rgba(255,255,255,.035) 0 1px, transparent 1px 3px);
+    mix-blend-mode:overlay;
+    animation:scan 8s linear infinite;
+  }
+  @keyframes scan{to{transform:translateY(3px)}}
+
+  /* ---------- HUD ---------- */
+  .hud{
+    position:relative;z-index:5;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:12px 18px;
+    border-bottom:2px solid rgba(247,241,223,.14);
+    font-family:var(--pixel);font-size:8px;line-height:1.9;letter-spacing:.06em;
+    color:var(--cream);
+    background:rgba(10,5,18,.45);
+  }
+  .hud b{color:var(--gold);font-weight:400}
+  .hud .pink{color:var(--neon)}
+  .hud .cyan{color:var(--cyan)}
+  .hud .hearts{color:var(--neon);letter-spacing:2px;font-family:var(--term);font-size:18px;line-height:1}
+  .hud-group{display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .sound{
+    background:none;border:2px solid rgba(247,241,223,.3);
+    font-family:var(--pixel);font-size:7px;padding:6px 8px;color:var(--cream);
+  }
+  .sound:hover{border-color:var(--cyan);color:var(--cyan)}
+
+  /* ---------- screens ---------- */
+  .screen{position:relative;z-index:4;flex:1;overflow-y:auto;overflow-x:hidden;padding:clamp(18px,4vw,40px)}
+  .screen::-webkit-scrollbar{width:8px}
+  .screen::-webkit-scrollbar-thumb{background:#3a2458;border-radius:8px}
+
+  /* ---------- title ---------- */
+  .title-screen{
+    min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:clamp(18px,3.4vh,30px);padding:10px 0;
+  }
+  .studio{font-family:var(--pixel);font-size:8px;letter-spacing:.28em;color:#8f7ab0;margin:0}
+  .logo{
+    font-family:var(--pixel);
+    font-size:clamp(22px,5.4vw,54px);
+    line-height:1.5;
+    margin:0;
+    color:var(--cream);
+    text-shadow:
+      3px 0 0 var(--neon),
+      -3px 0 0 var(--cyan),
+      0 0 26px rgba(255,61,129,.5);
+    animation:flicker 5s infinite;
+  }
+  .logo span{color:var(--gold);display:block;font-size:.72em;margin-top:.35em}
+  @keyframes flicker{
+    0%,18%,22%,25%,53%,57%,100%{opacity:1}
+    20%,24%,55%{opacity:.72}
+  }
+  .tagline{font-size:clamp(20px,2.8vw,28px);color:#c8b8e0;margin:0;letter-spacing:.04em;text-wrap:balance}
+  .hearts-row{font-size:clamp(22px,4vw,32px);letter-spacing:10px;color:var(--neon);text-shadow:0 0 14px rgba(255,61,129,.7);margin:0}
+  .press{
+    font-family:var(--pixel);font-size:clamp(9px,1.5vw,13px);letter-spacing:.12em;
+    background:none;border:0;color:var(--gold);
+    padding:14px 10px;margin-top:6px;
+    animation:blink 1.15s steps(1) infinite;
+  }
+  .press:hover{color:var(--cream)}
+  @keyframes blink{50%{opacity:.35}}
+  .title-foot{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;font-family:var(--pixel);font-size:7px;color:#7d699b;letter-spacing:.1em}
+
+  /* ---------- game ---------- */
+  .game-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px}
+  .game-head h2{font-family:var(--pixel);font-size:clamp(12px,2.2vw,18px);line-height:1.8;margin:0;color:var(--cream)}
+  .game-head h2 span{color:var(--neon)}
+  .game-head p{margin:0;font-size:19px;color:#a58fc4}
+  .level-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .level{
+    position:relative;text-align:left;
+    background:linear-gradient(160deg,rgba(255,61,129,.07),rgba(57,224,255,.05));
+    border:3px solid #4a2f6e;
+    padding:18px 18px 16px;
+    display:flex;flex-direction:column;gap:8px;min-height:132px;
+    transition:transform .15s, border-color .15s, box-shadow .15s;
+    box-shadow:inset 0 0 0 3px rgba(11,6,20,.6);
+  }
+  .level:hover:not(.locked){transform:translateY(-3px);border-color:var(--neon);box-shadow:0 0 24px rgba(255,61,129,.25),inset 0 0 0 3px rgba(11,6,20,.6)}
+  .level:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+  .level .lvl{font-family:var(--pixel);font-size:8px;color:var(--cyan);letter-spacing:.1em}
+  .level h3{font-family:var(--pixel);font-size:clamp(10px,1.5vw,13px);line-height:1.7;margin:0;color:var(--cream)}
+  .level p{margin:0;font-size:18px;line-height:1.25;color:#a58fc4}
+  .level .status{margin-top:auto;font-family:var(--pixel);font-size:7px;color:#6d588c;letter-spacing:.1em}
+  .level.cleared .status{color:var(--green)}
+  .level.locked{opacity:.5;cursor:not-allowed;filter:grayscale(.4)}
+  .level.final{border-color:var(--gold);background:linear-gradient(160deg,rgba(255,209,102,.1),rgba(255,61,129,.06))}
+  .level.final .lvl{color:var(--gold)}
+  .level.final:not(.locked) h3{color:var(--gold)}
+  .level.final .status{color:var(--gold)}
+  .game-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:22px}
+  .btn{
+    font-family:var(--pixel);font-size:8px;letter-spacing:.08em;
+    background:transparent;border:3px solid var(--cyan);color:var(--cyan);
+    padding:12px 14px;line-height:1.6;
+    box-shadow:inset 0 0 0 3px rgba(11,6,20,.6);
+    transition:background .15s,color .15s,transform .15s;
+  }
+  .btn:hover{background:var(--cyan);color:var(--void);transform:translateY(-2px)}
+  .btn.gold{border-color:var(--gold);color:var(--gold)}
+  .btn.gold:hover{background:var(--gold);color:var(--void)}
+  .btn.pink{border-color:var(--neon);color:var(--neon)}
+  .btn.pink:hover{background:var(--neon);color:var(--void)}
+  .hintline{font-size:18px;color:#8f7ab0;margin:0}
+
+  /* ---------- dialogue ---------- */
+  .dialogue{
+    position:absolute;left:clamp(12px,3vw,26px);right:clamp(12px,3vw,26px);bottom:clamp(12px,3vw,26px);
+    z-index:40;
+    background:rgba(11,6,20,.96);
+    border:3px solid var(--cream);
+    box-shadow:0 0 0 3px var(--void), 0 0 30px rgba(0,0,0,.7);
+    padding:16px 18px 14px;
+    cursor:pointer;
+  }
+  .d-name{
+    position:absolute;top:-14px;left:14px;
+    background:var(--neon);color:var(--void);
+    font-family:var(--pixel);font-size:8px;padding:5px 9px;letter-spacing:.06em;
+  }
+  .d-text{font-size:clamp(20px,2.6vw,25px);line-height:1.3;margin:4px 0 0;min-height:2.6em;color:var(--cream)}
+  .d-next{position:absolute;right:14px;bottom:8px;color:var(--gold);animation:blink 1s steps(1) infinite;font-size:16px}
+
+  /* ---------- modal ---------- */
+  .modal{position:absolute;inset:0;z-index:60;display:grid;place-items:center;padding:clamp(12px,3vw,28px);background:rgba(5,2,10,.82);backdrop-filter:blur(3px)}
+  .modal-panel{
+    width:min(660px,100%);max-height:100%;overflow-y:auto;
+    background:var(--screen);
+    border:3px solid var(--cream);
+    box-shadow:0 0 0 4px var(--void), 0 0 50px rgba(255,61,129,.25);
+    padding:clamp(20px,4vw,34px);
+    position:relative;
+  }
+  .modal-panel::-webkit-scrollbar{width:8px}
+  .modal-panel::-webkit-scrollbar-thumb{background:#3a2458}
+  .m-kicker{font-family:var(--pixel);font-size:8px;color:var(--cyan);letter-spacing:.1em;margin:0 0 14px}
+  .m-title{font-family:var(--pixel);font-size:clamp(13px,2.4vw,20px);line-height:1.7;margin:0 0 6px;color:var(--cream)}
+  .m-date{font-size:18px;color:var(--gold);margin:0 0 18px}
+  .m-photo{
+    aspect-ratio:16/7;max-height:260px;border:3px solid #4a2f6e;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,61,129,.08) 0 10px, transparent 10px 20px),
+      #170d28;
+    display:grid;place-items:center;
+    font-family:var(--pixel);font-size:8px;color:#7d699b;letter-spacing:.1em;
+    margin-bottom:18px;text-align:center;padding:10px;
+  }
+  .m-photo img{width:100%;height:100%;object-fit:cover}
+  .m-body{font-size:clamp(19px,2.4vw,22px);line-height:1.4;color:#d8cce9;margin:0 0 14px}
+  .m-quote{font-size:clamp(21px,2.6vw,25px);line-height:1.3;color:var(--neon);border-left:4px solid var(--neon);padding-left:14px;margin:18px 0}
+  .m-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .m-close{position:absolute;top:10px;right:12px;background:none;border:0;color:#8f7ab0;font-family:var(--pixel);font-size:10px;padding:6px}
+  .m-close:hover{color:var(--neon)}
+
+  /* letter */
+  .letter{font-size:clamp(19px,2.3vw,22px);line-height:1.45;color:#e6dcf5}
+  .letter p{margin:0 0 12px}
+  .letter .sig{color:var(--neon);text-align:right;margin-top:16px}
+
+  /* ---------- bonus ---------- */
+  .bonus-panel{width:min(560px,100%)}
+  .bonus-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;font-family:var(--pixel);font-size:8px;color:var(--gold)}
+  .bonus-canvas-wrap{border:3px solid #4a2f6e;background:#0a0512;line-height:0;position:relative}
+  canvas#game{width:100%;height:auto;display:block;image-rendering:pixelated;touch-action:none}
+  .bonus-help{font-size:18px;color:#a58fc4;margin:10px 0 0;text-align:center}
+
+  /* ---------- end screen ---------- */
+  .end-screen{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:10px 0}
+  .end-screen .logo{font-size:clamp(20px,4.6vw,44px);animation:none}
+  .end-sub{font-family:var(--pixel);font-size:8px;color:var(--gold);letter-spacing:.12em;margin:0}
+  .end-letter{max-width:560px;font-size:clamp(19px,2.3vw,22px);line-height:1.45;color:#d8cce9;margin:6px 0}
+  .end-letter .sig{color:var(--neon)}
+  .score-table{width:min(520px,100%);border:3px solid #4a2f6e;padding:14px 16px;text-align:left}
+  .score-table h3{font-family:var(--pixel);font-size:8px;color:var(--cyan);margin:0 0 10px;letter-spacing:.1em}
+  .score-row{display:flex;justify-content:space-between;gap:14px;font-size:18px;padding:5px 0;border-bottom:1px dashed rgba(247,241,223,.12);color:#c8b8e0}
+  .score-row:last-child{border:0}
+  .score-row b{color:var(--gold);font-weight:400;font-family:var(--pixel);font-size:7px}
+
+  @media (max-width:640px){
+    body{padding:6px}
+    .crt{height:calc(100svh - 12px);border-radius:10px}
+    .hud{padding:9px 11px;font-size:6px;gap:8px}
+    .hud .hearts{font-size:14px}
+    .hud-group{flex-wrap:wrap;gap:4px}
+    .sound{display:none}
+    .level-grid{grid-template-columns:1fr}
+    .level{min-height:auto;padding:14px}
+    .game-actions{gap:10px}
+    .d-name{font-size:7px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="crt">
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ================= HUD ================= -->
+  <div class="hud">
+    <div class="hud-group">
+      <span>1UP</span>
+      <b id="hudScore">000365</b>
+    </div>
+    <div class="hud-group">
+      <span class="pink">AVA</span>
+      <span class="hearts" aria-label="three lives">♥♥♥</span>
+    </div>
+    <div class="hud-group">
+      <span class="cyan">LVL</span>
+      <b id="hudLevel">1-1</b>
+    </div>
+    <div class="hud-group">
+      <span>HI</span>
+      <b id="hudHi">036500</b>
+    </div>
+    <button class="sound" id="soundBtn" aria-pressed="true">SOUND ON</button>
+  </div>
+
+  <div class="screen" id="screen">
+    <!-- ================= TITLE ================= -->
+    <section class="title-screen" id="titleScreen">
+      <p class="studio">A TWO-PLAYER PRODUCTION</p>
+      <h1 class="logo">ONE YEAR<span>QUEST</span></h1>
+      <p class="hearts-row" aria-hidden="true">♥ ♥ ♥</p>
+      <p class="tagline">a co-op love story · 365 days · 2 players</p>
+      <button class="press" id="startBtn">▶ PRESS START</button>
+      <div class="title-foot">
+        <span>© 2026 AVA + NOAH</span>
+        <span>INSERT HEART TO CONTINUE</span>
+      </div>
+    </section>
+
+    <!-- ================= GAME ================= -->
+    <section id="gameScreen" hidden>
+      <div class="game-head">
+        <div>
+          <h2>WORLD 1 <span>· THE FIRST YEAR</span></h2>
+          <p>Visit every memory to unlock the final level.</p>
+        </div>
+        <div class="hud-group">
+          <span style="font-family:var(--pixel);font-size:7px;color:var(--gold)">CLEARED</span>
+          <b id="clearedCount" style="font-family:var(--pixel);font-size:9px;color:var(--cream)">0 / 4</b>
+        </div>
+      </div>
+
+      <div class="level-grid" id="levelGrid">
+        <!-- ✏️ EDIT: level titles + blurbs -->
+        <button class="level" data-level="1">
+          <span class="lvl">LEVEL 1</span>
+          <h3>The First Night</h3>
+          <p>Where the game begins.</p>
+          <span class="status">NOT CLEARED</span>
+        </button>
+        <button class="level" data-level="2">
+          <span class="lvl">LEVEL 2</span>
+          <h3>The Ordinary Tuesday</h3>
+          <p>No boss. Just us.</p>
+          <span class="status">NOT CLEARED</span>
+        </button>
+        <button class="level" data-level="3">
+          <span class="lvl">LEVEL 3</span>
+          <h3>The Road Trip</h3>
+          <p>Wrong turn, right person.</p>
+          <span class="status">NOT CLEARED</span>
+        </button>
+        <button class="level" data-level="4">
+          <span class="lvl">LEVEL 4</span>
+          <h3>The Hard Week</h3>
+          <p>Co-op mode required.</p>
+          <span class="status">NOT CLEARED</span>
+        </button>
+        <button class="level final locked" data-level="5" id="finalLevel" disabled>
+          <span class="lvl">FINAL LEVEL</span>
+          <h3>???</h3>
+          <p>Clear all four memories to unlock.</p>
+          <span class="status">LOCKED</span>
+        </button>
+        <button class="level" id="bonusBtn" style="border-style:dashed">
+          <span class="lvl" style="color:var(--gold)">BONUS</span>
+          <h3>Catch the Hearts</h3>
+          <p>A tiny game, because I could.</p>
+          <span class="status" style="color:var(--gold)">PRESS TO PLAY</span>
+        </button>
+      </div>
+
+      <div class="game-actions">
+        <p class="hintline">TIP: every level holds one thing I never told you.</p>
+        <button class="btn gold" id="restartBtn">RESET GAME</button>
+      </div>
+    </section>
+
+    <!-- ================= END ================= -->
+    <section class="end-screen" id="endScreen" hidden>
+      <p class="studio">GAME COMPLETE</p>
+      <h1 class="logo">YOU WIN<span>♥</span></h1>
+      <p class="end-sub">1 YEAR · 2 PLAYERS · ALWAYS</p>
+      <!-- ✏️ EDIT: closing letter -->
+      <div class="end-letter">
+        <p>Thanks for being my player two — for the respawns, the save points, and every boring level that somehow became my favorite.</p>
+        <p>Next year, same couch, same controller.</p>
+        <p class="sig">— Noah</p>
+      </div>
+      <div class="score-table">
+        <h3>HIGH SCORES · MOST MEMORABLE MOMENTS</h3>
+        <!-- ✏️ EDIT: high score table -->
+        <div class="score-row"><span>The first night</span><b>999999</b></div>
+        <div class="score-row"><span>Burnt pasta Tuesday</span><b>870000</b></div>
+        <div class="score-row"><span>The wrong turn</span><b>850000</b></div>
+        <div class="score-row"><span>Sunday mornings</span><b>MAX</b></div>
+      </div>
+      <button class="btn pink" id="againBtn">PLAY AGAIN</button>
+    </section>
+  </div>
+
+  <!-- ================= DIALOGUE ================= -->
+  <div class="dialogue" id="dialogue" hidden>
+    <span class="d-name" id="dName">PLAYER 2</span>
+    <p class="d-text" id="dText"></p>
+    <span class="d-next" aria-hidden="true">▼</span>
+  </div>
+
+  <!-- ================= LEVEL MODAL ================= -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button class="m-close" id="mClose" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ================= BONUS MODAL ================= -->
+  <div class="modal" id="bonusModal" hidden>
+    <div class="modal-panel bonus-panel" role="dialog" aria-modal="true" aria-label="Bonus round">
+      <button class="m-close" id="bonusClose" aria-label="Close">✕</button>
+      <div class="bonus-top">
+        <span>TIME <b id="bTime">30</b></span>
+        <span>SCORE <b id="bScore">0</b></span>
+      </div>
+      <div class="bonus-canvas-wrap"><canvas id="game" width="480" height="320"></canvas></div>
+      <p class="bonus-help" id="bonusHelp">Move with ← → or your finger. Catch the hearts.</p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       LEVEL CONTENT — edit these templates.
+       Each becomes the modal body for that level.
+       ============================================================ -->
+  <template id="tpl-1">
+    <p class="m-kicker">LEVEL 1 · CLEAR</p>
+    <h2 class="m-title" id="mTitle">The First Night</h2>
+    <p class="m-date">NOV 25, 2025 · 8:42 PM</p>
+    <div class="m-photo"><span>REPLACE WITH PHOTO 01</span></div>
+    <p class="m-body">Replace this with what actually happened. The detail she'd be surprised you remembered. Keep it to three or four sentences — the photo and the quote do the rest.</p>
+    <p class="m-quote">“I remember thinking: oh no, this one's going to matter.”</p>
+    <div class="m-actions">
+      <button class="btn pink collect" data-level="1">COLLECT +100</button>
+      <button class="btn close-modal">BACK TO MAP</button>
+    </div>
+  </template>
+
+  <template id="tpl-2">
+    <p class="m-kicker">LEVEL 2 · CLEAR</p>
+    <h2 class="m-title" id="mTitle">The Ordinary Tuesday</h2>
+    <p class="m-date">JAN 13, 2026 · A TUESDAY</p>
+    <div class="m-photo"><span>REPLACE WITH PHOTO 02</span></div>
+    <p class="m-body">Write about a day with no plot: the grocery run, the burnt dinner, the show you both pretend to like. This is the level where nothing happens and everything does.</p>
+    <p class="m-quote">“The smoke alarm went off twice. You laughed both times.”</p>
+    <div class="m-actions">
+      <button class="btn pink collect" data-level="2">COLLECT +100</button>
+      <button class="btn close-modal">BACK TO MAP</button>
+    </div>
+  </template>
+
+  <template id="tpl-3">
+    <p class="m-kicker">LEVEL 3 · CLEAR</p>
+    <h2 class="m-title" id="mTitle">The Road Trip</h2>
+    <p class="m-date">APR 2026 · SOMEWHERE OFF THE MAP</p>
+    <div class="m-photo"><span>REPLACE WITH PHOTO 03</span></div>
+    <p class="m-body">The playlist, the wrong exit, the gas station snacks. Tell the story of the day the GPS gave up and you two didn't.</p>
+    <p class="m-quote">“We were lost for an hour. Best hour of the year.”</p>
+    <div class="m-actions">
+      <button class="btn pink collect" data-level="3">COLLECT +100</button>
+      <button class="btn close-modal">BACK TO MAP</button>
+    </div>
+  </template>
+
+  <template id="tpl-4">
+    <p class="m-kicker">LEVEL 4 · CLEAR</p>
+    <h2 class="m-title" id="mTitle">The Hard Week</h2>
+    <p class="m-date">AUG 2026 · CO-OP MODE</p>
+    <div class="m-photo"><span>REPLACE WITH PHOTO 04</span></div>
+    <p class="m-body">The level that wasn't fun. Write honestly about the week that tested you, and the way she stayed. Don't make it heavy — make it true.</p>
+    <p class="m-quote">“You didn't fix it. You just didn't leave.”</p>
+    <div class="m-actions">
+      <button class="btn pink collect" data-level="4">COLLECT +100</button>
+      <button class="btn close-modal">BACK TO MAP</button>
+    </div>
+  </template>
+
+  <template id="tpl-5">
+    <p class="m-kicker" style="color:var(--gold)">FINAL LEVEL · UNLOCKED</p>
+    <h2 class="m-title" id="mTitle" style="color:var(--gold)">The Question</h2>
+    <p class="m-date">NOV 25, 2026 · TODAY</p>
+    <div class="letter">
+      <!-- ✏️ EDIT: the final letter -->
+      <p>One year ago I pressed start on the best game I've ever played.</p>
+      <p>There's no final boss. No credits. Just you, me, and a very long save file.</p>
+      <p>So here's my question, player two:</p>
+      <p style="font-family:var(--pixel);font-size:clamp(11px,2vw,16px);line-height:2;color:var(--gold);text-align:center;margin:26px 0">WANT TO KEEP PLAYING?</p>
+      <p class="sig">— Noah</p>
+    </div>
+    <div class="m-actions">
+      <button class="btn gold" id="rollCredits">ROLL CREDITS</button>
+      <button class="btn close-modal">NOT YET</button>
+    </div>
+  </template>
+</div>
+
+<script>
+(() => {
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+
+  /* ---------- tiny sound engine (no files) ---------- */
+  let soundOn = true;
+  let actx = null;
+  function blip(freq = 440, dur = 0.06, type = 'square', gain = 0.035) {
+    if (!soundOn) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = actx.createOscillator();
+      const g = actx.createGain();
+      o.type = type; o.frequency.value = freq;
+      g.gain.setValueAtTime(gain, actx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+      o.connect(g).connect(actx.destination);
+      o.start(); o.stop(actx.currentTime + dur);
+    } catch (e) { /* audio is a bonus, never a blocker */ }
+  }
+  const soundBtn = $('#soundBtn');
+  soundBtn.addEventListener('click', () => {
+    soundOn = !soundOn;
+    soundBtn.textContent = soundOn ? 'SOUND ON' : 'SOUND OFF';
+    soundBtn.setAttribute('aria-pressed', String(soundOn));
+    blip(660);
+  });
+
+  /* ---------- HUD ---------- */
+  const since = new Date('2025-11-25T00:00:00');
+  const days = Math.max(1, Math.floor((Date.now() - since) / 86400000));
+  let score = days;
+  const pad = (n) => String(n).padStart(6, '0');
+  $('#hudScore').textContent = pad(score);
+  $('#hudHi').textContent = pad(Math.max(36500, score));
+  $('#hudLevel').textContent = '1-1';
+
+  /* ---------- dialogue ---------- */
+  const dialogue = $('#dialogue');
+  const dName = $('#dName');
+  const dText = $('#dText');
+  let queue = [];
+  let typing = null;
+  let fullText = '';
+
+  function typeLine(text) {
+    clearInterval(typing);
+    fullText = text;
+    dText.textContent = '';
+    let i = 0;
+    typing = setInterval(() => {
+      dText.textContent = text.slice(0, ++i);
+      if (i % 3 === 0) blip(520 + (i % 5) * 40, 0.02, 'square', 0.012);
+      if (i >= text.length) { clearInterval(typing); typing = null; }
+    }, 22);
+  }
+  function nextLine() {
+    if (typing) {
+      clearInterval(typing); typing = null;
+      dText.textContent = fullText;
+      return;
+    }
+    const line = queue.shift();
+    if (!line) { dialogue.hidden = true; return; }
+    dName.textContent = line.name;
+    typeLine(line.text);
+  }
+  function startDialogue(lines, onDone) {
+    queue = lines.slice();
+    dialogue.hidden = false;
+    dialogue.dataset.done = '0';
+    dialogue._onDone = onDone;
+    nextLine();
+  }
+  dialogue.addEventListener('click', () => {
+    const wasLast = queue.length === 0;
+    const stillTyping = !!typing;
+    nextLine();
+    blip(700, 0.03);
+    if (wasLast && !stillTyping) {
+      dialogue.hidden = true;
+      if (dialogue._onDone) { const fn = dialogue._onDone; dialogue._onDone = null; fn(); }
+    }
+  });
+
+  /* ---------- screens ---------- */
+  function show(el) {
+    ['#titleScreen', '#gameScreen', '#endScreen'].forEach(s => { $(s).hidden = true; });
+    $(el).hidden = false;
+    $('#screen').scrollTop = 0;
+  }
+
+  $('#startBtn').addEventListener('click', () => {
+    blip(880, 0.09); setTimeout(() => blip(1100, 0.12), 90);
+    show('#gameScreen');
+    startDialogue([
+      { name: 'SYSTEM', text: 'A wild ONE YEAR appeared.' },
+      { name: 'PLAYER 1', text: 'Noah used LOVE. It was super effective.' },
+      { name: 'PLAYER 2', text: 'Ava entered the party. ♥' },
+      { name: 'SYSTEM', text: 'Choose a memory to begin. Clear all four to unlock the final level.' }
+    ]);
+  });
+
+  /* ---------- levels ---------- */
+  const cleared = new Set();
+  const modal = $('#modal');
+  const modalBody = $('#modalBody');
+
+  function openLevel(n) {
+    const tpl = document.getElementById('tpl-' + n);
+    if (!tpl) return;
+    modalBody.innerHTML = tpl.innerHTML;
+    modal.hidden = false;
+    $('#screen').style.overflow = 'hidden';
+    blip(620, 0.07);
+    modalBody.querySelectorAll('.close-modal').forEach(b => b.addEventListener('click', closeModal));
+    const collect = modalBody.querySelector('.collect');
+    if (collect) collect.addEventListener('click', () => collectLevel(n));
+    const credits = modalBody.querySelector('#rollCredits');
+    if (credits) credits.addEventListener('click', () => {
+      clearInterval(typing); typing = null; queue = [];
+      dialogue.hidden = true;
+      closeModal();
+      show('#endScreen');
+      blip(990, 0.2, 'triangle', 0.05);
+    });
+  }
+  function closeModal() {
+    modal.hidden = true;
+    $('#screen').style.overflow = '';
+  }
+  function collectLevel(n) {
+    if (!cleared.has(n)) {
+      cleared.add(n);
+      score += 100;
+      $('#hudScore').textContent = pad(score);
+      blip(760, 0.08); setTimeout(() => blip(980, 0.1), 80);
+      const card = document.querySelector(`.level[data-level="${n}"]`);
+      if (card) {
+        card.classList.add('cleared');
+        card.querySelector('.status').textContent = 'CLEARED';
+      }
+      $('#clearedCount').textContent = `${cleared.size} / 4`;
+      if (cleared.size === 4) unlockFinal();
+    }
+    closeModal();
+  }
+  function unlockFinal() {
+    const final = $('#finalLevel');
+    final.classList.remove('locked');
+    final.disabled = false;
+    final.querySelector('h3').textContent = 'The Question';
+    final.querySelector('p').textContent = 'One year. One answer.';
+    final.querySelector('.status').textContent = 'READY';
+    startDialogue([
+      { name: 'SYSTEM', text: 'All memories cleared.' },
+      { name: 'SYSTEM', text: 'FINAL LEVEL UNLOCKED. Proceed?' }
+    ]);
+  }
+
+  $$('.level[data-level]').forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.classList.contains('locked')) return;
+      openLevel(Number(card.dataset.level));
+    });
+  });
+  $('#mClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { if (!modal.hidden) closeModal(); if (!bonusModal.hidden) closeBonus(); }
+  });
+
+  $('#restartBtn').addEventListener('click', () => location.reload());
+  $('#againBtn').addEventListener('click', () => location.reload());
+
+  /* ---------- bonus mini-game ---------- */
+  const bonusModal = $('#bonusModal');
+  const canvas = $('#game');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  let raf = null, running = false;
+  let playerX = W / 2, targetX = W / 2;
+  let hearts = [], bScore = 0, timeLeft = 30, last = 0, spawnAcc = 0;
+  const keys = {};
+
+  function pxHeart(x, y, s, color) {
+    const rows = [
+      [1,1,0,1,1],
+      [1,1,1,1,1],
+      [1,1,1,1,1],
+      [0,1,1,1,0],
+      [0,0,1,0,0]
+    ];
+    ctx.fillStyle = color;
+    rows.forEach((row, r) => row.forEach((v, c) => {
+      if (v) ctx.fillRect(Math.round(x + c * s), Math.round(y + r * s), s, s);
+    }));
+  }
+
+  function resetBonus() {
+    playerX = W / 2; targetX = W / 2;
+    hearts = []; bScore = 0; timeLeft = 30; spawnAcc = 0; last = 0;
+    $('#bScore').textContent = '0';
+    $('#bTime').textContent = '30';
+    $('#bonusHelp').textContent = 'Move with ← → or your finger. Catch the hearts.';
+  }
+
+  function spawn() {
+    hearts.push({
+      x: 20 + Math.random() * (W - 40),
+      y: -16,
+      vy: 55 + Math.random() * 70,
+      s: 3,
+      sway: Math.random() * Math.PI * 2,
+      gold: Math.random() < 0.12
+    });
+  }
+
+  function loop(ts) {
+    if (!running) return;
+    if (!last) last = ts;
+    const dt = Math.min(0.05, (ts - last) / 1000);
+    last = ts;
+    timeLeft -= dt;
+    if (timeLeft <= 0) { endBonus(); return; }
+    $('#bTime').textContent = Math.max(0, Math.ceil(timeLeft));
+
+    // move player toward target (keyboard or pointer)
+    if (keys.ArrowLeft) targetX -= 340 * dt;
+    if (keys.ArrowRight) targetX += 340 * dt;
+    targetX = Math.max(34, Math.min(W - 34, targetX));
+    playerX += (targetX - playerX) * Math.min(1, dt * 14);
+
+    spawnAcc += dt;
+    const rate = 0.62;
+    if (spawnAcc > rate) { spawnAcc = 0; spawn(); }
+
+    ctx.fillStyle = '#0a0512';
+    ctx.fillRect(0, 0, W, H);
+    // faint stars
+    ctx.fillStyle = 'rgba(255,255,255,.10)';
+    for (let i = 0; i < 26; i++) {
+      const sx = (i * 97) % W, sy = (i * 53) % H;
+      ctx.fillRect(sx, sy, 2, 2);
+    }
+
+    // hearts
+    for (let i = hearts.length - 1; i >= 0; i--) {
+      const h = hearts[i];
+      h.y += h.vy * dt;
+      h.sway += dt * 2;
+      const x = h.x + Math.sin(h.sway) * 10;
+      pxHeart(x, h.y, h.s, h.gold ? '#ffd166' : '#ff3d81');
+      const catchY = H - 44;
+      if (h.y > catchY && h.y < catchY + 26 && Math.abs(x + 7 - playerX) < 30) {
+        bScore += h.gold ? 50 : 10;
+        $('#bScore').textContent = bScore;
+        hearts.splice(i, 1);
+        blip(h.gold ? 1200 : 880, 0.04, 'square', 0.02);
+      } else if (h.y > H + 10) {
+        hearts.splice(i, 1);
+      }
+    }
+
+    // player: a big heart in a little basket
+    ctx.fillStyle = '#f7f1df';
+    ctx.fillRect(playerX - 30, H - 22, 60, 4);
+    ctx.fillRect(playerX - 24, H - 18, 4, 10);
+    ctx.fillRect(playerX + 20, H - 18, 4, 10);
+    pxHeart(playerX - 18, H - 44, 5, '#39e0ff');
+
+    raf = requestAnimationFrame(loop);
+  }
+
+  function startBonus() {
+    resetBonus();
+    bonusModal.hidden = false;
+    $('#screen').style.overflow = 'hidden';
+    running = true;
+    last = 0;
+    raf = requestAnimationFrame(loop);
+    blip(700, 0.06);
+  }
+  function endBonus() {
+    running = false;
+    cancelAnimationFrame(raf);
+    $('#bonusHelp').textContent = bScore >= 150
+      ? `YOU CAUGHT ${bScore} POINTS. Okay, show-off. ♥`
+      : `TIME! ${bScore} POINTS. The hearts were fast today.`;
+    blip(400, 0.2, 'triangle', 0.04);
+  }
+  function closeBonus() {
+    running = false;
+    cancelAnimationFrame(raf);
+    bonusModal.hidden = true;
+    $('#screen').style.overflow = '';
+  }
+
+  $('#bonusBtn').addEventListener('click', startBonus);
+  $('#bonusClose').addEventListener('click', closeBonus);
+  bonusModal.addEventListener('click', (e) => { if (e.target === bonusModal) closeBonus(); });
+
+  // pointer + keyboard controls
+  canvas.addEventListener('pointermove', (e) => {
+    const r = canvas.getBoundingClientRect();
+    targetX = ((e.clientX - r.left) / r.width) * W;
+  });
+  canvas.addEventListener('pointerdown', (e) => {
+    const r = canvas.getBoundingClientRect();
+    targetX = ((e.clientX - r.left) / r.width) * W;
+  });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') keys[e.key] = true;
+    if (e.key === 'Enter' && !dialogue.hidden) dialogue.click();
+  });
+  window.addEventListener('keyup', (e) => { keys[e.key] = false; });
+
+  // Keep the mini-game from eating scroll on mobile
+  canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+})();
+</script>
+</body>
+</html>

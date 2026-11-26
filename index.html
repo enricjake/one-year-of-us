@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Year, Six Ways — Anniversary Site Templates</title>
+<meta name="description" content="Six hand-built anniversary website directions. Pick one, make it yours.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' font-size='26' text-anchor='middle'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe9dd;
+    --paper-2:#e5ddcd;
+    --ink:#171512;
+    --muted:#6f685c;
+    --line:rgba(23,21,18,.18);
+    --blue:#1f3fbf;
+    --serif:"Instrument Serif", Georgia, serif;
+    --mono:"DM Mono", "Courier New", monospace;
+    --pad:clamp(20px,5vw,72px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--mono);font-size:14px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(rgba(23,21,18,.055) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  ::selection{background:var(--blue);color:var(--paper)}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    padding:16px var(--pad);
+    border-bottom:1px solid var(--line);
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  }
+  .topbar .mark{display:flex;align-items:center;gap:8px}
+  .topbar .mark::before{content:"";width:9px;height:9px;background:var(--blue);border-radius:50%}
+  .topbar nav{display:flex;gap:20px}
+  .topbar a{text-decoration:none;color:var(--muted)}
+  .topbar a:hover{color:var(--ink)}
+
+  /* ---------- header ---------- */
+  header{padding:clamp(54px,9vw,110px) 0 clamp(30px,5vw,54px)}
+  .eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+  h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(48px,10vw,124px);
+    line-height:.9;letter-spacing:-.02em;
+    margin:0 0 26px;
+  }
+  h1 em{font-style:italic;color:var(--blue)}
+  .lede{max-width:56ch;font-size:clamp(14px,1.6vw,16px);color:#3c3831;margin:0 0 30px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px}
+  .meta span{border:1px solid var(--line);padding:5px 10px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+  /* ---------- index ---------- */
+  .index{border-top:1px solid var(--ink);padding-bottom:clamp(40px,7vw,80px)}
+  .row{
+    display:grid;
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    gap:clamp(22px,4vw,54px);
+    align-items:center;
+    padding:clamp(26px,4vw,44px) 0;
+    border-bottom:1px solid var(--line);
+  }
+  .info{display:flex;flex-direction:column;gap:14px}
+  .row-head{display:flex;align-items:baseline;gap:14px}
+  .num{font-size:10px;letter-spacing:.16em;color:var(--muted)}
+  h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(30px,4.6vw,50px);line-height:1;margin:0;letter-spacing:-.01em;
+  }
+  .desc{margin:0;max-width:40ch;color:#3c3831;font-size:13.5px}
+  .tags{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0}
+  .tags li{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);padding:3px 8px}
+  .palette{display:flex;gap:6px;align-items:center}
+  .palette i{width:16px;height:16px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.14)}
+  .palette span{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-left:4px}
+  .open{
+    align-self:flex-start;text-decoration:none;
+    font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+    border-bottom:1px solid var(--ink);padding-bottom:4px;
+    transition:color .2s,border-color .2s;
+  }
+  .open:hover{color:var(--blue);border-color:var(--blue)}
+  .best{font-size:11px;color:var(--muted)}
+  .best b{color:var(--ink);font-weight:400}
+
+  /* preview */
+  .preview{
+    display:block;text-decoration:none;
+    border:1px solid rgba(23,21,18,.25);
+    background:#fff;
+    padding:7px;
+    box-shadow:8px 10px 0 rgba(23,21,18,.08);
+    transition:transform .35s ease,box-shadow .35s ease;
+    position:relative;
+  }
+  .preview:hover{transform:translateY(-5px);box-shadow:14px 18px 0 rgba(23,21,18,.1)}
+  .chrome{
+    display:flex;align-items:center;gap:6px;
+    padding:0 2px 7px;
+    font-size:8px;letter-spacing:.08em;color:var(--muted);
+  }
+  .chrome i{width:6px;height:6px;border-radius:50%;background:#d6cfc1;display:block}
+  .chrome .url{margin-left:6px;border:1px solid #e3ddcf;padding:1px 7px;flex:1;color:#8a8375;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .shot{position:relative;overflow:hidden;aspect-ratio:16/10;background:#ded6c6}
+  .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s ease}
+  .preview:hover .shot img{transform:scale(1.03)}
+  .live{
+    position:absolute;top:10px;right:10px;z-index:2;
+    background:var(--paper);color:var(--ink);
+    font-size:8px;letter-spacing:.16em;text-transform:uppercase;
+    padding:3px 7px;border:1px solid rgba(23,21,18,.2);
+  }
+
+  /* ---------- howto ---------- */
+  .howto{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,34px);
+    padding:clamp(40px,7vw,80px) 0;
+    border-bottom:1px solid var(--line);
+  }
+  .step .n{font-family:var(--serif);font-size:34px;line-height:1;color:var(--blue);margin:0 0 10px}
+  .step h3{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 6px}
+  .step p{margin:0;font-size:12.5px;color:#3c3831}
+  .step code{background:rgba(31,63,191,.08);padding:1px 5px;font-size:11px}
+
+  footer{
+    display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
+    padding:26px 0 40px;
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+  footer a{text-decoration:none;border-bottom:1px solid var(--line)}
+  footer a:hover{color:var(--ink);border-color:var(--ink)}
+
+  @media (max-width:820px){
+    .row{grid-template-columns:1fr}
+    .preview{order:-1}
+    .howto{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="mark">One Year, Six Ways</span>
+  <nav>
+    <a href="#index">Templates</a>
+    <a href="CONTENT.md">Checklist</a>
+    <a href="README.md">Read me</a>
+  </nav>
+</div>
+
+<header class="wrap">
+  <p class="eyebrow">An anniversary site kit · built by hand</p>
+  <h1>One year.<br><em>Six ways</em> to say it.</h1>
+  <p class="lede">Six complete directions for a one-year anniversary site — same placeholder couple, same content, six very different rooms. Open each one, scroll it, then keep the one that sounds like you. Everything is plain HTML, CSS and JS: no build step, no dependencies, no accounts.</p>
+  <div class="meta">
+    <span>6 templates</span>
+    <span>1 file each</span>
+    <span>mobile friendly</span>
+    <span>yours to edit</span>
+  </div>
+</header>
+
+<main class="wrap" id="index">
+  <section class="index" aria-label="Templates">
+
+    <!-- 01 CINEMA -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">01</span><h2>Cinema</h2></div>
+        <p class="desc">A one-year feature film: a ticket-stub hero, a film-strip timeline of scenes, an intermission quote, a contact sheet, and end credits that list her as the star.</p>
+        <p class="best">Best for <b>drama, big gestures, a story worth narrating</b></p>
+        <ul class="tags"><li>film strip</li><li>end credits</li><li>scroll reveals</li></ul>
+        <div class="palette">
+          <i style="background:#0b0908"></i><i style="background:#2a090e"></i><i style="background:#f0c674"></i><i style="background:#f2e8d5"></i><i style="background:#c96a5f"></i>
+          <span>velvet &amp; tungsten</span>
+        </div>
+        <a class="open" href="templates/cinema/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/cinema/" aria-label="Preview the Cinema template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/cinema</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/cinema.jpg" alt="Cinema template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+    <!-- 02 MIXTAPE -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">02</span><h2>Mixtape</h2></div>
+        <p class="desc">Side A is the beginning, Side B is the rest. A hand-labelled cassette, an eight-track memory list, a sticky player, liner notes, and next year's tracklist.</p>
+        <p class="best">Best for <b>music people, inside jokes, a playful keepsake</b></p>
+        <ul class="tags"><li>tracklist</li><li>cassette</li><li>liner notes</li></ul>
+        <div class="palette">
+          <i style="background:#e9e2d1"></i><i style="background:#1e3fbf"></i><i style="background:#dd4f28"></i><i style="background:#a9c9a4"></i><i style="background:#d9a441"></i>
+          <span>newsprint &amp; cobalt</span>
+        </div>
+        <a class="open" href="templates/mixtape/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/mixtape/" aria-label="Preview the Mixtape template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/mixtape</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/mixtape.jpg" alt="Mixtape template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+    <!-- 03 ARCADE -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">03</span><h2>Arcade</h2></div>
+        <p class="desc">A playable co-op story: press start, read the dialogue, clear four memory levels, catch hearts in a bonus round, then unlock the final question.</p>
+        <p class="best">Best for <b>gamers, silly energy, the most interaction</b></p>
+        <ul class="tags"><li>mini-game</li><li>dialogue</li><li>levels</li></ul>
+        <div class="palette">
+          <i style="background:#0b0614"></i><i style="background:#ff3d81"></i><i style="background:#39e0ff"></i><i style="background:#ffd166"></i><i style="background:#7cf29c"></i>
+          <span>CRT &amp; neon</span>
+        </div>
+        <a class="open" href="templates/arcade/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/arcade/" aria-label="Preview the Arcade template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/arcade</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/arcade.jpg" alt="Arcade template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+    <!-- 04 CONSTELLATION -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">04</span><h2>Constellation</h2></div>
+        <p class="desc">A starfield that draws a heart as you scroll. Each star is a memory; the map stays with you while the stories pass by. Quiet, slow, and the most romantic of the six.</p>
+        <p class="best">Best for <b>a softer gesture, long-distance, night owls</b></p>
+        <ul class="tags"><li>scroll-drawn</li><li>interactive stars</li><li>letter</li></ul>
+        <div class="palette">
+          <i style="background:#05070f"></i><i style="background:#0a1020"></i><i style="background:#9db8ff"></i><i style="background:#f4efe6"></i><i style="background:#f0a58f"></i>
+          <span>midnight &amp; starlight</span>
+        </div>
+        <a class="open" href="templates/constellation/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/constellation/" aria-label="Preview the Constellation template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/constellation</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/constellation.jpg" alt="Constellation template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+    <!-- 05 WRAPPED -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">05</span><h2>Wrapped</h2></div>
+        <p class="desc">Your year in numbers, streaming-service style: a live day counter, stat cards, a top-five moments chart, a monthly "listening report", and a dictionary entry for “us”.</p>
+        <p class="best">Best for <b>playful data, year-in-review energy, screenshots</b></p>
+        <ul class="tags"><li>count-ups</li><li>charts</li><li>scroll-snap</li></ul>
+        <div class="palette">
+          <i style="background:#2b0b2e"></i><i style="background:#d8f26a"></i><i style="background:#ffb3c7"></i><i style="background:#fff3e2"></i><i style="background:#ff7a3d"></i>
+          <span>plum &amp; acid lime</span>
+        </div>
+        <a class="open" href="templates/wrapped/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/wrapped/" aria-label="Preview the Wrapped template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/wrapped</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/wrapped.jpg" alt="Wrapped template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+    <!-- 06 LETTERS -->
+    <article class="row">
+      <div class="info">
+        <div class="row-head"><span class="num">06</span><h2>Open When</h2></div>
+        <p class="desc">A wax-sealed envelope that opens, and six letters for the days she needs them: miss me, bad day, can't sleep, proud, laugh, anniversary. The quietest option.</p>
+        <p class="best">Best for <b>words over spectacle, something she'll revisit</b></p>
+        <ul class="tags"><li>envelope</li><li>six letters</li><li>keepsake</li></ul>
+        <div class="palette">
+          <i style="background:#f3ece0"></i><i style="background:#8c3b3f"></i><i style="background:#e7b3b6"></i><i style="background:#93a58e"></i><i style="background:#b08d57"></i>
+          <span>paper &amp; wax</span>
+        </div>
+        <a class="open" href="templates/letters/">Open template →</a>
+      </div>
+      <a class="preview" href="templates/letters/" aria-label="Preview the Open When template">
+        <div class="chrome"><i></i><i></i><i></i><span class="url">templates/letters</span></div>
+        <div class="shot"><span class="live">live</span><img src="assets/previews/letters.jpg" alt="Open When template preview" loading="lazy"></div>
+      </a>
+    </article>
+
+  </section>
+
+  <section class="howto" aria-label="How to use this kit">
+    <div class="step">
+      <p class="n">1</p>
+      <h3>Pick a room</h3>
+      <p>Open all six, scroll them on your phone. The right one is usually the one you immediately want to fill in.</p>
+    </div>
+    <div class="step">
+      <p class="n">2</p>
+      <h3>Replace the placeholder</h3>
+      <p>Every sample uses Ava &amp; Noah. Search for <code>✏️ EDIT</code> in your chosen file and swap in your names, dates and memories.</p>
+    </div>
+    <div class="step">
+      <p class="n">3</p>
+      <h3>Send the link</h3>
+      <p>Drop the folder on GitHub Pages, Netlify, or Vercel. One file, no build step. Then text her the link at the right moment.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Made for one year · and the ones after</span>
+    <span><a href="CONTENT.md">Content checklist</a> · <a href="README.md">Read me</a></span>
+  </footer>
+</main>
+
+</body>
+</html>

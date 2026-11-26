@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open When — Six Letters for You</title>
+<meta name="description" content="Six letters for the days you need them.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' font-size='26' text-anchor='middle'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Karla:wght@300;400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     LETTERS — "Open When…"
+     Edit the six <template> letters at the bottom (✏️ EDIT).
+     Each card opens the matching template in a modal.
+     ============================================================ */
+  :root{
+    --paper:#f3ece0;
+    --paper-2:#e7dbc7;
+    --card:#fffaf1;
+    --ink:#22303a;
+    --muted:#6f7a7d;
+    --blush:#e7b3b6;
+    --sage:#93a58e;
+    --wine:#8c3b3f;
+    --gold:#b08d57;
+    --serif:"Instrument Serif", Georgia, serif;
+    --sans:"Karla", system-ui, sans-serif;
+    --hand:"Caveat", cursive;
+    --pad:clamp(22px,5vw,80px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:300;
+    font-size:16px;
+    line-height:1.7;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(rgba(34,48,58,.05) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  ::selection{background:var(--blush);color:var(--ink)}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+  .kicker{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    padding:clamp(70px,10vw,120px) var(--pad) clamp(50px,8vw,90px);
+    position:relative;
+  }
+  .hero .for{
+    font-family:var(--hand);
+    font-size:clamp(24px,3.4vw,36px);
+    color:var(--wine);
+    transform:rotate(-2deg);
+    margin:0 0 6px;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(54px,11vw,128px);
+    line-height:.92;
+    letter-spacing:-.02em;
+    margin:0 0 20px;
+  }
+  .hero h1 em{font-style:italic;color:var(--wine)}
+  .hero-sub{
+    max-width:44ch;
+    font-size:clamp(15px,1.8vw,18px);
+    color:#4c5a60;
+    margin:0 0 clamp(34px,6vw,54px);
+  }
+
+  /* ---------- envelope ---------- */
+  .envelope-stage{perspective:1400px;position:relative;margin-top:clamp(30px,5vw,60px)}
+  .envelope{
+    position:relative;
+    width:min(380px,80vw);
+    aspect-ratio:1.62;
+    background:transparent;border:0;padding:0;
+    cursor:pointer;
+    transform:rotate(-1.2deg);
+    filter:drop-shadow(0 26px 30px rgba(34,48,58,.18));
+    transition:transform .5s ease;
+  }
+  .envelope:hover{transform:rotate(0) translateY(-4px)}
+  .env-back{
+    position:absolute;inset:0;
+    background:linear-gradient(160deg,#e3d5bf,#d6c4a9);
+    border-radius:3px;
+  }
+  .peek{
+    position:absolute;left:7%;right:7%;bottom:6%;height:84%;
+    background:var(--card);
+    border-radius:2px;
+    z-index:1;
+    transform:translateY(6%);
+    transition:transform .9s cubic-bezier(.2,.8,.2,1) .25s;
+    display:flex;align-items:flex-start;justify-content:center;
+    padding-top:18px;
+    font-family:var(--hand);font-size:clamp(18px,2.4vw,24px);color:var(--wine);
+  }
+  .env-front{
+    position:absolute;inset:0;z-index:2;
+    background:linear-gradient(150deg,#eee1cc,#ddcbb2);
+    clip-path:polygon(0 0,50% 44%,100% 0,100% 100%,0 100%);
+    border-radius:3px;
+  }
+  .env-front::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(140,110,70,.12),transparent 45%);
+  }
+  .flap{
+    position:absolute;top:0;left:0;right:0;height:56%;z-index:3;
+    background:linear-gradient(180deg,#e9dcc6,#d9c7ac);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    transform-origin:top center;
+    transition:transform .9s cubic-bezier(.4,.1,.2,1), z-index 0s .45s;
+  }
+  .seal{
+    position:absolute;left:50%;top:44%;z-index:4;
+    width:clamp(54px,7vw,66px);aspect-ratio:1;border-radius:50%;
+    transform:translate(-50%,-50%);
+    background:
+      radial-gradient(circle at 36% 30%, #b3555a, var(--wine) 55%, #6f2b2f);
+    color:#f6e6d8;
+    display:grid;place-items:center;
+    font-size:22px;
+    box-shadow:0 3px 8px rgba(80,30,30,.35), inset 0 2px 3px rgba(255,255,255,.25);
+    transition:opacity .4s,transform .5s;
+    border:1px solid rgba(255,255,255,.18);
+  }
+  .seal::before{
+    content:"";position:absolute;inset:7px;border-radius:50%;
+    border:1px dashed rgba(246,230,216,.4);
+  }
+  .envelope.open .flap{transform:rotateX(180deg);z-index:0;opacity:0;transition:transform .9s cubic-bezier(.4,.1,.2,1),opacity .45s .35s,z-index 0s .45s}
+  .envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.7)}
+  .envelope.open .peek{transform:translateY(-34%)}
+  .envelope:focus-visible{outline:2px solid var(--wine);outline-offset:10px}
+  .hint{
+    margin:26px 0 0;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+    transition:opacity .4s;
+  }
+  .hint.gone{opacity:0}
+  .hero-note{
+    max-width:36ch;margin:22px auto 0;
+    font-family:var(--serif);font-style:italic;font-size:clamp(19px,2.4vw,24px);
+    color:var(--ink);
+    opacity:0;transform:translateY(8px);transition:opacity .6s .5s,transform .6s .5s;
+    pointer-events:none;
+  }
+  .hero-note.show{opacity:1;transform:none;pointer-events:auto}
+  .hero-note a{color:var(--wine);text-decoration-thickness:1px;text-underline-offset:4px}
+
+  /* ---------- letters ---------- */
+  .letters{padding:clamp(50px,9vw,100px) 0 clamp(60px,10vw,120px);border-top:1px solid rgba(34,48,58,.12)}
+  .letters-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:clamp(28px,5vw,48px)}
+  .letters-head h2{
+    font-family:var(--serif);font-weight:400;font-size:clamp(34px,5.4vw,60px);
+    line-height:1;margin:0;
+  }
+  .letters-head p{margin:0;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.4vw,24px)}
+  .card{
+    position:relative;
+    text-align:left;
+    background:var(--card);
+    border:1px solid rgba(34,48,58,.14);
+    padding:clamp(20px,3vw,28px);
+    min-height:clamp(190px,24vw,230px);
+    display:flex;flex-direction:column;
+    cursor:pointer;
+    box-shadow:0 12px 24px -20px rgba(34,48,58,.5);
+    transition:transform .3s ease,box-shadow .3s ease;
+  }
+  .card:nth-child(3n+1){transform:rotate(-.7deg)}
+  .card:nth-child(3n+2){transform:rotate(.5deg);background:#f7efe2}
+  .card:nth-child(3n){transform:rotate(-.3deg);background:#fbf4e9}
+  .card:hover{transform:rotate(0) translateY(-6px);box-shadow:0 24px 34px -24px rgba(34,48,58,.55)}
+  .card:focus-visible{outline:2px solid var(--wine);outline-offset:4px}
+  .card .n{font-size:9px;letter-spacing:.24em;color:var(--muted);margin:0 0 14px}
+  .card h3{
+    font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.8vw,30px);
+    line-height:1.12;margin:0 0 12px;
+  }
+  .card h3 em{font-style:italic;color:var(--wine)}
+  .card .sub{font-size:11px;color:var(--muted);margin:0 0 22px;letter-spacing:.03em}
+  .card .foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .card .foot span{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .mini-seal{
+    width:26px;height:26px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 36% 30%,#b3555a,var(--wine) 60%,#6f2b2f);
+    color:#f6e6d8;display:grid;place-items:center;font-size:11px;
+    box-shadow:inset 0 1px 2px rgba(255,255,255,.25);
+  }
+  .card:nth-child(2) .mini-seal{background:radial-gradient(circle at 36% 30%,#a7b9a2,var(--sage) 60%,#5f7359)}
+  .card:nth-child(4) .mini-seal{background:radial-gradient(circle at 36% 30%,#c9a36e,var(--gold) 60%,#7d5f33)}
+  .card:nth-child(5) .mini-seal{background:radial-gradient(circle at 36% 30%,#e0a1a4,var(--blush) 60%,#a86b6e)}
+  .card:nth-child(6) .mini-seal{background:radial-gradient(circle at 36% 30%,#b9a7c0,#7a6485 60%,#4e3f57)}
+
+  /* ---------- closing ---------- */
+  .closing{
+    border-top:1px solid rgba(34,48,58,.12);
+    padding:clamp(50px,8vw,90px) var(--pad);
+    text-align:center;
+  }
+  .closing p{font-family:var(--serif);font-style:italic;font-size:clamp(22px,3.4vw,34px);line-height:1.35;max-width:30ch;margin:0 auto 18px}
+  .closing .sig{font-family:var(--hand);font-size:clamp(24px,3vw,32px);color:var(--wine);margin:0}
+  .closing .date{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin:26px 0 0}
+
+  /* ---------- modal ---------- */
+  .modal{
+    position:fixed;inset:0;z-index:60;
+    display:grid;place-items:center;
+    padding:clamp(14px,4vw,40px);
+    background:rgba(34,48,58,.42);
+    backdrop-filter:blur(4px);
+    opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;
+  }
+  .modal.show{opacity:1;visibility:visible}
+  .paper{
+    width:min(620px,100%);max-height:88svh;overflow-y:auto;
+    background:
+      linear-gradient(180deg, rgba(176,141,87,.06), transparent 120px),
+      var(--card);
+    border:1px solid rgba(34,48,58,.16);
+    padding:clamp(28px,5vw,52px);
+    position:relative;
+    transform:translateY(14px) scale(.985);
+    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 40px 80px -40px rgba(34,48,58,.6);
+  }
+  .modal.show .paper{transform:none}
+  .paper::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:5px;
+    background:linear-gradient(90deg,var(--wine),var(--blush),var(--gold),var(--sage));
+    opacity:.65;
+  }
+  .paper .to{font-family:var(--hand);font-size:clamp(20px,2.6vw,26px);color:var(--wine);margin:0 0 18px}
+  .paper h2{
+    font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.4vw,42px);
+    line-height:1.08;margin:0 0 20px;
+  }
+  .paper h2 em{font-style:italic;color:var(--wine)}
+  .paper .body{font-family:var(--serif);font-size:clamp(18px,2.2vw,21px);line-height:1.6;color:#33424a}
+  .paper .body p{margin:0 0 14px}
+  .paper .sig{font-family:var(--hand);font-size:clamp(24px,3vw,30px);color:var(--wine);text-align:right;margin:22px 0 0}
+  .paper .ps{font-size:11px;color:var(--muted);border-top:1px solid rgba(34,48,58,.12);margin-top:26px;padding-top:12px}
+  .close{
+    position:absolute;top:12px;right:14px;
+    width:34px;height:34px;border-radius:50%;
+    background:transparent;border:1px solid rgba(34,48,58,.2);
+    color:var(--ink);font-size:15px;cursor:pointer;
+    display:grid;place-items:center;
+    transition:background .2s,color .2s;
+  }
+  .close:hover{background:var(--ink);color:var(--paper)}
+
+  @media (max-width:820px){
+    .grid{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:560px){
+    .envelope-stage{margin-top:90px}
+    .grid{grid-template-columns:1fr}
+    .card{min-height:auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .hero-note{opacity:1;transform:none;pointer-events:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <!-- ✏️ EDIT: her name -->
+  <p class="for">for Ava,</p>
+  <h1>Open <em>when</em>…</h1>
+  <p class="hero-sub">Six letters for the days you need them. No expiration date, no wrong time to open one.</p>
+
+  <div class="envelope-stage">
+    <button class="envelope" id="envelope" aria-expanded="false" aria-label="Open the envelope">
+      <span class="env-back"></span>
+      <span class="peek">for you, always</span>
+      <span class="env-front"></span>
+      <span class="flap"></span>
+      <span class="seal" aria-hidden="true">♥</span>
+    </button>
+    <p class="hint" id="hint">tap the seal to open</p>
+    <p class="hero-note" id="heroNote">There are six more below. Start with whichever one the day calls for. <a href="#letters">Go to the letters ↓</a></p>
+  </div>
+</header>
+
+<!-- ================= LETTERS ================= -->
+<section class="letters" id="letters">
+  <div class="wrap">
+    <div class="letters-head">
+      <div>
+        <p class="kicker">The collection</p>
+        <h2>Six letters, sealed.</h2>
+      </div>
+      <p>Pick the one that fits today</p>
+    </div>
+
+    <div class="grid">
+      <!-- ✏️ EDIT: card titles + hints. The data-letter points at a template below. -->
+      <button class="card" data-letter="l1">
+        <p class="n">LETTER 01</p>
+        <h3>Open when you <em>miss me</em></h3>
+        <p class="sub">For the nights the bed feels too big.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+
+      <button class="card" data-letter="l2">
+        <p class="n">LETTER 02</p>
+        <h3>Open when you've had a <em>bad day</em></h3>
+        <p class="sub">Read this before you replay it in your head.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+
+      <button class="card" data-letter="l3">
+        <p class="n">LETTER 03</p>
+        <h3>Open when you <em>can't sleep</em></h3>
+        <p class="sub">A quiet voice for a loud brain.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+
+      <button class="card" data-letter="l4">
+        <p class="n">LETTER 04</p>
+        <h3>Open when you're <em>proud</em> of yourself</h3>
+        <p class="sub">Because I already am, loudly.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+
+      <button class="card" data-letter="l5">
+        <p class="n">LETTER 05</p>
+        <h3>Open when you need to <em>laugh</em></h3>
+        <p class="sub">Contains one (1) embarrassing story about me.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+
+      <button class="card" data-letter="l6">
+        <p class="n">LETTER 06</p>
+        <h3>Open on our <em>anniversary</em></h3>
+        <p class="sub">The one I'd read out loud if I could.</p>
+        <div class="foot"><span>sealed · for you</span><span class="mini-seal">♥</span></div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLOSING ================= -->
+<footer class="closing">
+  <p>“I'd write you a hundred of these if it meant you'd never run out of reasons to feel loved.”</p>
+  <p class="sig">— Noah</p>
+  <p class="date">Nov 25, 2026 · and every day after</p>
+</footer>
+
+<!-- ================= MODAL ================= -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="letterTitle">
+  <div class="paper">
+    <button class="close" id="close" aria-label="Close letter">✕</button>
+    <p class="to" id="letterTo">For Ava,</p>
+    <h2 id="letterTitle"></h2>
+    <div class="body" id="letterBody"></div>
+    <p class="sig" id="letterSig">— Noah</p>
+    <p class="ps" id="letterPs"></p>
+  </div>
+</div>
+
+<!-- ============================================================
+     LETTER CONTENT — edit each template's paragraphs.
+     ============================================================ -->
+<template id="l1">
+  <div class="body">
+    <p>If you're reading this, you miss me. Good news: it's mutual, and I'm probably thinking about you right now, probably at an inconvenient time.</p>
+    <p>Remember the first night? I went home and couldn't stop smiling at nothing. I'd like you to know that hasn't changed — I still catch myself doing it on the bus.</p>
+    <p>So here's what we do: you put on our song, I'll do the same wherever I am, and we'll be missing each other at the exact same time. That counts as being together. I checked.</p>
+  </div>
+  <p class="ps">P.S. Call me. Even if it's late. Especially if it's late.</p>
+</template>
+
+<template id="l2">
+  <div class="body">
+    <p>Bad days are allowed. You don't have to be the version of yourself that has it all handled — not with me, not ever.</p>
+    <p>Do the small things: water, food, a shower, the show you've seen a hundred times. Not because they fix it, but because you deserve to be taken care of while it's hard.</p>
+    <p>And when you're ready, tell me. I'm not going anywhere, and I'm very good at sitting next to you in silence.</p>
+  </div>
+  <p class="ps">P.S. If someone was unkind to you today, they were wrong, and I'd like their name.</p>
+</template>
+
+<template id="l3">
+  <div class="body">
+    <p>It's late. Your brain is being loud. I know the feeling.</p>
+    <p>Try this: put your hand on your chest, breathe out longer than you breathe in, and picture the last time you laughed so hard you couldn't breathe. I'll wait.</p>
+    <p>You are safe. You are loved. Tomorrow is not going to be as heavy as it feels at 2 a.m. — it never is.</p>
+  </div>
+  <p class="ps">P.S. If you still can't sleep, text me. I'll answer. I'm probably awake thinking about you anyway.</p>
+</template>
+
+<template id="l4">
+  <div class="body">
+    <p>I need you to know how proud I am of you — not the polished, presentable version. The one who kept going on the days nobody clapped.</p>
+    <p>You do hard things quietly, and you make it look easy, and I notice. I notice all of it.</p>
+    <p>So take the win. Say it out loud. Let me be annoying about it for at least a week.</p>
+  </div>
+  <p class="ps">P.S. I'm already planning the celebration. You don't get a say.</p>
+</template>
+
+<template id="l5">
+  <div class="body">
+    <p>Okay. The story.</p>
+    <p>The first time you stayed over, I woke up early and tried to make breakfast quietly. I dropped the entire carton of eggs. Every single one. You woke up to me on the kitchen floor, surrounded by shells, saying “it's fine” in a voice that suggested it was not fine.</p>
+    <p>You laughed until you cried. Then you helped me clean it up. That was the moment I knew — not the romantic part, the egg part.</p>
+  </div>
+  <p class="ps">P.S. I have gotten better at breakfast. Marginally.</p>
+</template>
+
+<template id="l6">
+  <div class="body">
+    <p>One year. I keep saying it like it's a small number, but it's 365 days of choosing each other, and that's not small at all.</p>
+    <p>Thank you for the ordinary Tuesdays, the passenger-seat DJ sets, the way you say my name when you're tired. Thank you for staying when it was easier not to.</p>
+    <p>I don't know what the next year looks like. I know I want to find out with you.</p>
+  </div>
+  <p class="ps">P.S. Happy anniversary. Read this one again next year.</p>
+</template>
+
+<script>
+(() => {
+  const envelope = document.getElementById('envelope');
+  const hint = document.getElementById('hint');
+  const heroNote = document.getElementById('heroNote');
+
+  envelope.addEventListener('click', () => {
+    const open = envelope.classList.toggle('open');
+    envelope.setAttribute('aria-expanded', String(open));
+    hint.classList.toggle('gone', open);
+    heroNote.classList.toggle('show', open);
+  });
+
+  const modal = document.getElementById('modal');
+  const titleEl = document.getElementById('letterTitle');
+  const bodyEl = document.getElementById('letterBody');
+  const psEl = document.getElementById('letterPs');
+  const toEl = document.getElementById('letterTo');
+
+  function openLetter(id, card) {
+    const tpl = document.getElementById(id);
+    if (!tpl) return;
+    titleEl.innerHTML = card.querySelector('h3').innerHTML;
+    toEl.textContent = 'For Ava,';
+
+    const frag = tpl.content.cloneNode(true);
+    const ps = frag.querySelector('.ps');
+    psEl.textContent = ps ? ps.textContent : '';
+    if (ps) ps.remove();
+    const bodyWrap = frag.querySelector('.body');
+    bodyEl.innerHTML = bodyWrap ? bodyWrap.innerHTML : '';
+
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('close').focus();
+  }
+
+  function closeLetter() {
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', () => openLetter(card.dataset.letter, card));
+  });
+  document.getElementById('close').addEventListener('click', closeLetter);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeLetter(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLetter(); });
+})();
+</script>
+</body>
+</html>

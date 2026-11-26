@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Side A / Side B — Our First Year Mixtape</title>
+<meta name="description" content="A mixtape for our first year together.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext x='16' y='26' font-size='26' text-anchor='middle'%3E%E2%99%A5%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     MIXTAPE — "Side A / Side B"
+     Edit the tracklist + liner notes in the HTML (look for ✏️ EDIT).
+     Optional: add <audio id="audio" src="our-song.mp3"> before </body>
+     and the player will sync to the real file.
+     ============================================================ */
+  :root{
+    --paper:#e9e2d1;
+    --paper-2:#ddd4bf;
+    --ink:#14110d;
+    --cobalt:#1e3fbf;
+    --flame:#dd4f28;
+    --mint:#a9c9a4;
+    --gold:#d9a441;
+    --muted:#6f6656;
+    --mono:"Space Mono", "Courier New", monospace;
+    --display:"Archivo Black", Impact, sans-serif;
+    --hand:"Caveat", cursive;
+    --pad:clamp(20px,5vw,72px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--mono);
+    font-size:15px;
+    line-height:1.65;
+    padding-bottom:88px;
+    overflow-x:hidden;
+    background-image:
+      linear-gradient(rgba(20,17,13,.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20,17,13,.028) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  ::selection{background:var(--flame);color:var(--paper)}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .kicker{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+
+  /* washi tape */
+  .tape{
+    position:absolute;width:92px;height:26px;
+    background:rgba(169,201,164,.85);
+    box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transform:rotate(-4deg);
+  }
+
+  /* ---------- header ---------- */
+  .topbar{
+    border-bottom:1.5px solid var(--ink);
+    padding:14px var(--pad);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    background:var(--paper);
+    position:relative;z-index:5;
+  }
+  .topbar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--flame);margin-right:8px;vertical-align:1px}
+  .topbar nav{display:flex;gap:22px}
+  .topbar nav a{white-space:nowrap}
+  .topbar a{text-decoration:none}
+  .topbar a:hover{color:var(--flame)}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:clamp(40px,7vw,84px) 0 clamp(50px,8vw,96px);
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
+    gap:clamp(28px,5vw,64px);
+    align-items:center;
+  }
+  .hero-copy{position:relative}
+  .for{
+    font-family:var(--hand);
+    font-size:clamp(26px,3.6vw,40px);
+    color:var(--cobalt);
+    transform:rotate(-2deg);
+    display:inline-block;
+    margin:0 0 6px;
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-size:clamp(46px,7.2vw,92px);
+    line-height:.9;
+    letter-spacing:-.02em;
+    margin:0 0 20px;
+    text-transform:uppercase;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--flame);
+    -webkit-text-stroke:0;
+  }
+  .hero-sub{
+    max-width:38ch;
+    font-size:13px;
+    color:#3a342a;
+    margin:0 0 28px;
+  }
+  .meta{
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .chip{
+    border:1.5px solid var(--ink);
+    padding:5px 10px;
+    font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+    background:var(--paper);
+  }
+  .chip.blue{background:var(--cobalt);color:var(--paper);border-color:var(--cobalt)}
+  .chip.flame{background:var(--flame);color:var(--paper);border-color:var(--flame)}
+  .chip.mint{background:var(--mint);border-color:var(--mint)}
+
+  /* ---------- cassette ---------- */
+  .cassette-stage{position:relative;display:grid;place-items:center;padding:20px 0}
+  .cassette{
+    position:relative;
+    width:min(440px,100%);
+    aspect-ratio:1.58;
+    background:linear-gradient(145deg,#33302b,#171512 60%);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 28px 50px -22px rgba(20,17,13,.65), inset 0 1px 0 rgba(255,255,255,.14);
+    transform:rotate(-2.5deg);
+  }
+  .cassette::before,.cassette::after{
+    content:"";position:absolute;width:9px;height:9px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%, #777, #222);
+    top:9px;
+  }
+  .cassette::before{left:9px}
+  .cassette::after{right:9px}
+  .screw-b1,.screw-b2{position:absolute;bottom:9px;width:9px;height:9px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #777, #222)}
+  .screw-b1{left:9px}.screw-b2{right:9px}
+  .cassette-label{
+    height:100%;
+    background:var(--paper);
+    border-radius:3px;
+    padding:12px 14px 10px;
+    display:flex;flex-direction:column;
+    position:relative;
+    overflow:hidden;
+  }
+  .cassette-label::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:6px;
+    background:linear-gradient(90deg,var(--flame) 0 33%,var(--gold) 33% 66%,var(--cobalt) 66% 100%);
+  }
+  .cassette-top{
+    display:flex;justify-content:space-between;gap:10px;
+    font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#4a4438;
+    border-bottom:1px solid rgba(20,17,13,.18);
+    padding-bottom:7px;
+  }
+  .cassette-top strong{font-family:var(--display);font-size:11px;letter-spacing:.04em;color:var(--ink)}
+  .cassette-top span:last-child{padding-right:44px}
+  .cassette-window{
+    flex:1;
+    margin:9px 0 8px;
+    background:linear-gradient(180deg,#2a2722,#12100d);
+    border-radius:5px;
+    display:flex;align-items:center;justify-content:center;gap:clamp(30px,8vw,64px);
+    position:relative;
+    box-shadow:inset 0 4px 12px rgba(0,0,0,.7);
+  }
+  .reel{
+    width:clamp(46px,11vw,62px);aspect-ratio:1;border-radius:50%;
+    background:
+      radial-gradient(circle, var(--paper) 0 17%, transparent 18%),
+      repeating-conic-gradient(from 0deg, #e9e2d1 0 22deg, #b9b09b 22deg 30deg);
+    border:3px solid #0b0a08;
+    position:relative;
+    box-shadow:0 0 0 2px rgba(255,255,255,.06);
+  }
+  .reel::after{
+    content:"";position:absolute;inset:38%;border-radius:50%;
+    background:#0b0a08;
+  }
+  .playing .reel{animation:spin 2.4s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .cassette-bottom{
+    display:flex;justify-content:space-between;align-items:end;
+    font-family:var(--hand);font-size:clamp(15px,2.2vw,20px);line-height:1;
+    color:var(--ink);
+  }
+  .cassette-bottom span:last-child{text-align:right;color:var(--cobalt)}
+  .sticker{
+    position:absolute;top:-18px;right:-16px;
+    width:92px;height:92px;border-radius:50%;
+    background:var(--mint);
+    display:grid;place-items:center;text-align:center;
+    font-size:8px;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;
+    transform:rotate(11deg);
+    box-shadow:0 8px 18px -8px rgba(20,17,13,.5);
+    border:1.5px solid rgba(20,17,13,.35);
+    z-index:2;
+  }
+  .sticker b{display:block;font-family:var(--display);font-size:15px;letter-spacing:0}
+  .pencil-note{
+    position:absolute;bottom:-16px;left:8%;
+    font-family:var(--hand);font-size:18px;color:var(--flame);
+    transform:rotate(-3deg);
+  }
+
+  /* ---------- tracklist ---------- */
+  .side{
+    border-top:2px solid var(--ink);
+    padding:clamp(34px,6vw,56px) 0;
+  }
+  .side-head{
+    display:flex;align-items:baseline;gap:16px;margin-bottom:24px;
+  }
+  .side-letter{
+    font-family:var(--display);
+    font-size:clamp(54px,9vw,104px);
+    line-height:.8;
+    color:transparent;
+    -webkit-text-stroke:1.5px var(--ink);
+  }
+  .side-head h2{
+    font-family:var(--display);
+    font-size:clamp(18px,2.6vw,26px);
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    margin:0;
+    line-height:1.1;
+  }
+  .side-head p{margin:2px 0 0;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .tracklist{border-top:1px solid rgba(20,17,13,.28)}
+  .track{
+    display:grid;
+    grid-template-columns:52px 1fr auto;
+    gap:14px;align-items:center;
+    width:100%;
+    background:none;border:0;border-bottom:1px solid rgba(20,17,13,.28);
+    padding:15px 4px;
+    font-family:var(--mono);color:var(--ink);
+    text-align:left;cursor:pointer;
+    transition:background .2s,padding .2s;
+  }
+  .track:hover{background:rgba(30,63,191,.06);padding-left:10px}
+  .track .num{font-size:11px;color:var(--muted);letter-spacing:.08em}
+  .track .t-title{display:block;font-family:var(--display);font-size:clamp(15px,2.2vw,20px);letter-spacing:-.01em;line-height:1.25;text-transform:uppercase}
+  .track .t-sub{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+  .track .t-time{font-size:11px;color:var(--muted)}
+  .track.active{background:var(--ink);color:var(--paper);padding-left:10px}
+  .track.active .num,.track.active .t-sub,.track.active .t-time{color:var(--gold)}
+  .track.active .t-title::after{content:" ▸";color:var(--flame)}
+  .note{
+    display:none;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(18px,4vw,36px);
+    padding:22px 4px 30px;
+    border-bottom:1px solid rgba(20,17,13,.28);
+    background:rgba(255,255,255,.24);
+    animation:fadein .4s ease;
+  }
+  .note.open{display:grid}
+  @keyframes fadein{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .note p{margin:0;font-size:13px;color:#3a342a}
+  .note .still-ph{
+    aspect-ratio:4/3;border:1.5px solid var(--ink);
+    background:linear-gradient(140deg,#c9bfa8,#a9c9a4 55%,#d9a441);
+    display:grid;place-items:center;
+    font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(20,17,13,.55);
+  }
+  .note .still-ph img{width:100%;height:100%;object-fit:cover}
+  .note blockquote{
+    margin:0;font-family:var(--hand);font-size:clamp(20px,2.8vw,26px);
+    line-height:1.25;color:var(--cobalt);
+  }
+
+  /* ---------- liner notes ---------- */
+  .liner-wrap{padding:clamp(20px,4vw,40px) 0 clamp(50px,8vw,90px)}
+  .liner{
+    position:relative;
+    max-width:680px;margin:0 auto;
+    background:#f6f0e2;
+    border:1px solid rgba(20,17,13,.18);
+    padding:clamp(30px,5vw,56px);
+    transform:rotate(-.8deg);
+    box-shadow:0 20px 40px -30px rgba(20,17,13,.6);
+  }
+  .liner .tape{top:-13px;left:50%;transform:translateX(-50%) rotate(-2deg)}
+  .liner h2{
+    font-family:var(--display);font-size:clamp(20px,3vw,28px);
+    text-transform:uppercase;margin:0 0 18px;letter-spacing:.01em;
+  }
+  .liner p{font-family:var(--hand);font-size:clamp(21px,2.6vw,26px);line-height:1.45;color:#2a251c;margin:0 0 14px}
+  .liner .sig{text-align:right;font-size:clamp(24px,3vw,30px);color:var(--flame);margin:10px 0 0}
+  .liner .small{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:24px}
+
+  /* ---------- next year ---------- */
+  .next{
+    border-top:2px solid var(--ink);
+    padding:clamp(36px,6vw,64px) 0 clamp(60px,9vw,100px);
+  }
+  .next h2{font-family:var(--display);font-size:clamp(24px,4vw,40px);text-transform:uppercase;margin:0 0 8px;line-height:1}
+  .next .sub{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:0 0 26px}
+  .next ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+  .next li{
+    display:flex;gap:14px;align-items:baseline;
+    padding:12px 0;border-bottom:1px dashed rgba(20,17,13,.3);
+    font-size:13px;
+  }
+  .next li span{font-family:var(--display);font-size:12px;color:var(--flame);min-width:24px}
+  .foot{
+    border-top:1px solid rgba(20,17,13,.28);
+    padding:22px 0;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+  }
+
+  /* ---------- sticky player ---------- */
+  .player{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:var(--ink);color:var(--paper);
+    border-top:1px solid rgba(233,226,209,.2);
+    padding:12px var(--pad);
+    display:flex;align-items:center;gap:18px;
+  }
+  .p-art{
+    width:44px;height:44px;flex:none;border-radius:3px;
+    background:
+      radial-gradient(circle at 50% 50%, var(--ink) 0 9%, var(--paper) 10% 12%, transparent 13%),
+      repeating-radial-gradient(circle at 50% 50%, #2b2822 0 1px, #171512 1px 4px);
+    border:1px solid rgba(233,226,209,.25);
+  }
+  .p-meta{flex:1;min-width:0}
+  .p-label{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 3px}
+  .p-title{font-family:var(--display);font-size:13px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0}
+  .p-sub{font-size:9px;color:#9b9283;letter-spacing:.1em;margin:2px 0 0}
+  .eq{display:flex;align-items:flex-end;gap:2px;height:18px;margin-right:4px}
+  .eq i{width:3px;background:var(--flame);height:30%;animation:eq 0.9s ease-in-out infinite;display:block}
+  .eq i:nth-child(2){animation-delay:.15s;background:var(--gold)}
+  .eq i:nth-child(3){animation-delay:.3s}
+  .eq i:nth-child(4){animation-delay:.45s;background:var(--mint)}
+  .eq.paused i{animation-play-state:paused;height:20%!important}
+  @keyframes eq{0%,100%{height:25%}50%{height:100%}}
+  .p-btns{display:flex;gap:6px}
+  .p-btns button{
+    width:34px;height:34px;border-radius:50%;
+    background:transparent;color:var(--paper);border:1px solid rgba(233,226,209,.35);
+    cursor:pointer;font-size:12px;display:grid;place-items:center;
+    transition:background .2s,color .2s;
+  }
+  .p-btns button:hover{background:var(--paper);color:var(--ink)}
+  .p-btns .play{background:var(--paper);color:var(--ink);width:40px;height:40px}
+  .p-btns .play:hover{background:var(--flame);color:var(--paper);border-color:var(--flame)}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;gap:34px}
+    .cassette-stage{order:-1;padding-top:0}
+    .note{grid-template-columns:1fr}
+    .next ol{grid-template-columns:1fr}
+  }
+  @media (max-width:520px){
+    .track{grid-template-columns:38px 1fr;gap:10px}
+    .track .t-time{display:none}
+    .topbar{justify-content:center}
+    .topbar > span:first-child{display:none}
+    .topbar nav{gap:20px}
+    .player{gap:10px}
+    .p-art{width:36px;height:36px}
+    .sticker{width:70px;height:70px;font-size:7px;top:-16px;right:0}
+    .sticker b{font-size:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span><span class="dot"></span>One-Year Records · est. 2025</span>
+  <nav>
+    <a href="#side-a">Side A</a>
+    <a href="#side-b">Side B</a>
+    <a href="#liner">Liner notes</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="hero-copy">
+      <!-- ✏️ EDIT: her name -->
+      <p class="for">for Ava,</p>
+      <h1>Our<br>First<br><em>Year</em></h1>
+      <p class="hero-sub">A mixtape in two sides. Twelve months, eight tracks, one very biased tracklist. Press play and read the liner notes.</p>
+      <div class="meta">
+        <span class="chip blue">Vol. 1</span>
+        <span class="chip">2025 — 2026</span>
+        <span class="chip flame">1 of 1 pressing</span>
+        <span class="chip mint">Stereo · 33⅓</span>
+      </div>
+    </div>
+
+    <div class="cassette-stage">
+      <div class="cassette" id="cassette">
+        <span class="screw-b1"></span><span class="screw-b2"></span>
+        <div class="sticker"><span><b>1/1</b>pressing<br>for Ava</span></div>
+        <div class="cassette-label">
+          <div class="cassette-top">
+            <span><strong>One-Year Records</strong><br>Stereo · 33⅓ rpm</span>
+            <span style="text-align:right">Side A<br>2025—26</span>
+          </div>
+          <div class="cassette-window">
+            <span class="reel"></span>
+            <span class="reel"></span>
+          </div>
+          <div class="cassette-bottom">
+            <span>“the first year”</span>
+            <span>ava + noah</span>
+          </div>
+        </div>
+      </div>
+      <p class="pencil-note">do not tape over!!</p>
+    </div>
+  </header>
+
+  <!-- ================= SIDE A ================= -->
+  <section class="side" id="side-a">
+    <div class="side-head">
+      <span class="side-letter">A</span>
+      <div>
+        <h2>Side A — the beginning</h2>
+        <p>Six months · four tracks</p>
+      </div>
+    </div>
+    <div class="tracklist">
+      <!-- ✏️ EDIT: each .track and its matching .note -->
+      <button class="track" data-title="The First Night" data-sub="Side A · Track 1">
+        <span class="num">A1</span>
+        <span><span class="t-title">The First Night</span><span class="t-sub">where it started</span></span>
+        <span class="t-time">3:42</span>
+      </button>
+      <div class="note">
+        <p>Replace with the story of the first night. The nerves, the thing you noticed first, the walk home that took twice as long as it needed to. <br><br>This is the track that sets the tone for the whole tape.</p>
+        <div class="still-ph"><span>photo · the first night</span></div>
+      </div>
+
+      <button class="track" data-title="Burnt Pasta" data-sub="Side A · Track 2">
+        <span class="num">A2</span>
+        <span><span class="t-title">Burnt Pasta</span><span class="t-sub">the first ordinary Tuesday</span></span>
+        <span class="t-time">2:58</span>
+      </button>
+      <div class="note">
+        <p>Not every song is a love ballad. This one is about the night the smoke alarm went off and neither of you could stop laughing. Write down the small stuff — it ages the best.</p>
+        <div class="still-ph"><span>photo · the kitchen</span></div>
+      </div>
+
+      <button class="track" data-title="Passenger Seat" data-sub="Side A · Track 3">
+        <span class="num">A3</span>
+        <span><span class="t-title">Passenger Seat</span><span class="t-sub">the first road trip</span></span>
+        <span class="t-time">4:11</span>
+      </button>
+      <div class="note">
+        <p>The playlist you made, the wrong turn, the gas station snacks. Tell the story of a day that went off the map and turned out better for it.</p>
+        <div class="still-ph"><span>photo · on the road</span></div>
+      </div>
+
+      <button class="track" data-title="Her Song" data-sub="Side A · Track 4">
+        <span class="num">A4</span>
+        <span><span class="t-title">Her Song</span><span class="t-sub">the one that's hers</span></span>
+        <span class="t-time">3:26</span>
+      </button>
+      <div class="note">
+        <p>Every mixtape has one. Name the song, say why it's hers, and describe the exact moment you knew. Bonus points if you add it as an audio file.</p>
+        <div class="still-ph"><span>photo · her, mid-laugh</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SIDE B ================= -->
+  <section class="side" id="side-b">
+    <div class="side-head">
+      <span class="side-letter">B</span>
+      <div>
+        <h2>Side B — the rest of it</h2>
+        <p>Six months · four tracks</p>
+      </div>
+    </div>
+    <div class="tracklist">
+      <button class="track" data-title="Sunday Mornings" data-sub="Side B · Track 1">
+        <span class="num">B1</span>
+        <span><span class="t-title">Sunday Mornings</span><span class="t-sub">the slow ones</span></span>
+        <span class="t-time">5:02</span>
+      </button>
+      <div class="note">
+        <p>The ritual you didn't plan: coffee, the same blanket, nothing on the schedule. Write about the version of the two of you that only exists before noon.</p>
+        <div class="still-ph"><span>photo · sunday light</span></div>
+      </div>
+
+      <button class="track" data-title="The Hard Week" data-sub="Side B · Track 2">
+        <span class="num">B2</span>
+        <span><span class="t-title">The Hard Week</span><span class="t-sub">the one that held</span></span>
+        <span class="t-time">4:44</span>
+      </button>
+      <div class="note">
+        <p>The tape isn't only happy songs. This is about the week that tested you — and the way she showed up anyway. Keep it honest, not heavy.</p>
+        <div class="still-ph"><span>photo · us, unposed</span></div>
+      </div>
+
+      <button class="track" data-title="Our Place" data-sub="Side B · Track 3">
+        <span class="num">B3</span>
+        <span><span class="t-title">Our Place</span><span class="t-sub">the spot that's ours</span></span>
+        <span class="t-time">3:18</span>
+      </button>
+      <div class="note">
+        <p>Every couple has coordinates. The bench, the diner, the corner where you always stop. Describe it so she can see it with her eyes closed.</p>
+        <div class="still-ph"><span>photo · our place</span></div>
+      </div>
+
+      <button class="track" data-title="Track 365" data-sub="Side B · Track 4">
+        <span class="num">B4</span>
+        <span><span class="t-title">Track 365</span><span class="t-sub">the one we're on now</span></span>
+        <span class="t-time">∞</span>
+      </button>
+      <div class="note">
+        <p>End the tape on today. What you want the next record to sound like, what you're grateful for, the line you'd want her to replay. Then let it loop.</p>
+        <div class="still-ph"><span>photo · today</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LINER NOTES ================= -->
+  <section class="liner-wrap" id="liner">
+    <div class="liner">
+      <span class="tape"></span>
+      <h2>Liner notes</h2>
+      <!-- ✏️ EDIT: the letter -->
+      <p>I made you a tape because a letter felt too short and a playlist felt too easy. Every track on here is a day I'd play again.</p>
+      <p>Thanks for the ordinary Tuesdays, the passenger-seat DJ sets, and for making a year feel like the first line of something.</p>
+      <p>Happy one year. Side C starts now.</p>
+      <p class="sig">— Noah</p>
+      <p class="small">Recorded at home · mixed with love · not for sale</p>
+    </div>
+  </section>
+
+  <!-- ================= NEXT YEAR ================= -->
+  <section class="next">
+    <h2>Next year's tracklist</h2>
+    <p class="sub">Rough demos · unfinished · subject to us</p>
+    <ol>
+      <li><span>01</span> Finally take that trip we keep talking about</li>
+      <li><span>02</span> Learn to make her favorite dish properly</li>
+      <li><span>03</span> One photo a month, no matter how boring the day</li>
+      <li><span>04</span> See a show we'd never pick on our own</li>
+      <li><span>05</span> Keep the Sunday mornings sacred</li>
+      <li><span>06</span> Make the next mixtape even longer</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <span>One-Year Records · Vol. 1</span>
+    <span>Made for Ava · with love, not a label</span>
+  </footer>
+</div>
+
+<!-- ================= STICKY PLAYER ================= -->
+<div class="player" role="region" aria-label="Mixtape player">
+  <div class="p-art" aria-hidden="true"></div>
+  <div class="p-meta">
+    <p class="p-label">Now playing · Side A</p>
+    <p class="p-title" id="pTitle">The First Night</p>
+    <p class="p-sub" id="pSub">where it started</p>
+  </div>
+  <div class="eq paused" id="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="p-btns">
+    <button id="prev" aria-label="Previous track">◀</button>
+    <button class="play" id="play" aria-label="Play or pause">▶</button>
+    <button id="next" aria-label="Next track">▶</button>
+  </div>
+</div>
+
+<!-- Optional real audio:
+     <audio id="audio" src="our-song.mp3" loop></audio>
+     If present, the play button controls it. -->
+
+<script>
+  const tracks = [...document.querySelectorAll('.track')];
+  const notes  = [...document.querySelectorAll('.note')];
+  const cassette = document.getElementById('cassette');
+  const eq = document.getElementById('eq');
+  const playBtn = document.getElementById('play');
+  const pTitle = document.getElementById('pTitle');
+  const pSub = document.getElementById('pSub');
+  const audio = document.getElementById('audio');
+  let index = 0;
+  let playing = false;
+
+  function select(i, autoplay = true) {
+    index = (i + tracks.length) % tracks.length;
+    tracks.forEach((t, n) => {
+      t.classList.toggle('active', n === index);
+      notes[n].classList.toggle('open', n === index);
+    });
+    const t = tracks[index];
+    pTitle.textContent = t.dataset.title;
+    pSub.textContent = t.dataset.sub;
+    if (autoplay) setPlaying(true);
+  }
+
+  function setPlaying(state) {
+    playing = state;
+    cassette.classList.toggle('playing', playing);
+    eq.classList.toggle('paused', !playing);
+    playBtn.textContent = playing ? '❚❚' : '▶';
+    playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    if (audio) { playing ? audio.play().catch(() => {}) : audio.pause(); }
+  }
+
+  tracks.forEach((t, i) => t.addEventListener('click', () => select(i)));
+  playBtn.addEventListener('click', () => setPlaying(!playing));
+  document.getElementById('prev').addEventListener('click', () => select(index - 1));
+  document.getElementById('next').addEventListener('click', () => select(index + 1));
+
+  // Open the first track so the page doesn't look empty.
+  select(0, false);
+</script>
+</body>
+</html>
