@@ -13,9 +13,10 @@ Copy this file to `my-content.md` (or just fill it here and delete it later). Do
 | Her name | Nicole |
 | Your name | Enric |
 | Together since (YYYY-MM-DD) | 2025-11-25 |
-| Anniversary date | Heart |
-| The city / place you're "from" as a couple | Instagram |
+| Anniversary date | 2026-11-25 |
+| Where it started | Instagram (where you matched) |
 | One word that sums up the year | Devoted |
+| Long distance? | Yes — the year was lived through calls, messages and photos |
 
 ---
 
@@ -25,14 +26,14 @@ Most templates need **4–8**. Pick the ones with a detail only the two of you w
 
 | # | Date | Title (2–4 words) | The detail you remember | Photo? |
 |---|------|-------------------|--------------------------|--------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-| 6 | | | | |
-| 7 | | | | |
-| 8 | | | | |
+| 1 | Nov 25, 2025 | First message | A message on Instagram; the first call ran past midnight | `video-call.jpg` |
+| 2 | Dec 2025 | That face | The duck face that never stops working | `nicole-duckface.jpg` |
+| 3 | Dec 2025 | Snack aisle | Purple signs at 11pm, sent as a photo | `convenience-store.jpg` |
+| 4 | Jan 2026 | Green booth | Warm light, the drink with the straw | `dinner-drink.jpg` |
+| 5 | Mar 2026 | Night café | String lights, stacked chairs, told later | `night-cafe.jpg` |
+| 6 | Aug 2026 | The concert | Lightstick and fanchants | `concert.jpg` |
+| 7 | Sep 2026 | Weekend away | Stone pillars, long verandas | `weekend-resort.jpg` |
+| 8 | Nov 25, 2026 | Tonight | One year, same smile | `car-selfie.jpg` |
 
 ### Prompts if you're stuck
 
@@ -48,7 +49,7 @@ Most templates need **4–8**. Pick the ones with a detail only the two of you w
 
 ### The one-line test
 
-If a memory can be swapped into any couple's story, it's not specific enough yet. Add the burnt eggs, the wrong exit, the exact song.
+If a memory can be swapped into any couple's story, it's not specific enough yet. Add the 11pm snack aisle, the lightstick, the exact song.
 
 ---
 
@@ -166,11 +167,11 @@ Collect 6–10. For each: file name, what it is, and which template slot it goes
 
 ## 7. Final check
 
-- [ ] Her name is spelled right everywhere (search for `Ava`).
-- [ ] Your name is spelled right (search for `Noah`).
+- [ ] Her name is spelled right everywhere (search for `Nicole`).
+- [ ] Your name is spelled right (search for `Enric`).
 - [ ] The date is right, including the year (search for `2025` and `2026`).
 - [ ] No leftover placeholder text: search for `Replace`, `photo 0`, `✏️`, `Ava`, `Noah`.
-- [ ] Every photo loads (no broken image icons).
+- [ ] Every photo loads (no broken image icons), and you're happy for her to see each one.
 - [ ] Opened it on your phone, not just your laptop.
 - [ ] Read the letter out loud once.
 - [ ] Added `<meta name="robots" content="noindex, nofollow">` if it's public.

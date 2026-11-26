@@ -265,7 +265,7 @@
     font-size:10px; letter-spacing:.14em; text-transform:uppercase;
     color:#7d7365; padding-top:9px;
   }
-  .still img{aspect-ratio:16/9;object-fit:cover;width:100%;filter:sepia(.15) contrast(1.03)}
+  .still img{aspect-ratio:16/9;object-fit:cover;object-position:center 38%;width:100%;filter:sepia(.15) contrast(1.03)}
   .scene .still{transition:transform .6s ease}
   .scene:hover .still{transform:scale(1.012)}
 
@@ -311,15 +311,14 @@
     grid-template-columns:repeat(3,1fr);
     gap:10px;
   }
-  .sheet figure{margin:0;position:relative;overflow:hidden;background:#151011}
+  .sheet figure{margin:0;position:relative;overflow:hidden;background:#151011;aspect-ratio:4/3}
   .sheet .still-ph{aspect-ratio:4/3;border:0}
-  .sheet figure:nth-child(1){grid-column:span 2}
-  .sheet figure:nth-child(1) .still-ph{aspect-ratio:16/9}
+  .sheet figure:nth-child(1){grid-column:span 2;aspect-ratio:16/9}
   .sheet figcaption{
     position:absolute;left:10px;bottom:8px;z-index:2;
     font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,232,213,.65);
   }
-  .sheet img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;filter:grayscale(.5) contrast(1.05);transition:filter .5s,transform .7s}
+  .sheet img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 36%;filter:grayscale(.5) contrast(1.05);transition:filter .5s,transform .7s}
   .sheet figure:hover img{filter:none;transform:scale(1.04)}
 
   /* ---------- credits ---------- */
@@ -354,7 +353,7 @@
     .scene{grid-template-columns:1fr;gap:6px}
     .timecode{padding-top:0}
     .sheet{grid-template-columns:1fr 1fr}
-    .sheet figure:nth-child(1){grid-column:span 2}
+    .sheet figure:nth-child(1){grid-column:span 2;aspect-ratio:16/9}
     .ticket::after{right:50px}
     .credit-row{grid-template-columns:1fr;gap:2px}
     .credit-row dd{text-align:left;margin-bottom:8px}
@@ -379,7 +378,10 @@
     <p class="overture-note">best viewed with the lights off</p>
   </div>
 </div>
-<noscript><style>.overture{display:none} body{overflow:auto!important}</style></noscript>
+<noscript><style>.overture{display:none} body{overflow:auto!important}  /* tall phone photos: keep Nicole's face in frame */
+  img[src*="video-call"]{object-position:center 62%!important}
+  img[src*="weekend-resort"]{object-position:center 58%!important}
+</style></noscript>
 
 <!-- ================= HERO ================= -->
 <header class="hero" id="top">
@@ -388,7 +390,7 @@
   <!-- ✏️ EDIT: the big title -->
   <h1 class="marquee">ONE<br><span>YEAR</span></h1>
   <!-- ✏️ EDIT: names -->
-  <p class="hero-sub">Ava &amp; Noah · in a film about the two of us</p>
+  <p class="hero-sub">Nicole &amp; Enric · in a film about the two of us</p>
 
   <div class="ticket" role="note" aria-label="Ticket">
     <div class="ticket-main">
@@ -417,12 +419,12 @@
       <article class="scene reveal">
         <div class="timecode">00:00:00</div>
         <div class="scene-body">
-          <p class="scene-date">Nov 25, 2025 · the meet-cute</p>
+          <p class="scene-date">Nov 25, 2025 · the first message</p>
           <h3>Where it all began</h3>
-          <p>Replace this with the story of the day you met — the small detail you still remember, the thing she said, the song that was playing. Keep it to two or three sentences; the photo does the rest.</p>
+          <p>It started as a notification on Instagram. I still have that first message, and I have pretended not to reread it about a hundred times. We were miles apart from the first call, and it still ran long past midnight.</p>
           <figure class="still">
-            <!-- ✏️ EDIT: replace this div with <img src="photos/first-night.jpg" alt="Us on the first night"> -->
-            <div class="still-ph"><span>photo 01</span></div>
+            <!-- ✏️ EDIT: swap any photo src or alt for your own -->
+            <img src="../../assets/photos/video-call.jpg" alt="Nicole on a video call">
             <figcaption><span>Frame 001</span><span>The beginning</span></figcaption>
           </figure>
         </div>
@@ -431,11 +433,11 @@
       <article class="scene reveal">
         <div class="timecode">00:14:22</div>
         <div class="scene-body">
-          <p class="scene-date">Jan 2026 · the first ordinary Tuesday</p>
+          <p class="scene-date">Dec 2025 · the snack aisle</p>
           <h3>The night nothing happened</h3>
-          <p>Not every scene needs fireworks. Write about the quiet one — burnt pasta, a bad movie, falling asleep on the couch. Those are the scenes that make the film feel real.</p>
+          <p>Purple signs, the hum of the fridge, you wandering the snack aisle like it was a museum. You sent me a photo from the aisle and made me feel like I was standing there with you. I looked at it for a long time.</p>
           <figure class="still">
-            <div class="still-ph"><span>photo 02</span></div>
+            <img src="../../assets/photos/convenience-store.jpg" alt="Nicole in the convenience store" style="object-position:center 30%">
             <figcaption><span>Frame 014</span><span>Nothing, and everything</span></figcaption>
           </figure>
         </div>
@@ -444,11 +446,11 @@
       <article class="scene reveal">
         <div class="timecode">00:31:07</div>
         <div class="scene-body">
-          <p class="scene-date">Apr 2026 · the trip</p>
-          <h3>Somewhere we'd never been</h3>
-          <p>The place you got lost, the thing you still quote, the photo she hates and you love. This is the montage scene — make it feel like one.</p>
+          <p class="scene-date">Mar 2026 · the night café</p>
+          <h3>The night you showed me</h3>
+          <p>String lights, a gazebo, and you lit up better than the bulbs. You stayed until the staff started stacking chairs and told me about it later. Somehow it felt like we were there together.</p>
           <figure class="still">
-            <div class="still-ph"><span>photo 03</span></div>
+            <img src="../../assets/photos/night-cafe.jpg" alt="Nicole at the night café" style="object-position:center 58%">
             <figcaption><span>Frame 031</span><span>Out of frame, in love</span></figcaption>
           </figure>
         </div>
@@ -459,9 +461,9 @@
         <div class="scene-body">
           <p class="scene-date">Nov 25, 2026 · today</p>
           <h3>One year later</h3>
-          <p>Close the reel on right now: how it feels to have her beside you, what you're looking forward to, the thing you'd tell yourself a year ago. Then let the credits roll.</p>
+          <p>A year ago you were a message on a screen. Now you are the person I turn the camera toward without thinking. Same smile, a whole country between us, and absolutely no complaints.</p>
           <figure class="still">
-            <div class="still-ph"><span>photo 04</span></div>
+            <img src="../../assets/photos/car-selfie.jpg" alt="Nicole smiling in the car">
             <figcaption><span>Frame 365</span><span>To be continued</span></figcaption>
           </figure>
         </div>
@@ -472,8 +474,8 @@
   <!-- ================= INTERMISSION ================= -->
   <section class="intermission reveal">
     <!-- ✏️ EDIT: one line that sounds like you -->
-    <blockquote>“I didn't know a year could feel this short and this full at the same time.”</blockquote>
-    <cite>— Noah, probably</cite>
+    <blockquote>“Of all the words for what you are, devoted is the one I keep coming back to.”</blockquote>
+    <cite>— Enric, probably</cite>
   </section>
 
   <!-- ================= CONTACT SHEET ================= -->
@@ -484,12 +486,12 @@
     </div>
     <div class="sheet reveal">
       <!-- ✏️ EDIT: replace each .still-ph with <img src="..."> -->
-      <figure><div class="still-ph"><span>01</span></div><figcaption>the first photo</figcaption></figure>
-      <figure><div class="still-ph"><span>02</span></div><figcaption>her laugh</figcaption></figure>
-      <figure><div class="still-ph"><span>03</span></div><figcaption>that weekend</figcaption></figure>
-      <figure><div class="still-ph"><span>04</span></div><figcaption>unposed</figcaption></figure>
-      <figure><div class="still-ph"><span>05</span></div><figcaption>our place</figcaption></figure>
-      <figure><div class="still-ph"><span>06</span></div><figcaption>to be continued</figcaption></figure>
+      <figure><img src="../../assets/photos/video-call.jpg" alt="Nicole on a video call"><figcaption>the first call</figcaption></figure>
+      <figure><img src="../../assets/photos/nicole-duckface.jpg" alt="Nicole making her duck face"><figcaption>that face</figcaption></figure>
+      <figure><img src="../../assets/photos/dinner-drink.jpg" alt="Nicole at dinner"><figcaption>the green booth</figcaption></figure>
+      <figure><img src="../../assets/photos/concert.jpg" alt="Nicole at the concert"><figcaption>the lightstick</figcaption></figure>
+      <figure><img src="../../assets/photos/weekend-resort.jpg" alt="Nicole at the resort"><figcaption>the weekend away</figcaption></figure>
+      <figure><img src="../../assets/photos/gold-glasses.jpg" alt="Nicole in her gold glasses"><figcaption>today</figcaption></figure>
     </div>
   </section>
 
@@ -499,11 +501,12 @@
       <h2>End credits</h2>
       <dl>
         <!-- ✏️ EDIT: the credits -->
-        <div class="credit-row"><dt>Directed by</dt><dd>Ava &amp; Noah</dd></div>
-        <div class="credit-row"><dt>Starring</dt><dd>Ava — as herself</dd></div>
-        <div class="credit-row"><dt>Supporting cast</dt><dd>Noah — as the lucky one</dd></div>
+        <div class="credit-row"><dt>Directed by</dt><dd>Nicole &amp; Enric</dd></div>
+        <div class="credit-row"><dt>Starring</dt><dd>Nicole — as herself</dd></div>
+        <div class="credit-row"><dt>Word of the year</dt><dd>Devoted</dd></div>
+        <div class="credit-row"><dt>Supporting cast</dt><dd>Enric — as the lucky one</dd></div>
         <div class="credit-row"><dt>Written by</dt><dd>every ordinary Tuesday</dd></div>
-        <div class="credit-row"><dt>Shot on location</dt><dd>kitchens, cars, sidewalks</dd></div>
+        <div class="credit-row"><dt>Shot on location</dt><dd>every place you showed me through a screen</dd></div>
         <div class="credit-row"><dt>Original score</dt><dd>our song, on repeat</dd></div>
         <div class="credit-row"><dt>Runtime</dt><dd>365 days and counting</dd></div>
         <div class="credit-row"><dt>Rating</dt><dd>one heart, out of one</dd></div>

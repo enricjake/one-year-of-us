@@ -206,6 +206,7 @@
   .m-title{font-family:var(--pixel);font-size:clamp(13px,2.4vw,20px);line-height:1.7;margin:0 0 6px;color:var(--cream)}
   .m-date{font-size:18px;color:var(--gold);margin:0 0 18px}
   .m-photo{
+    position:relative;overflow:hidden;
     aspect-ratio:16/7;max-height:260px;border:3px solid #4a2f6e;
     background:
       repeating-linear-gradient(45deg, rgba(255,61,129,.08) 0 10px, transparent 10px 20px),
@@ -214,7 +215,7 @@
     font-family:var(--pixel);font-size:8px;color:#7d699b;letter-spacing:.1em;
     margin-bottom:18px;text-align:center;padding:10px;
   }
-  .m-photo img{width:100%;height:100%;object-fit:cover}
+  .m-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
   .m-body{font-size:clamp(19px,2.4vw,22px);line-height:1.4;color:#d8cce9;margin:0 0 14px}
   .m-quote{font-size:clamp(21px,2.6vw,25px);line-height:1.3;color:var(--neon);border-left:4px solid var(--neon);padding-left:14px;margin:18px 0}
   .m-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
@@ -260,6 +261,9 @@
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
   }
+  /* tall phone photos: keep Nicole's face in frame */
+  img[src*="video-call"]{object-position:center 62%!important}
+  img[src*="weekend-resort"]{object-position:center 58%!important}
 </style>
 </head>
 <body>
@@ -274,7 +278,7 @@
       <b id="hudScore">000365</b>
     </div>
     <div class="hud-group">
-      <span class="pink">AVA</span>
+      <span class="pink">NICOLE</span>
       <span class="hearts" aria-label="three lives">♥♥♥</span>
     </div>
     <div class="hud-group">
@@ -297,7 +301,7 @@
       <p class="tagline">a co-op love story · 365 days · 2 players</p>
       <button class="press" id="startBtn">▶ PRESS START</button>
       <div class="title-foot">
-        <span>© 2026 AVA + NOAH</span>
+        <span>© 2026 NICOLE + ENRIC</span>
         <span>INSERT HEART TO CONTINUE</span>
       </div>
     </section>
@@ -319,26 +323,26 @@
         <!-- ✏️ EDIT: level titles + blurbs -->
         <button class="level" data-level="1">
           <span class="lvl">LEVEL 1</span>
-          <h3>The First Night</h3>
-          <p>Where the game begins.</p>
+          <h3>First Message</h3>
+          <p>A notification that changed everything.</p>
           <span class="status">NOT CLEARED</span>
         </button>
         <button class="level" data-level="2">
           <span class="lvl">LEVEL 2</span>
-          <h3>The Ordinary Tuesday</h3>
-          <p>No boss. Just us.</p>
+          <h3>The Duck Face</h3>
+          <p>A face with no defence.</p>
           <span class="status">NOT CLEARED</span>
         </button>
         <button class="level" data-level="3">
           <span class="lvl">LEVEL 3</span>
-          <h3>The Road Trip</h3>
-          <p>Wrong turn, right person.</p>
+          <h3>Snack Aisle</h3>
+          <p>11pm. Purple signs. A photo from you.</p>
           <span class="status">NOT CLEARED</span>
         </button>
         <button class="level" data-level="4">
           <span class="lvl">LEVEL 4</span>
-          <h3>The Hard Week</h3>
-          <p>Co-op mode required.</p>
+          <h3>Night Café</h3>
+          <p>String lights and stacked chairs.</p>
           <span class="status">NOT CLEARED</span>
         </button>
         <button class="level final locked" data-level="5" id="finalLevel" disabled>
@@ -368,17 +372,17 @@
       <p class="end-sub">1 YEAR · 2 PLAYERS · ALWAYS</p>
       <!-- ✏️ EDIT: closing letter -->
       <div class="end-letter">
-        <p>Thanks for being my player two — for the respawns, the save points, and every boring level that somehow became my favorite.</p>
-        <p>Next year, same couch, same controller.</p>
-        <p class="sig">— Noah</p>
+        <p>Thanks for being my player two — for the first message, the duck face, the snack-aisle photos you sent me, and every boring level that somehow became my favourite.</p>
+        <p>Next year, same couch, same controller. Still devoted.</p>
+        <p class="sig">— Enric</p>
       </div>
       <div class="score-table">
         <h3>HIGH SCORES · MOST MEMORABLE MOMENTS</h3>
         <!-- ✏️ EDIT: high score table -->
-        <div class="score-row"><span>The first night</span><b>999999</b></div>
-        <div class="score-row"><span>Burnt pasta Tuesday</span><b>870000</b></div>
-        <div class="score-row"><span>The wrong turn</span><b>850000</b></div>
-        <div class="score-row"><span>Sunday mornings</span><b>MAX</b></div>
+        <div class="score-row"><span>First message on Instagram</span><b>999999</b></div>
+        <div class="score-row"><span>The duck face</span><b>870000</b></div>
+        <div class="score-row"><span>Snack-aisle photo, 11pm</span><b>850000</b></div>
+        <div class="score-row"><span>Night café, told to me later</span><b>MAX</b></div>
       </div>
       <button class="btn pink" id="againBtn">PLAY AGAIN</button>
     </section>
@@ -418,11 +422,11 @@
        ============================================================ -->
   <template id="tpl-1">
     <p class="m-kicker">LEVEL 1 · CLEAR</p>
-    <h2 class="m-title" id="mTitle">The First Night</h2>
-    <p class="m-date">NOV 25, 2025 · 8:42 PM</p>
-    <div class="m-photo"><span>REPLACE WITH PHOTO 01</span></div>
-    <p class="m-body">Replace this with what actually happened. The detail she'd be surprised you remembered. Keep it to three or four sentences — the photo and the quote do the rest.</p>
-    <p class="m-quote">“I remember thinking: oh no, this one's going to matter.”</p>
+    <h2 class="m-title" id="mTitle">First Message</h2>
+    <p class="m-date">NOV 25, 2025 · A NOTIFICATION</p>
+    <div class="m-photo"><img src="../../assets/photos/video-call.jpg" alt="Nicole on a video call"></div>
+    <p class="m-body">It started as a message on Instagram. I still have that first screenshot, and I have pretended not to reread it about a hundred times. We were miles apart from the first call, and it still ran long past midnight.</p>
+    <p class="m-quote">“Oh no, this one's going to matter.”</p>
     <div class="m-actions">
       <button class="btn pink collect" data-level="1">COLLECT +100</button>
       <button class="btn close-modal">BACK TO MAP</button>
@@ -431,11 +435,11 @@
 
   <template id="tpl-2">
     <p class="m-kicker">LEVEL 2 · CLEAR</p>
-    <h2 class="m-title" id="mTitle">The Ordinary Tuesday</h2>
-    <p class="m-date">JAN 13, 2026 · A TUESDAY</p>
-    <div class="m-photo"><span>REPLACE WITH PHOTO 02</span></div>
-    <p class="m-body">Write about a day with no plot: the grocery run, the burnt dinner, the show you both pretend to like. This is the level where nothing happens and everything does.</p>
-    <p class="m-quote">“The smoke alarm went off twice. You laughed both times.”</p>
+    <h2 class="m-title" id="mTitle">The Duck Face</h2>
+    <p class="m-date">DEC 2025 · NO WARNING</p>
+    <div class="m-photo"><img src="../../assets/photos/nicole-duckface.jpg" alt="Nicole making her duck face"></div>
+    <p class="m-body">You made this face once and I laughed for a full minute. You have done it again every single time since. Equal parts ridiculous and unfair — I have never once managed to beat it.</p>
+    <p class="m-quote">“Do it again.” “No.” “Do it again.”</p>
     <div class="m-actions">
       <button class="btn pink collect" data-level="2">COLLECT +100</button>
       <button class="btn close-modal">BACK TO MAP</button>
@@ -444,11 +448,11 @@
 
   <template id="tpl-3">
     <p class="m-kicker">LEVEL 3 · CLEAR</p>
-    <h2 class="m-title" id="mTitle">The Road Trip</h2>
-    <p class="m-date">APR 2026 · SOMEWHERE OFF THE MAP</p>
-    <div class="m-photo"><span>REPLACE WITH PHOTO 03</span></div>
-    <p class="m-body">The playlist, the wrong exit, the gas station snacks. Tell the story of the day the GPS gave up and you two didn't.</p>
-    <p class="m-quote">“We were lost for an hour. Best hour of the year.”</p>
+    <h2 class="m-title" id="mTitle">Snack Aisle</h2>
+    <p class="m-date">DEC 2025 · 11PM</p>
+    <div class="m-photo"><img src="../../assets/photos/convenience-store.jpg" alt="Nicole in the convenience store"></div>
+    <p class="m-body">Purple signs, the hum of the fridge, you wandering the snack aisle like it was a museum. You sent me a photo from the aisle and made me feel like I was standing there with you.</p>
+    <p class="m-quote">“This one. No, this one. Actually, both.”</p>
     <div class="m-actions">
       <button class="btn pink collect" data-level="3">COLLECT +100</button>
       <button class="btn close-modal">BACK TO MAP</button>
@@ -457,11 +461,11 @@
 
   <template id="tpl-4">
     <p class="m-kicker">LEVEL 4 · CLEAR</p>
-    <h2 class="m-title" id="mTitle">The Hard Week</h2>
-    <p class="m-date">AUG 2026 · CO-OP MODE</p>
-    <div class="m-photo"><span>REPLACE WITH PHOTO 04</span></div>
-    <p class="m-body">The level that wasn't fun. Write honestly about the week that tested you, and the way she stayed. Don't make it heavy — make it true.</p>
-    <p class="m-quote">“You didn't fix it. You just didn't leave.”</p>
+    <h2 class="m-title" id="mTitle">Night Café</h2>
+    <p class="m-date">MAR 2026 · STRING LIGHTS</p>
+    <div class="m-photo"><img src="../../assets/photos/night-cafe.jpg" alt="Nicole at the night café"></div>
+    <p class="m-body">String lights, a gazebo, and you lit up better than the bulbs. You stayed until the staff started stacking chairs and told me about it later. Somehow it felt like we were there together.</p>
+    <p class="m-quote">“Five more minutes.” (It was never five.)</p>
     <div class="m-actions">
       <button class="btn pink collect" data-level="4">COLLECT +100</button>
       <button class="btn close-modal">BACK TO MAP</button>
@@ -474,11 +478,11 @@
     <p class="m-date">NOV 25, 2026 · TODAY</p>
     <div class="letter">
       <!-- ✏️ EDIT: the final letter -->
-      <p>One year ago I pressed start on the best game I've ever played.</p>
-      <p>There's no final boss. No credits. Just you, me, and a very long save file.</p>
-      <p>So here's my question, player two:</p>
+      <p>One year ago you were a message on Instagram. I pressed start on the best game I've ever played.</p>
+      <p>There's no final boss. No credits. Just you, me, the green booth you told me about, the snack aisles you sent me, and a very long save file.</p>
+      <p>A whole country between us and somehow you were always the closest thing to home. One word for all of it: devoted. So here's my question, player two:</p>
       <p style="font-family:var(--pixel);font-size:clamp(11px,2vw,16px);line-height:2;color:var(--gold);text-align:center;margin:26px 0">WANT TO KEEP PLAYING?</p>
-      <p class="sig">— Noah</p>
+      <p class="sig">— Enric</p>
     </div>
     <div class="m-actions">
       <button class="btn gold" id="rollCredits">ROLL CREDITS</button>
@@ -585,8 +589,8 @@
     show('#gameScreen');
     startDialogue([
       { name: 'SYSTEM', text: 'A wild ONE YEAR appeared.' },
-      { name: 'PLAYER 1', text: 'Noah used LOVE. It was super effective.' },
-      { name: 'PLAYER 2', text: 'Ava entered the party. ♥' },
+      { name: 'PLAYER 1', text: 'Enric used LOVE. It was super effective.' },
+      { name: 'PLAYER 2', text: 'Nicole entered the party. ♥' },
       { name: 'SYSTEM', text: 'Choose a memory to begin. Clear all four to unlock the final level.' }
     ]);
   });

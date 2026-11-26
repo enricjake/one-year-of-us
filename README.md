@@ -2,7 +2,7 @@
 
 Six complete website directions for a one-year anniversary — built as plain HTML, CSS and JavaScript. No frameworks, no build step, no accounts, no tracking. Open a file, edit the marked bits, send her the link.
 
-Every sample uses the same placeholder couple (**Ava & Noah**, together since **Nov 25, 2025**) so you can compare the bones instead of the words.
+Every sample is filled in for **Nicole & Enric** (together since **Nov 25, 2025**, long distance) and uses the same photos Nicole sent over the year — so you can compare the structure instead of the words. The year is told through screens, calls and photos, not imagined dinners together.
 
 **Start here:** open `index.html` in a browser (or run the local server below) and click through all six.
 
@@ -38,15 +38,15 @@ You can also just double-click `index.html` — everything works from `file://` 
 ## Make it yours
 
 1. **Pick one template.** Delete the other five folders if you want a clean repo (keep a copy first if you're indecisive).
-2. **Search for `✏️ EDIT`** in that template's `index.html`. Every editable block is marked.
-3. **Replace the demo couple.** Names, dates and copy are all inline HTML. The only computed values are dates, marked with `data-since` / `data-days`.
-4. **Swap the photos.** Each template uses a styled placeholder (`<div class="still-ph">…</div>` or `.m-photo` / `.shot`). Replace the whole element with an `<img>`:
+2. **Search for `✏️ EDIT`** in that template's `index.html`. Every editable block is marked. The names, dates, memories and photos are already real — change anything that doesn't sound like you.
+3. **Check the names and dates.** Names, dates and copy are all inline HTML. The only computed values are dates, marked with `data-since` / `data-days`.
+4. **Swap the photos.** Nicole's photos live in `assets/photos/` (optimised) with untouched originals in `assets/photos/original/`. Every template already points at them; to change one, swap the `<img>` src/alt:
 
    ```html
-   <img src="photos/first-night.jpg" alt="Us on the first night">
+   <img src="../../assets/photos/night-cafe.jpg" alt="Nicole at the night café">
    ```
 
-   Aim for ~1600px on the long edge and compress to under ~300 KB each. Square-ish or 4:3 crops work best in most layouts.
+   The optimised copies are ~1.4 MB total; originals are kept but not linked. The photos are portrait, so they're shown with `object-fit:cover` — adjust `object-position` on any image that crops awkwardly.
 5. **Write the letter last.** It's the part she'll reread. Use `CONTENT.md` to draft it before you touch the code.
 
 ### Template-specific notes
@@ -56,7 +56,7 @@ You can also just double-click `index.html` — everything works from `file://` 
 - **Arcade** — the four level stories live in `<template id="tpl-1">` … `tpl-4`; the final letter is `tpl-5`. The level cards at the top only hold titles and blurbs. The mini-game needs no assets.
 - **Constellation** — the heart is generated from the number of `.memory` cards. Add or remove cards and the constellation re-spaces itself. Keep 8–12 for the best shape.
 - **Wrapped** — `data-count` values animate up; `data-days` is computed live from `<body data-since="…">`. Bar heights are inline `--h` percentages.
-- **Open When** — the six letters are `<template id="l1">` … `l6`. The card titles are separate; update both if you change a topic.
+- **Open When** — the six letters are `<template id="l1">` … `l6`. They're written for a long-distance year; the card titles are separate, so update both if you change a topic.
 
 ### One small privacy step
 

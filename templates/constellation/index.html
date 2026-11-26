@@ -145,6 +145,7 @@
   }
   .memory p{max-width:42ch;color:#b9c2d8;font-size:15px;margin:0 0 22px}
   .memory .still-ph{
+    position:relative;overflow:hidden;
     aspect-ratio:4/3;max-width:340px;
     border:1px solid rgba(157,184,255,.2);
     background:
@@ -154,7 +155,7 @@
     display:grid;place-items:center;
     font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:#59617a;
   }
-  .memory .still-ph img{width:100%;height:100%;object-fit:cover}
+  .memory .still-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
 
   /* ---------- brightest ---------- */
   .brightest{
@@ -201,6 +202,9 @@
     html{scroll-behavior:auto}
     .memory{opacity:1}
   }
+  /* tall phone photos: keep Nicole's face in frame */
+  img[src*="video-call"]{object-position:center 62%!important}
+  img[src*="weekend-resort"]{object-position:center 58%!important}
 </style>
 </head>
 <body>
@@ -216,7 +220,7 @@
       <p class="kicker">A constellation in <em>one act</em></p>
       <!-- ✏️ EDIT: names + date -->
       <h1><span>The sky</span><em>we made</em></h1>
-      <p class="hero-names">Ava &amp; Noah</p>
+      <p class="hero-names">Nicole &amp; Enric</p>
       <p class="hero-date">Nov 25, 2025 — Nov 25, 2026</p>
     </div>
     <a class="cue" href="#journey"><span>Trace the stars</span><span class="line"></span></a>
@@ -243,74 +247,74 @@
       </svg>
       <div class="map-caption" aria-live="polite">
         <span class="cap-num" id="capNum">01 / 08</span>
-        <span class="cap-title" id="capTitle">The first night</span>
+        <span class="cap-title" id="capTitle">The first message</span>
       </div>
     </div>
 
     <div class="cards" id="cards">
       <!-- ✏️ EDIT: one .memory per star. Add/remove freely. -->
-      <article class="memory" data-title="The first night">
+      <article class="memory" data-title="The first message">
         <p class="num">01</p>
         <p class="date">Nov 25, 2025</p>
-        <h2>The first night</h2>
-        <p>Replace with the story of the night it started. The nerves, the small detail you still remember, the walk home that took the long way for no reason at all.</p>
-        <div class="still-ph"><span>photo 01</span></div>
+        <h2>The first message</h2>
+        <p>It began as a notification on Instagram. I still have that first message, and I have pretended not to reread it about a hundred times. We were miles apart from the very first call, and it still ran long past midnight.</p>
+        <div class="still-ph"><img src="../../assets/photos/video-call.jpg" alt="Nicole on a video call"></div>
       </article>
 
-      <article class="memory" data-title="The first ordinary day">
+      <article class="memory" data-title="That face">
         <p class="num">02</p>
         <p class="date">Dec 2025</p>
-        <h2>The first ordinary day</h2>
-        <p>Not a milestone — just a Tuesday that felt like it had always been yours. Write about the nothing-day that turned out to be the whole point.</p>
-        <div class="still-ph"><span>photo 02</span></div>
+        <h2>That face</h2>
+        <p>You made this face once and I laughed for a full minute. You have done it again every time since. Some stars are small and ridiculous and still the ones I look for first.</p>
+        <div class="still-ph"><img src="../../assets/photos/nicole-duckface.jpg" alt="Nicole making her duck face"></div>
       </article>
 
-      <article class="memory" data-title="The kitchen fire">
+      <article class="memory" data-title="The snack aisle">
         <p class="num">03</p>
-        <p class="date">Jan 2026</p>
-        <h2>The kitchen fire</h2>
-        <p>The smoke alarm, the burnt dinner, the laughing on the floor. The memory that proves you can be terrible at something together.</p>
-        <div class="still-ph"><span>photo 03</span></div>
+        <p class="date">Dec 2025</p>
+        <h2>The snack aisle</h2>
+        <p>Purple signs, the hum of the fridge, you wandering the aisle like it was a museum. You sent me a photo from the aisle and made me feel like I was standing there with you.</p>
+        <div class="still-ph"><img src="../../assets/photos/convenience-store.jpg" alt="Nicole in the convenience store"></div>
       </article>
 
-      <article class="memory" data-title="The wrong turn">
+      <article class="memory" data-title="The green booth">
         <p class="num">04</p>
-        <p class="date">Mar 2026</p>
-        <h2>The wrong turn</h2>
-        <p>Somewhere off the map, with no signal and no plan. Describe the place she'd never have found without you getting it wrong.</p>
-        <div class="still-ph"><span>photo 04</span></div>
+        <p class="date">Jan 2026</p>
+        <h2>The green booth</h2>
+        <p>Warm light, green upholstery, you stirring that drink with the straw while telling me about your day. I remember the light more than the meal — and that's saying something.</p>
+        <div class="still-ph"><img src="../../assets/photos/dinner-drink.jpg" alt="Nicole at a restaurant booth"></div>
       </article>
 
-      <article class="memory" data-title="The hard week">
+      <article class="memory" data-title="The night café">
         <p class="num">05</p>
-        <p class="date">Jun 2026</p>
-        <h2>The hard week</h2>
-        <p>The one that tested you. Keep it honest and short — the point isn't the storm, it's that she stayed in it with you.</p>
-        <div class="still-ph"><span>photo 05</span></div>
+        <p class="date">Mar 2026</p>
+        <h2>The night café</h2>
+        <p>String lights, a gazebo, and you lit up better than the bulbs. You stayed until the staff started stacking chairs and told me about it later. Somehow it felt like we were there together.</p>
+        <div class="still-ph"><img src="../../assets/photos/night-cafe.jpg" alt="Nicole at the night café"></div>
       </article>
 
-      <article class="memory" data-title="The ordinary magic">
+      <article class="memory" data-title="The concert">
         <p class="num">06</p>
         <p class="date">Aug 2026</p>
-        <h2>The ordinary magic</h2>
-        <p>Sunday mornings, the same blanket, the show you both pretend to like. Write down the ritual you didn't notice you were building.</p>
-        <div class="still-ph"><span>photo 06</span></div>
+        <h2>The concert</h2>
+        <p>You brought the lightstick and the photocard, and I finally understood why you practise the fanchants in the car. I didn't know a song could make you glow like that.</p>
+        <div class="still-ph"><img src="../../assets/photos/concert.jpg" alt="Nicole at the concert"></div>
       </article>
 
-      <article class="memory" data-title="The first fight">
+      <article class="memory" data-title="The weekend away">
         <p class="num">07</p>
-        <p class="date">Oct 2026</p>
-        <h2>The first fight</h2>
-        <p>How you came back together. This is the star most people leave out — include it, gently. It's part of the shape.</p>
-        <div class="still-ph"><span>photo 07</span></div>
+        <p class="date">Sep 2026</p>
+        <h2>The weekend away</h2>
+        <p>Stone pillars, long verandas and nowhere to be. You in a black tee and jeans, looking like you'd lived there all your life. I kept the photo for exactly that reason.</p>
+        <div class="still-ph"><img src="../../assets/photos/weekend-resort.jpg" alt="Nicole at the weekend resort"></div>
       </article>
 
       <article class="memory" data-title="Tonight">
         <p class="num">08</p>
         <p class="date">Nov 25, 2026</p>
         <h2>Tonight</h2>
-        <p>End on right now: the version of you two sitting here, one year in, still finding new stars. Then point her to the letter below.</p>
-        <div class="still-ph"><span>photo 08</span></div>
+        <p>A year ago you were a message on a screen. Now you're the person I turn the camera toward without thinking. Same smile, a whole country between us, still finding new stars.</p>
+        <div class="still-ph"><img src="../../assets/photos/car-selfie.jpg" alt="Nicole smiling in the car"></div>
       </article>
     </div>
   </section>
@@ -322,10 +326,10 @@
     <h2>And out of all of them,<br><em>you.</em></h2>
     <div class="letter">
       <!-- ✏️ EDIT: the letter -->
-      <p>I spent a year collecting stars without noticing. A night here, a Tuesday there, a wrong turn that turned into my favorite story.</p>
-      <p>If you asked me to point out the brightest one, I'd cheat and point at you.</p>
-      <p>Happy one year. Here's to a sky with a lot more room in it.</p>
-      <p class="sig">— Noah</p>
+      <p>I spent a year collecting stars without noticing. A message on Instagram, a duck face, a snack aisle at 11pm, a lightstick in the crowd — each one a photo you sent me that I still open.</p>
+      <p>If you asked me to point out the brightest one, I'd cheat and point at you. Devoted doesn't even cover it.</p>
+      <p>Happy one year, Nicole. Here's to a sky with a lot more room in it.</p>
+      <p class="sig">— Enric</p>
     </div>
   </section>
 

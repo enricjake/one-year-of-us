@@ -187,6 +187,11 @@
   .close h2{font-family:var(--display);font-size:clamp(44px,11vw,140px);line-height:.86;letter-spacing:-.04em;margin:0 0 26px;text-transform:uppercase}
   .close h2 span{color:var(--orange)}
   .close p{max-width:40ch;margin:0 auto 26px;font-size:clamp(15px,2.2vw,19px);line-height:1.5}
+  .photo-strip{display:flex;justify-content:center;gap:10px;margin:6px 0 26px}
+  .photo-strip img{width:clamp(74px,12vw,116px);height:clamp(58px,9vw,86px);object-fit:cover;object-position:center 42%;border:3px solid var(--ink);box-shadow:3px 4px 0 rgba(25,6,23,.18)}
+  .photo-strip img:nth-child(1){transform:rotate(-4deg)}
+  .photo-strip img:nth-child(2){transform:rotate(2deg)}
+  .photo-strip img:nth-child(3){transform:rotate(-2deg)}
   .close .sig{font-family:var(--display);font-size:clamp(18px,3vw,28px);margin:0 0 8px}
   .close .date{font-size:10px;letter-spacing:.24em;text-transform:uppercase;opacity:.6;margin:0 0 34px}
   .replay{
@@ -231,6 +236,9 @@
     .top-row .bar i{width:var(--w)}
     .chart .bar-col i{height:var(--h)}
   }
+  /* tall phone photos: keep Nicole's face in frame */
+  img[src*="video-call"]{object-position:center 62%!important}
+  img[src*="weekend-resort"]{object-position:center 58%!important}
 </style>
 </head>
 <body data-since="2025-11-25">
@@ -244,13 +252,13 @@
   <div>
     <p class="kicker">The year in us · 2025 — 2026</p>
     <h1>Our<br><span class="outline">Year</span><br><span class="lime">Wrapped</span></h1>
-    <p class="cover-lede">A year in numbers, a few feelings, and one very biased report.</p>
+    <p class="cover-lede">From one Instagram message to a whole year — in numbers, with feelings.</p>
   </div>
   <div class="badge"><span><b>1</b>year<br>certified</span></div>
   <div class="cover-foot">
     <div>
       <!-- ✏️ EDIT: names -->
-      <p class="cover-names">Ava &amp; Noah</p>
+      <p class="cover-names">Nicole &amp; Enric</p>
       <p class="cover-date">Nov 25, 2025 → Nov 25, 2026</p>
     </div>
     <p class="scroll-note"><span></span>scroll for the receipts</p>
@@ -275,10 +283,10 @@
   <h2 class="stats-head rise">Some stats I made<br>up, some I didn't.</h2>
   <div class="stats">
     <!-- ✏️ EDIT: your real numbers -->
-    <div class="stat rise"><span class="n"><span data-count="2431">0</span></span><span class="l">photos taken<br>of you</span></div>
-    <div class="stat rise"><span class="n"><span data-count="312">0</span></span><span class="l">coffees<br>together</span></div>
-    <div class="stat rise"><span class="n"><span data-count="48">0</span></span><span class="l">songs sent<br>at 1 a.m.</span></div>
-    <div class="stat rise"><span class="n"><span data-count="7">0</span></span><span class="l">trips, planned<br>and unplanned</span></div>
+    <div class="stat rise"><span class="n"><span data-count="2431">0</span></span><span class="l">photos of<br>that face</span></div>
+    <div class="stat rise"><span class="n"><span data-count="312">0</span></span><span class="l">drinks in the<br>green booth</span></div>
+    <div class="stat rise"><span class="n"><span data-count="48">0</span></span><span class="l">fanchants<br>in the car</span></div>
+    <div class="stat rise"><span class="n"><span data-count="7">0</span></span><span class="l">weekends you<br>told me about</span></div>
     <div class="stat rise"><span class="n"><span data-count="1095">0</span></span><span class="l">“good morning”<br>texts</span></div>
     <div class="stat rise"><span class="n">∞</span><span class="l">inside jokes<br>and counting</span></div>
   </div>
@@ -294,27 +302,27 @@
     <!-- ✏️ EDIT: replace with your moments. --w = bar width % -->
     <div class="top-row rise" style="--w:100%">
       <span class="rank">01</span>
-      <span class="t">The first night<small>Nov 25, 2025 · the beginning</small></span>
+      <span class="t">First message<small>Nov 25, 2025 · Instagram</small></span>
       <span class="bar"><i></i></span>
     </div>
     <div class="top-row rise" style="--w:86%">
       <span class="rank">02</span>
-      <span class="t">Burnt pasta Tuesday<small>Jan 2026 · the kitchen incident</small></span>
+      <span class="t">That duck face<small>Dec 2025 · no defence available</small></span>
       <span class="bar"><i></i></span>
     </div>
     <div class="top-row rise" style="--w:74%">
       <span class="rank">03</span>
-      <span class="t">The wrong turn<small>Mar 2026 · somewhere off the map</small></span>
+      <span class="t">Snack aisle, 11pm<small>Dec 2025 · purple signs</small></span>
       <span class="bar"><i></i></span>
     </div>
     <div class="top-row rise" style="--w:61%">
       <span class="rank">04</span>
-      <span class="t">Sunday, nothing planned<small>Every week · the whole ritual</small></span>
+      <span class="t">The night café<small>Mar 2026 · stacked chairs</small></span>
       <span class="bar"><i></i></span>
     </div>
     <div class="top-row rise" style="--w:52%">
       <span class="rank">05</span>
-      <span class="t">Tonight<small>Nov 25, 2026 · still going</small></span>
+      <span class="t">The concert<small>Aug 2026 · lightstick and fanchants</small></span>
       <span class="bar"><i></i></span>
     </div>
   </div>
@@ -355,7 +363,7 @@
       <!-- ✏️ EDIT: your song -->
       <h2>“Our Song”</h2>
       <p class="artist">the one that's ours · 3:42</p>
-      <blockquote>“Replace this with the line that always makes you both look at each other. You know the one.”</blockquote>
+      <blockquote>“You sent me the song and I played it until I knew every word. Then I played it again.”</blockquote>
       <span class="plays">Played 1,847 times · 0 skips</span>
     </div>
   </div>
@@ -369,9 +377,9 @@
   <div class="dict">
     <h2 class="word rise">us</h2>
     <p class="pron">/əs/ · pronoun · plural</p>
-    <div class="def rise"><span>1.</span><span>you and me, specifically. <em>See also:</em> home, team, the good part.</span></div>
+    <div class="def rise"><span>1.</span><span>you and me, specifically — from one Instagram message to a whole year. <em>See also:</em> home, team, the good part.</span></div>
     <div class="def rise"><span>2.</span><span>the thing I didn't know I was looking for until it was already happening.</span></div>
-    <div class="def rise"><span>3.</span><span>used 365 days in a row without getting old.</span></div>
+    <div class="def rise"><span>3.</span><span>used 365 days in a row without getting old. <em>Word of the year:</em> devoted.</span></div>
   </div>
 </section>
 
@@ -381,8 +389,13 @@
   <span class="slide-num">08 / 08</span>
   <p class="kicker">End of year report</p>
   <h2>See you<br><span>next year.</span></h2>
-  <p>Same person, same playlist, a slightly better version of us. Thanks for making the ordinary stats worth counting.</p>
-  <p class="sig">— Noah</p>
+  <div class="photo-strip">
+    <img src="../../assets/photos/video-call.jpg" alt="Nicole on a video call">
+    <img src="../../assets/photos/night-cafe.jpg" alt="Nicole at the night café">
+    <img src="../../assets/photos/concert.jpg" alt="Nicole at the concert">
+  </div>
+  <p>Same person, same playlist, a slightly better version of us. One word for the year: <em>devoted.</em> A whole country between us and still the closest thing to home. Thanks for making the ordinary stats worth counting.</p>
+  <p class="sig">— Enric</p>
   <p class="date">Nov 25, 2025 → forever</p>
   <a class="replay" href="#s1">↑ Watch it again</a>
 </section>
