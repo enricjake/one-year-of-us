@@ -19,6 +19,7 @@ Live: <https://enricjake.github.io/one-year-of-us/>
 - **Offline-safe.** If Supabase is unreachable, changes still save in the browser and the status shows "Offline — saved here".
 - **A sealed letter** at the bottom — tap the envelope to open the note from Enric. The source text is in [`letter.txt`](letter.txt) and is embedded in `index.html` so the page needs no extra request.
 - **Save & share** also offers `.json` export/import, print / save as PDF, and start over.
+- **Escape / device back** closes whatever is open — a photo or share panel, the letter, or a playing video — and restores the card cover.
 
 Everything else is client-side: no analytics, no cookies, no network request except Google Fonts and the Supabase REST call. `<meta name="robots" content="noindex, nofollow">` is set.
 

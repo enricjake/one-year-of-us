@@ -981,6 +981,7 @@ For all the things that we have lost</p>
   }
   function openSheet(id) {
     sheetTarget = id;
+    openOverlay();
     $('#sheet').classList.add('show');
   }
   function choosePhoto(src) {
@@ -1124,8 +1125,55 @@ For all the things that we have lost</p>
     });
   }
 
-  /* ---------- modal plumbing ---------- */
-  function closeModals() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); }
+  /* ---------- overlay + history plumbing ---------- */
+  let overlayHistory = false;
+
+  function openOverlay() {
+    if (overlayHistory) return;
+    history.pushState({ capsuleOverlay: true }, '');
+    overlayHistory = true;
+  }
+  function consumeOverlayHistory() {
+    if (!overlayHistory) return;
+    overlayHistory = false;
+    history.back();
+  }
+  function closeModalsOnly() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); }
+  function closeModals() { closeModalsOnly(); consumeOverlayHistory(); }
+
+  function restorePlayers() {
+    document.querySelectorAll('.media iframe').forEach(iframe => {
+      const card = iframe.closest('.memory');
+      const m = card && find(card.dataset.id);
+      const slot = card?.querySelector('.media-slot');
+      if (m && slot) slot.innerHTML = mediaHTML(m);
+    });
+  }
+  function setLetter(open) {
+    const stage = $('#letterStage');
+    const paper = $('#letterPaper');
+    stage.classList.toggle('opened', open);
+    $('#openLetter').setAttribute('aria-expanded', String(open));
+    $('#openLetter').setAttribute('aria-label', open ? 'Close the letter' : 'Open the letter');
+    $('#letterNote').textContent = open ? 'read it slowly ♥' : 'sealed with love · no wrong time';
+    paper.classList.toggle('revealed', open);
+    paper.setAttribute('aria-hidden', String(!open));
+    if (open) setTimeout(() => paper.scrollIntoView({ behavior:'smooth', block:'center' }), 650);
+  }
+  function closeTopOverlay() {
+    if (document.querySelector('.modal.show')) { closeModalsOnly(); return true; }
+    if ($('#letterStage')?.classList.contains('opened')) { setLetter(false); return true; }
+    if (document.querySelector('.media iframe')) { restorePlayers(); return true; }
+    return false;
+  }
+  function closeEverything() {
+    if (closeTopOverlay()) consumeOverlayHistory();
+  }
+  window.addEventListener('popstate', () => {
+    if (!overlayHistory) return;
+    overlayHistory = false;
+    closeTopOverlay();
+  });
 
   /* ---------- events ---------- */
   $('#editToggle').addEventListener('click', () => {
@@ -1140,16 +1188,9 @@ For all the things that we have lost</p>
   $('#framesNext').addEventListener('click', () => $('#frames').scrollBy({ left: 264, behavior:'smooth' }));
   document.querySelectorAll('[data-prompt]').forEach(b => b.addEventListener('click', () => addMemory(b.dataset.prompt)));
 
-  const letterStage = $('#letterStage');
-  const letterPaper = $('#letterPaper');
   $('#openLetter').addEventListener('click', () => {
-    const opened = letterStage.classList.toggle('opened');
-    $('#openLetter').setAttribute('aria-expanded', String(opened));
-    $('#openLetter').setAttribute('aria-label', opened ? 'Close the letter' : 'Open the letter');
-    $('#letterNote').textContent = opened ? 'read it slowly ♥' : 'sealed with love · no wrong time';
-    letterPaper.classList.toggle('revealed', opened);
-    letterPaper.setAttribute('aria-hidden', String(!opened));
-    if (opened) setTimeout(() => letterPaper.scrollIntoView({ behavior:'smooth', block:'center' }), 650);
+    if ($('#letterStage').classList.contains('opened')) closeEverything();
+    else { setLetter(true); openOverlay(); }
   });
 
   timeline.addEventListener('click', e => {
@@ -1161,7 +1202,7 @@ For all the things that we have lost</p>
     if (act === 'photo') {
       const m = find(id);
       if (document.body.classList.contains('editing')) openSheet(id);
-      else if (m?.photo) { $('#lightboxImg').src = m.photo; $('#lightboxImg').alt = m.title || 'Photo'; $('#lightbox').classList.add('show'); }
+      else if (m?.photo) { $('#lightboxImg').src = m.photo; $('#lightboxImg').alt = m.title || 'Photo'; openOverlay(); $('#lightbox').classList.add('show'); }
       else { document.body.classList.add('editing'); syncEditButton(); bindDrag(); openSheet(id); }
     }
     if (act === 'media') {
@@ -1169,6 +1210,7 @@ For all the things that we have lost</p>
       const info = m && mediaEmbed(m.media);
       const box = card.querySelector('.media');
       if (info && box) {
+        openOverlay();
         box.innerHTML = `<iframe src="${esc(info.src)}" title="Music in this memory" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>`;
       }
     }
@@ -1219,7 +1261,7 @@ For all the things that we have lost</p>
   $('#howBtn').addEventListener('click', () => {
     $('#shareBtn').click();
   });
-  $('#shareBtn').addEventListener('click', () => $('#share').classList.add('show'));
+  $('#shareBtn').addEventListener('click', () => { openOverlay(); $('#share').classList.add('show'); });
   $('#syncBtn').addEventListener('click', async () => {
     if (!sbEnabled()) { toast('Shared saving is not set up yet'); return; }
     setStatus('Syncing…');
@@ -1237,9 +1279,9 @@ For all the things that we have lost</p>
     if (!confirm('Erase every memory on this page? Download a copy first if you want to keep it.')) return;
     state.memories = []; save(); render(); closeModals(); toast('Album cleared');
   });
-  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeModals));
-  document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModals(); }));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModals(); });
+  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeEverything));
+  document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeEverything(); }));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEverything(); });
 
   /* ---------- go ---------- */
   buildSheet();
