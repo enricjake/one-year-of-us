@@ -14,6 +14,7 @@ Live: <https://enricjake.github.io/one-year-of-us/>
 - **Reorder freely** by dragging cards, or with ↑ / ↓ buttons on touch screens. Edit or delete anything at any time.
 - **Shared save state.** Every change is written to one row in Supabase as well as `localStorage`. The other device picks it up within ~8 seconds (or instantly with **Sync now** under Save & share). Last write wins.
 - **Offline-safe.** If Supabase is unreachable, changes still save in the browser and the status shows "Offline — saved here".
+- **A sealed letter** at the bottom — tap the envelope to open the note from Enric. The source text is in [`letter.txt`](letter.txt) and is embedded in `index.html` so the page needs no extra request.
 - **Save & share** also offers `.json` export/import, print / save as PDF, and start over.
 
 Everything else is client-side: no analytics, no cookies, no network request except Google Fonts and the Supabase REST call. `<meta name="robots" content="noindex, nofollow">` is set.
@@ -68,6 +69,7 @@ one-year-of-us/
 ├── index.html          ← the whole app (HTML + CSS + JS in one file)
 ├── README.md
 ├── CONTENT.md          ← writing prompts
+├── letter.txt          ← source text for the letter at the bottom
 ├── supabase-setup.sql  ← one-time shared-state setup
 ├── .nojekyll
 └── assets/photos/      ← photos offered inside the picker

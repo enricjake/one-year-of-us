@@ -231,6 +231,56 @@
   footer .mark{font-family:var(--display);color:var(--paper);font-weight:700;letter-spacing:.02em;margin-bottom:8px}
   footer a{color:var(--amber);text-decoration:none}
 
+  /* ---------- the letter ---------- */
+  .letter-section{max-width:780px;margin:0 auto;padding:0 var(--pad) 110px;text-align:center}
+  .letter-section h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,5vw,46px);letter-spacing:-.03em;margin:8px 0 0}
+  .letter-sub{color:var(--paper-dim);font-size:13px;margin:10px 0 0}
+  .letter-stage{position:relative;width:min(340px,86vw);height:230px;margin:64px auto -24px;display:grid;place-items:center}
+  .paper-peek{
+    position:absolute;left:7%;right:7%;top:2px;height:150px;border-radius:3px;z-index:1;
+    background:linear-gradient(#fffaf0,#f3ead9);box-shadow:0 -6px 24px rgba(0,0,0,.28);
+    transition:transform .85s cubic-bezier(.2,.8,.2,1),opacity .45s ease;
+  }
+  .letter-stage.opened .paper-peek{transform:translateY(-46px);opacity:0}
+  .env{position:relative;width:100%;height:170px;border:0;padding:0;background:transparent;z-index:2;display:block}
+  .env-face{position:absolute;inset:0;border-radius:5px;background:linear-gradient(160deg,#f8e6d6,#e4beab);box-shadow:0 18px 38px rgba(0,0,0,.45)}
+  .env-face::before{
+    content:"";position:absolute;inset:0;border-radius:5px;
+    background:linear-gradient(to bottom left,transparent 49.4%,rgba(120,70,50,.13) 50%,transparent 50.6%),
+               linear-gradient(to bottom right,transparent 49.4%,rgba(120,70,50,.13) 50%,transparent 50.6%);
+  }
+  .env-flap{
+    position:absolute;top:0;left:0;right:0;height:100%;border-radius:5px;
+    background:linear-gradient(160deg,#fbedde,#dfb7a3);
+    clip-path:polygon(0 0,100% 0,50% 63%);
+    transform-origin:top center;transition:transform .75s cubic-bezier(.2,.8,.2,1);
+  }
+  .letter-stage.opened .env-flap{transform:rotateX(180deg)}
+  .env-seal{
+    position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);z-index:3;
+    width:48px;height:48px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 34% 28%,#ffc8b7,#d9607c 72%);color:#fff3ea;font-size:18px;
+    box-shadow:0 6px 16px rgba(0,0,0,.32);transition:opacity .35s,transform .55s;
+  }
+  .letter-stage.opened .env-seal{opacity:0;transform:translate(-50%,-50%) scale(.35)}
+  .env-hint{display:block;margin-top:14px;font-family:var(--hand);font-size:22px;color:var(--amber);transition:opacity .3s}
+  .letter-stage.opened .env-hint{opacity:0}
+  .env-note{font-size:11px;color:var(--paper-dim);margin:6px 0 0;letter-spacing:.1em;text-transform:uppercase}
+  .letter-paper{
+    max-width:620px;margin:0 auto;padding:clamp(32px,6vw,56px) clamp(24px,6vw,58px);
+    background:linear-gradient(#fffaf0,#f5ecdc);color:#2c2229;border-radius:3px;text-align:left;
+    box-shadow:0 30px 70px rgba(0,0,0,.5);
+    opacity:0;transform:translateY(30px);pointer-events:none;
+    transition:opacity .8s .3s,transform .8s .3s;
+  }
+  .letter-paper.revealed{opacity:1;transform:none;pointer-events:auto}
+  .letter-paper .stanza{
+    font-family:var(--hand);font-size:clamp(23px,4vw,31px);line-height:1.22;
+    margin:0 0 22px;white-space:pre-line;
+  }
+  .letter-paper .stanza:first-child{font-family:var(--display);font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.02em}
+  .letter-paper .last{color:#c04d6c}
+
   /* ---------- modals ---------- */
   .modal{
     position:fixed;inset:0;z-index:120;display:none;align-items:center;justify-content:center;padding:20px;
@@ -308,6 +358,8 @@
     .memory{margin-bottom:22px;break-inside:avoid}
     .print{box-shadow:none;border:1px solid #ddd;transform:none}
     footer{border:0}
+    .letter-stage,.env-note{display:none!important}
+    .letter-paper{opacity:1!important;transform:none!important;box-shadow:none;border:1px solid #ddd;margin-top:20px}
   }
 </style>
 </head>
@@ -345,7 +397,7 @@
     </div>
     <p class="eyebrow">A year, in your hands</p>
     <h1>Made by <span>you.</span></h1>
-    <p class="lede">This one is yours to fill in. Add a photo, write what you remember, move things around. <strong>Every change saves for both of you</strong> — no account, no app, just this page.</p>
+    <p class="lede">A year of us, shared with our memories.</p>
     <div class="hero-actions">
       <button class="btn primary" id="heroAdd">+ Add your first memory</button>
       <button class="btn" id="howBtn">How this works</button>
@@ -393,6 +445,34 @@
     </div>
 
     <div class="add-bar"><button class="btn" id="addBtn">+ Add a memory</button></div>
+  </section>
+
+  <section class="letter-section" id="letter">
+    <p class="eyebrow">One more thing</p>
+    <h2>Open when you're ready.</h2>
+    <p class="letter-sub">A note from me to you.</p>
+
+    <div class="letter-stage" id="letterStage">
+      <div class="paper-peek" aria-hidden="true"></div>
+      <button class="env" id="openLetter" aria-expanded="false" aria-label="Open the letter">
+        <span class="env-face" aria-hidden="true"></span>
+        <span class="env-flap" aria-hidden="true"></span>
+        <span class="env-seal" aria-hidden="true">♥</span>
+        <span class="env-hint">tap to open</span>
+      </button>
+    </div>
+    <p class="env-note" id="letterNote">sealed with love · no wrong time</p>
+
+    <div class="letter-paper" id="letterPaper" aria-hidden="true">
+      <p class="stanza">Baby</p>
+      <p class="stanza">For all the things I am not
+For all the things I have not done
+For all the things that we have shared
+For all the things that we have lost</p>
+      <p class="stanza">You are there by me, and I cannot thank God enough for that</p>
+      <p class="stanza">I love you, with my whole heart</p>
+      <p class="stanza last">Happy Anniversary, baby ❤️❤️❤️</p>
+    </div>
   </section>
 </main>
 
@@ -850,6 +930,18 @@
   });
   [$('#heroAdd'), $('#emptyAdd'), $('#addBtn')].forEach(b => b.addEventListener('click', () => addMemory()));
   document.querySelectorAll('[data-prompt]').forEach(b => b.addEventListener('click', () => addMemory(b.dataset.prompt)));
+
+  const letterStage = $('#letterStage');
+  const letterPaper = $('#letterPaper');
+  $('#openLetter').addEventListener('click', () => {
+    const opened = letterStage.classList.toggle('opened');
+    $('#openLetter').setAttribute('aria-expanded', String(opened));
+    $('#openLetter').setAttribute('aria-label', opened ? 'Close the letter' : 'Open the letter');
+    $('#letterNote').textContent = opened ? 'read it slowly ♥' : 'sealed with love · no wrong time';
+    letterPaper.classList.toggle('revealed', opened);
+    letterPaper.setAttribute('aria-hidden', String(!opened));
+    if (opened) setTimeout(() => letterPaper.scrollIntoView({ behavior:'smooth', block:'center' }), 650);
+  });
 
   timeline.addEventListener('click', e => {
     const card = e.target.closest('.memory');
