@@ -1,6 +1,6 @@
 # Ideas for what to write
 
-A page is waiting at <https://enricjake.github.io/one-year-of-us/>. It starts empty — that's on purpose. Add a memory with a photo and a few words. Nothing is sent anywhere; it saves in your browser, and **Save & share → Download a copy** keeps a file you can send back.
+A page is waiting at <https://enricjake.github.io/one-year-of-us/>. It starts empty — that's on purpose. Add a memory with a photo and a few words. Everything saves to the shared album, so he sees your changes too — and you'll see his. **Save & share → Download a copy** keeps an offline backup.
 
 No word counts, no right order. Start with whichever one you can picture most clearly.
 
@@ -40,4 +40,4 @@ Write it badly first. One sentence is enough. You can come back and add more —
 
 - Read it out loud once. If you stumble on a sentence, cut it.
 - Check every photo loads and you're happy for him to see it.
-- Download a copy from **Save & share** and send the `.json` file along with the link.
+- Download a copy from **Save & share** now and then — it's the backup if the shared capsule ever goes quiet.
