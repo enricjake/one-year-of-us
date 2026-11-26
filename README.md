@@ -13,7 +13,7 @@ Live: <https://enricjake.github.io/one-year-of-us/>
 - **Photos** come from the existing album in `assets/photos/`, or an upload from her device. Uploads are resized in the browser before being saved.
 - **Reorder freely** by dragging cards, or with ↑ / ↓ buttons on touch screens. Edit or delete anything at any time.
 - **Up to 50 memories.** The scrollable photo strip in the hero shows every memory; add buttons disable at 50.
-- **A player on each memory.** Paste a YouTube or Spotify link in the editor and a click-to-play embed appears on the card. Other sites are rejected.
+- **A player on each memory.** Paste a YouTube or Spotify link in the editor and a click-to-play embed appears on the card, showing the video/song's real title and a preview thumbnail. YouTube titles/thumbnails come from `noembed.com`; Spotify's from `open.spotify.com/oembed`. Both are CORS-enabled. If the lookup fails, a generic label is shown. Other sites are rejected.
 - **Shared save state.** Every change is written to one row in Supabase as well as `localStorage`. The other device picks it up within ~8 seconds (or instantly with **Sync now** under Save & share). Last write wins.
 - **Offline-safe.** If Supabase is unreachable, changes still save in the browser and the status shows "Offline — saved here".
 - **A sealed letter** at the bottom — tap the envelope to open the note from Enric. The source text is in [`letter.txt`](letter.txt) and is embedded in `index.html` so the page needs no extra request.
