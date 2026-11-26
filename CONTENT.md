@@ -24,6 +24,10 @@ Tap one of the chips on the page, or steal one of these:
 
 ---
 
+## If there's a song
+
+Add a YouTube or Spotify link to a memory in the editor — it turns into a player on the card. A song can say the thing you couldn't write.
+
 ## The one-line test
 
 If a memory could be swapped into any couple's story, it isn't specific enough yet. Add the exact time, the song, the thing you were eating, the phrase he always says. "We went somewhere nice" becomes a different thing when it's "stone pillars, long verandas, nowhere to be."

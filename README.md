@@ -12,6 +12,8 @@ Live: <https://enricjake.github.io/one-year-of-us/>
 - **Add a memory** = a title, a date, a photo, and as many words as she wants.
 - **Photos** come from the existing album in `assets/photos/`, or an upload from her device. Uploads are resized in the browser before being saved.
 - **Reorder freely** by dragging cards, or with ↑ / ↓ buttons on touch screens. Edit or delete anything at any time.
+- **Up to 50 memories.** The scrollable photo strip in the hero shows every memory; add buttons disable at 50.
+- **A player on each memory.** Paste a YouTube or Spotify link in the editor and a click-to-play embed appears on the card. Other sites are rejected.
 - **Shared save state.** Every change is written to one row in Supabase as well as `localStorage`. The other device picks it up within ~8 seconds (or instantly with **Sync now** under Save & share). Last write wins.
 - **Offline-safe.** If Supabase is unreachable, changes still save in the browser and the status shows "Offline — saved here".
 - **A sealed letter** at the bottom — tap the envelope to open the note from Enric. The source text is in [`letter.txt`](letter.txt) and is embedded in `index.html` so the page needs no extra request.
@@ -87,6 +89,8 @@ Everything is in `index.html`:
 - **Supabase credentials** — `SB_URL` / `SB_KEY` at the top of the script.
 - **Photo picker list** — the `LIBRARY` array. Add `{ src:'assets/photos/file.jpg', label:'A friendly name' }` to offer another photo.
 - **Prompt chips** — buttons with `data-prompt` in the empty state.
+- **Memory limit** — `MAX_MEMORIES` (50), also enforced on import and when reading the capsule.
+- **Allowed media hosts** — `mediaEmbed()` accepts YouTube and Spotify URLs only, and builds the embed URLs from them.
 - **Anniversary details** — the wax seal SVG, the ribbon divider, and the footer stamp.
 - **Upload size/quality** — `compress()`, currently 1400px long edge at JPEG quality 0.82.
 - **Polling interval** — `setInterval(..., 8000)` in `initSync()`.

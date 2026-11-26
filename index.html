@@ -118,10 +118,20 @@
   .hero .lede strong{color:var(--paper);font-weight:600}
   .hero-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-top:32px}
   .hero-actions .btn{padding:13px 24px;font-size:13px}
+  .frames-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin:54px auto 16px;max-width:920px}
   .frames{
-    display:flex;justify-content:center;gap:10px;margin:54px auto 16px;flex-wrap:wrap;
+    display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;flex:1;min-width:0;
+    padding:8px 6px 16px;scrollbar-width:thin;scrollbar-color:rgba(255,183,101,.5) transparent;
   }
+  .frames::-webkit-scrollbar{height:5px}
+  .frames::-webkit-scrollbar-thumb{background:rgba(255,183,101,.5);border-radius:99px}
+  .frame-arrow{
+    flex:0 0 auto;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);
+    background:transparent;color:var(--paper);font-size:18px;line-height:1;
+  }
+  .frame-arrow:hover{border-color:var(--amber);color:var(--amber)}
   .frame{
+    flex:0 0 auto;scroll-snap-align:center;
     width:clamp(58px,9vw,88px);aspect-ratio:4/5;border-radius:3px;overflow:hidden;
     background:rgba(246,240,229,.035);border:1px dashed rgba(246,240,229,.22);
     display:grid;place-items:center;color:rgba(246,240,229,.3);font-size:20px;
@@ -202,6 +212,26 @@
   .editor-actions .spacer{flex:1}
   .editor-actions .danger{color:var(--rose);border-color:rgba(255,148,168,.35)}
   .editor-actions .danger:hover{background:rgba(255,148,168,.1)}
+  .field-help{grid-column:1/-1;margin:-6px 0 0;font-size:11px;line-height:1.5;color:var(--paper-dim)}
+  .media{margin-top:14px}
+  .media.youtube{aspect-ratio:16/9}
+  .media.spotify{height:152px}
+  .media iframe{width:100%;height:100%;border:0;border-radius:8px;display:block}
+  .media-cover{
+    width:100%;height:100%;border:1px solid var(--line);border-radius:8px;
+    background:linear-gradient(135deg,rgba(255,183,101,.13),rgba(185,167,227,.1));
+    color:var(--paper);display:flex;align-items:center;gap:14px;padding:16px;text-align:left;
+  }
+  .media-cover:hover{border-color:var(--amber)}
+  .media-icon{
+    width:44px;height:44px;flex:0 0 auto;border-radius:50%;background:var(--amber);color:var(--ink);
+    display:grid;place-items:center;font-size:16px;
+  }
+  .media-text{font-family:var(--display);font-weight:700;font-size:15px;display:block}
+  .media-url{font-size:11px;color:var(--paper-dim);display:block;margin-top:4px;word-break:break-all}
+  .media-bad{font-family:var(--body);font-size:11px;color:var(--rose);margin:8px 0 0}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn:disabled:hover{border-color:var(--line);background:transparent;color:inherit}
   .drag-hint{display:none;font-size:11px;color:var(--paper-dim);margin:0 0 20px}
   body.editing .drag-hint{display:block}
 
@@ -223,6 +253,8 @@
     padding:7px 13px;font-size:12px;transition:border-color .2s,color .2s;
   }
   .chip:hover{border-color:var(--lilac);color:var(--paper)}
+  .chip:disabled{opacity:.45;cursor:not-allowed}
+  .chip:disabled:hover{border-color:var(--line);color:var(--paper-dim)}
   .add-bar{display:flex;justify-content:center;margin-top:34px}
   .add-bar .btn{padding:15px 26px;font-size:13px}
 
@@ -337,7 +369,7 @@
     .editor{grid-template-columns:1fr}
     .topbar{gap:8px}
     .frames{gap:6px}
-    .frame:nth-child(n+6){display:none}
+    .frame-arrow{display:none}
     .stamp{font-size:9px;letter-spacing:.1em;gap:6px;padding:7px 12px}
     .stamp-date{display:none}
   }
@@ -350,7 +382,7 @@
     .hero{padding:20px var(--pad);text-align:left}
     .hero h1{font-size:42px}
     .hero .lede,.status{display:none}
-    .frames{justify-content:flex-start;margin:16px 0}
+    .frames{justify-content:flex-start;margin:16px 0;overflow:visible}
     .frame.filled{box-shadow:none;border:1px solid #ccc}
     .story{max-width:100%;padding:0 var(--pad)}
     .timeline{padding-left:0}
@@ -402,8 +434,12 @@
       <button class="btn primary" id="heroAdd">+ Add your first memory</button>
       <button class="btn" id="howBtn">How this works</button>
     </div>
-    <div class="frames" id="frames" aria-label="Your photos so far"></div>
-    <p class="frame-count" id="frameCount">0 memories so far</p>
+    <div class="frames-wrap">
+      <button class="frame-arrow" id="framesPrev" type="button" aria-label="Scroll photos left">‹</button>
+      <div class="frames" id="frames" aria-label="Your photos so far — scroll to see them all"></div>
+      <button class="frame-arrow" id="framesNext" type="button" aria-label="Scroll photos right">›</button>
+    </div>
+    <p class="frame-count" id="frameCount">0 / 50 memories · scroll to see them all</p>
   </section>
 
   <div class="ribbon" aria-hidden="true">
@@ -530,6 +566,7 @@ For all the things that we have lost</p>
   'use strict';
 
   const KEY = 'one-year-of-us.v1';
+  const MAX_MEMORIES = 50;
 
   // Shared capsule. Fill these in from Supabase → Project Settings → API.
   // Leave blank and the album keeps working in browser-only mode.
@@ -570,8 +607,52 @@ For all the things that we have lost</p>
     date: typeof m?.date === 'string' ? m.date.slice(0, 120) : '',
     title: typeof m?.title === 'string' ? m.title.slice(0, 160) : '',
     text: typeof m?.text === 'string' ? m.text.slice(0, 8000) : '',
-    photo: typeof m?.photo === 'string' && (/^data:image\//.test(m.photo) || /^assets\/photos\//.test(m.photo)) ? m.photo : ''
+    photo: typeof m?.photo === 'string' && (/^data:image\//.test(m.photo) || /^assets\/photos\//.test(m.photo)) ? m.photo : '',
+    media: typeof m?.media === 'string' && /^https?:\/\//i.test(m.media) ? m.media.slice(0, 500) : ''
   });
+
+  // Only YouTube and Spotify links become players — no arbitrary embeds.
+  function mediaEmbed(url) {
+    if (!url) return null;
+    let u;
+    try { u = new URL(url); } catch (e) { return null; }
+    const host = u.hostname.replace(/^www\./, '').replace(/^m\./, '');
+    if (host === 'youtu.be' || host === 'youtube.com' || host === 'youtube-nocookie.com') {
+      let id = host === 'youtu.be' ? u.pathname.slice(1).split('/')[0] : u.searchParams.get('v');
+      if (!id) {
+        const match = u.pathname.match(/\/(?:embed|shorts|live)\/([\w-]{11})/);
+        if (match) id = match[1];
+      }
+      if (id && /^[\w-]{11}$/.test(id)) {
+        return { type: 'youtube', label: 'YouTube', src: `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0` };
+      }
+    }
+    if (host === 'spotify.com' || host === 'open.spotify.com') {
+      const match = u.pathname.match(/^\/(track|album|playlist|episode|show|artist)\/([A-Za-z0-9]+)/);
+      if (match) {
+        return { type: 'spotify', label: 'Spotify', src: `https://open.spotify.com/embed/${match[1]}/${match[2]}?autoplay=1` };
+      }
+    }
+    if (host === 'embed.spotify.com') {
+      const match = u.pathname.match(/^\/(track|album|playlist|episode|show|artist)\/([A-Za-z0-9]+)/);
+      if (match) {
+        return { type: 'spotify', label: 'Spotify', src: `https://open.spotify.com/embed/${match[1]}/${match[2]}?autoplay=1` };
+      }
+    }
+    return null;
+  }
+
+  function mediaHTML(url) {
+    if (!url) return '';
+    const info = mediaEmbed(url);
+    if (!info) return `<div class="media"><p class="media-bad">That link isn't a YouTube or Spotify link.</p></div>`;
+    return `<div class="media ${info.type}">
+      <button class="media-cover" data-act="media" type="button">
+        <span class="media-icon">▶</span>
+        <span><span class="media-text">Play on ${info.label}</span><span class="media-url">${esc(url)}</span></span>
+      </button>
+    </div>`;
+  }
 
   function toast(msg) {
     const el = $('#toast');
@@ -628,7 +709,7 @@ For all the things that we have lost</p>
     if (remote.stamp === remoteUpdatedAt) return false;
     remoteUpdatedAt = remote.stamp;
     if (JSON.stringify(remote.memories) === JSON.stringify(state.memories)) return false;
-    state.memories = remote.memories;
+    state.memories = remote.memories.slice(0, MAX_MEMORIES);
     render();
     toast('Album updated from the capsule');
     return true;
@@ -669,7 +750,7 @@ For all the things that we have lost</p>
       const remote = await fetchRemote();
       if (remote) {
         remoteUpdatedAt = remote.stamp;
-        if (remote.memories.length) state.memories = remote.memories;
+        if (remote.memories.length) state.memories = remote.memories.slice(0, MAX_MEMORIES);
         else if (state.memories.length) await pushRemote();
       } else if (state.memories.length) {
         await pushRemote();
@@ -691,7 +772,8 @@ For all the things that we have lost</p>
   function renderFrames() {
     const box = $('#frames');
     box.innerHTML = '';
-    for (let i = 0; i < 6; i++) {
+    const shown = state.memories.length || 6;
+    for (let i = 0; i < shown; i++) {
       const m = state.memories[i];
       const el = document.createElement('div');
       if (m && m.photo) {
@@ -709,7 +791,13 @@ For all the things that we have lost</p>
       }
       box.appendChild(el);
     }
-    $('#frameCount').textContent = state.memories.length + (state.memories.length === 1 ? ' memory so far' : ' memories so far');
+    $('#frameCount').textContent = state.memories.length + ' / ' + MAX_MEMORIES + ' memories';
+    requestAnimationFrame(() => {
+      const overflow = box.scrollWidth > box.clientWidth + 4;
+      $('#framesPrev').hidden = !overflow;
+      $('#framesNext').hidden = !overflow;
+      if (overflow) $('#frameCount').textContent += ' · scroll to see them all';
+    });
   }
 
   function cardHTML(m, i) {
@@ -729,11 +817,14 @@ For all the things that we have lost</p>
           <h3 class="title">${esc(m.title)}</h3>
           <p class="text">${esc(m.text)}</p>
         </div>
+        <div class="media-slot">${mediaHTML(m.media)}</div>
       </div>
       <div class="editor">
         <label>Date <input data-field="date" maxlength="120" value="${esc(m.date)}" placeholder="e.g. Nov 25, 2025"></label>
         <label>Title <input data-field="title" maxlength="160" value="${esc(m.title)}" placeholder="Give this memory a name"></label>
         <label class="wide">Your words <textarea data-field="text" maxlength="8000" placeholder="What happened? What do you remember?">${esc(m.text)}</textarea></label>
+        <label class="wide">Music / video link <input data-field="media" maxlength="500" value="${esc(m.media)}" placeholder="Paste a YouTube or Spotify link"></label>
+        <p class="field-help wide">A song or video for this memory — it becomes a player on the card.</p>
         <div class="editor-actions">
           <button class="btn" data-act="photo" type="button">▣ Choose photo</button>
           <button class="btn" data-act="up" type="button" aria-label="Move earlier">↑</button>
@@ -756,7 +847,10 @@ For all the things that we have lost</p>
     });
     bindDrag();
     $('#empty').hidden = state.memories.length > 0;
-    $('#heroAdd').textContent = state.memories.length ? '+ Add another memory' : '+ Add your first memory';
+    const full = state.memories.length >= MAX_MEMORIES;
+    [$('#heroAdd'), $('#emptyAdd'), $('#addBtn')].forEach(b => { b.disabled = full; });
+    document.querySelectorAll('[data-prompt]').forEach(b => { b.disabled = full; });
+    $('#heroAdd').textContent = full ? MAX_MEMORIES + ' memories — the max' : state.memories.length ? '+ Add another memory' : '+ Add your first memory';
     $('#storyNote').innerHTML = state.memories.length
       ? `Tap <strong>Edit page</strong> to change a photo or the words, drag cards to reorder, or delete anything you don't want.`
       : `Tap <strong>Edit page</strong> to add photos and words, drag cards to reorder, or delete anything you don't want.`;
@@ -765,6 +859,7 @@ For all the things that we have lost</p>
 
   /* ---------- actions ---------- */
   function addMemory(title = '') {
+    if (state.memories.length >= MAX_MEMORIES) { toast(MAX_MEMORIES + ' memories is the max — remove one to add another'); return; }
     const m = clean({ title });
     state.memories.push(m);
     document.body.classList.add('editing');
@@ -875,7 +970,8 @@ For all the things that we have lost</p>
         const list = Array.isArray(data?.memories) ? data.memories : Array.isArray(data) ? data : null;
         if (!list) throw new Error('bad file');
         if (!confirm('This will replace everything currently on this page. Continue?')) return;
-        state.memories = list.map(clean);
+        state.memories = list.map(clean).slice(0, MAX_MEMORIES);
+        if (list.length > MAX_MEMORIES) toast('Kept the first ' + MAX_MEMORIES + ' memories');
         save(); render(); closeModals();
         toast('Album restored — ' + state.memories.length + ' memories');
       } catch (e) { toast('That file could not be read — choose a saved .json copy'); }
@@ -926,9 +1022,12 @@ For all the things that we have lost</p>
     document.body.classList.toggle('editing');
     syncEditButton();
     bindDrag();
+    if (!document.body.classList.contains('editing')) render();
     toast(document.body.classList.contains('editing') ? 'Editing on — tap any photo to change it' : 'Editing off');
   });
   [$('#heroAdd'), $('#emptyAdd'), $('#addBtn')].forEach(b => b.addEventListener('click', () => addMemory()));
+  $('#framesPrev').addEventListener('click', () => $('#frames').scrollBy({ left: -264, behavior:'smooth' }));
+  $('#framesNext').addEventListener('click', () => $('#frames').scrollBy({ left: 264, behavior:'smooth' }));
   document.querySelectorAll('[data-prompt]').forEach(b => b.addEventListener('click', () => addMemory(b.dataset.prompt)));
 
   const letterStage = $('#letterStage');
@@ -955,6 +1054,14 @@ For all the things that we have lost</p>
       else if (m?.photo) { $('#lightboxImg').src = m.photo; $('#lightboxImg').alt = m.title || 'Photo'; $('#lightbox').classList.add('show'); }
       else { document.body.classList.add('editing'); syncEditButton(); bindDrag(); openSheet(id); }
     }
+    if (act === 'media') {
+      const m = find(id);
+      const info = m && mediaEmbed(m.media);
+      const box = card.querySelector('.media');
+      if (info && box) {
+        box.innerHTML = `<iframe src="${esc(info.src)}" title="Music in this memory" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>`;
+      }
+    }
     if (act === 'up') move(id, -1);
     if (act === 'down') move(id, 1);
     if (act === 'delete') removeMemory(id);
@@ -970,6 +1077,15 @@ For all the things that we have lost</p>
     const view = card.querySelector('.caption .' + (field === 'text' ? 'text' : field));
     if (view) view.textContent = e.target.value;
     save();
+  });
+
+  timeline.addEventListener('change', e => {
+    if (e.target.dataset.field !== 'media') return;
+    const card = e.target.closest('.memory');
+    const m = find(card?.dataset.id);
+    const slot = card?.querySelector('.media-slot');
+    if (!m || !slot) return;
+    slot.innerHTML = mediaHTML(m.media);
   });
 
   $('#uploadInput').addEventListener('change', e => { handleUpload(e.target.files[0]); e.target.value = ''; });
