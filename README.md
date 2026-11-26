@@ -11,15 +11,15 @@ Live: <https://enricjake.github.io/one-year-of-us/>
 - **Blank slate.** It opens empty, with a few prompt chips ("The first message", "11pm snack aisle", …) if she needs a starting point.
 - **Add a memory** = a title, a date, a photo, and as many words as she wants.
 - **Photos** come from the existing album in `assets/photos/`, or an upload from her device. Uploads are resized in the browser before being saved.
-- **Reorder freely** by dragging cards, or with ↑ / ↓ buttons on touch screens. Edit or delete anything at any time.
+- **Edit one memory at a time.** Every card has its own **✎ Edit** button that opens just that card's fields (date, words, photo, music, audio, ↑/↓, delete). The **Edit page** button in the top bar opens all cards at once.
 - **Up to 50 memories.** The scrollable photo strip in the hero shows every memory; add buttons disable at 50.
 - **A player on each memory.** Paste a YouTube or Spotify link in the editor and a click-to-play embed appears on the card, showing the video/song's real title and a preview thumbnail. YouTube titles/thumbnails come from `noembed.com`; Spotify's from `open.spotify.com/oembed`. Both are CORS-enabled. If the lookup fails, a generic label is shown. Other sites are rejected.
 - **Upload your own audio.** Each editor has an "♫ Upload audio" button (MP3/M4A/WAV/OGG, up to 20 MB). Files go to a public Supabase Storage bucket and play with native controls on the card. Run [`supabase-audio-setup.sql`](supabase-audio-setup.sql) once to create the bucket.
-- **Shared save state.** Every change is written to one row in Supabase as well as `localStorage`. The other device picks it up within ~8 seconds (or instantly with **Sync now** under Save & share). Last write wins.
+- **Shared save state.** Every change is written to one row in Supabase as well as `localStorage`. The other device picks it up within ~8 seconds. Last write wins.
 - **Offline-safe.** If Supabase is unreachable, changes still save in the browser and the status shows "Offline — saved here".
 - **A sealed letter** at the bottom — tap the envelope to open the note from Enric. The source text is in [`letter.txt`](letter.txt) and is embedded in `index.html` so the page needs no extra request.
-- **Save & share** also offers `.json` export/import, print / save as PDF, and start over.
-- **Escape / device back** closes whatever is open — a photo or share panel, the letter, or a playing video — and restores the card cover.
+- **How this works** explains the shared album; there is no save/share panel, export, or reset option.
+- **Escape / device back** closes whatever is open — a photo or the info panel, the letter, or a playing video — and restores the card cover.
 
 Everything else is client-side: no analytics, no cookies, no network request except Google Fonts and the Supabase REST call. `<meta name="robots" content="noindex, nofollow">` is set.
 
@@ -92,27 +92,14 @@ Everything is in `index.html`:
 - **Supabase credentials** — `SB_URL` / `SB_KEY` at the top of the script.
 - **Photo picker list** — the `LIBRARY` array. Add `{ src:'assets/photos/file.jpg', label:'A friendly name' }` to offer another photo.
 - **Prompt chips** — buttons with `data-prompt` in the empty state.
-- **Memory limit** — `MAX_MEMORIES` (50), also enforced on import and when reading the capsule.
+- **Memory limit** — `MAX_MEMORIES` (50), also enforced when reading the capsule.
 - **Allowed media hosts** — `mediaEmbed()` accepts YouTube and Spotify URLs only, and builds the embed URLs from them.
 - **Anniversary details** — the wax seal SVG, the ribbon divider, and the footer stamp.
 - **Upload size/quality** — `compress()`, currently 1400px long edge at JPEG quality 0.82.
 - **Polling interval** — `setInterval(..., 8000)` in `initSync()`.
-- **Storage key** — `one-year-of-us.v1` for the local cache; exported JSON includes an `app`/`version` header.
+- **Storage key** — `one-year-of-us.v1` for the local cache.
 
-### Export format
-
-```json
-{
-  "app": "one-year-of-us",
-  "version": 1,
-  "exportedAt": "2026-11-25T…",
-  "memories": [
-    { "id": "m…", "date": "", "title": "", "text": "", "photo": "" }
-  ]
-}
-```
-
-`photo` is either an `assets/photos/…` path or a JPEG data URL. Importing replaces the current album (locally and in the shared capsule) after a confirmation.
+`photo` is either an `assets/photos/…` path or a JPEG data URL.
 
 ---
 

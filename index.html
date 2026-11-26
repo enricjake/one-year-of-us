@@ -88,7 +88,6 @@
     padding:7px 15px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:14px;
   }
   .stamp b{font-weight:700;color:var(--rose)}
-  .share-actions .btn.sync{padding:10px 16px;justify-content:center;font-size:12px}
 
   .btn{
     border:1px solid var(--line);background:transparent;color:var(--paper);
@@ -168,7 +167,7 @@
     transform:rotate(var(--tilt,0deg));transition:transform .35s,box-shadow .35s;
   }
   .print:hover{transform:rotate(0deg) translateY(-4px);box-shadow:0 30px 60px rgba(0,0,0,.55)}
-  body.editing .print{transform:none}
+  .memory.editing .print{transform:none}
   .photo{
     position:relative;aspect-ratio:4/3;background:#ddd4c7;border-radius:1px;overflow:hidden;
     display:grid;place-items:center;
@@ -183,22 +182,29 @@
     background:rgba(14,14,22,.85);color:var(--paper);border:0;border-radius:999px;
     padding:8px 13px;font-size:11px;font-weight:700;letter-spacing:.04em;transition:opacity .2s,transform .2s;
   }
-  body.editing .photo{cursor:pointer}
-  body.editing .photo:hover .photo-btn,body.editing .photo-btn:focus-visible{opacity:1;transform:none}
-  body:not(.editing) .photo.has-photo{cursor:zoom-in}
+  .memory.editing .photo{cursor:pointer}
+  .memory.editing .photo:hover .photo-btn,.memory.editing .photo-btn:focus-visible{opacity:1;transform:none}
+  .memory:not(.editing) .photo.has-photo{cursor:zoom-in}
   .caption{padding:16px 8px 10px;min-height:90px}
   .caption .meta{display:flex;gap:12px;align-items:center;margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#8b7e70}
   .caption .num{color:#a8642a}
   .caption h3{font-family:var(--display);font-weight:700;font-size:clamp(20px,3vw,28px);letter-spacing:-.025em;margin:0 0 6px;line-height:1.15}
   .caption .text{font-family:var(--hand);font-size:clamp(20px,3vw,25px);line-height:1.22;margin:0;color:#39313a;white-space:pre-wrap;overflow-wrap:anywhere}
   .caption .text:empty::after{content:"Your words go here";color:#b3a697;font-style:italic}
+  .card-edit{
+    margin-left:auto;border:1px solid rgba(28,23,32,.2);background:transparent;color:#8b7e70;
+    border-radius:999px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    transition:border-color .2s,color .2s,background .2s;
+  }
+  .card-edit:hover{border-color:#a8642a;color:#a8642a;background:rgba(168,100,42,.07)}
+  .memory.editing .card-edit{color:#a8642a;border-color:rgba(168,100,42,.5)}
 
   /* ---------- editor panel ---------- */
   .editor{
     display:none;margin-top:12px;padding:18px;border:1px solid var(--line);border-radius:10px;background:rgba(9,9,16,.72);
     grid-template-columns:1fr 1fr;gap:14px;
   }
-  body.editing .editor{display:grid}
+  .memory.editing .editor{display:grid}
   .editor label{display:flex;flex-direction:column;gap:7px;font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-dim)}
   .editor label.wide{grid-column:1/-1}
   .editor input,.editor textarea{
@@ -361,10 +367,8 @@
     border-radius:10px;margin-bottom:20px;background:rgba(255,183,101,.04);
   }
   .upload-row p{margin:0;font-size:12px;color:var(--paper-dim);line-height:1.5}
-  .share-actions{display:grid;gap:10px;margin-top:20px}
-  .share-actions .btn{width:100%;text-align:left;padding:14px 16px;font-size:13px;display:flex;justify-content:space-between;gap:10px}
-  .share-actions .btn small{color:var(--paper-dim);font-weight:400}
   .note-box{font-size:12px;line-height:1.6;color:var(--paper-dim);border-left:2px solid var(--amber);padding-left:14px;margin-top:22px}
+  .note-box p{margin:0}
   .lightbox img{width:100%;max-height:78vh;object-fit:contain;border-radius:6px}
 
   /* ---------- toast ---------- */
@@ -394,7 +398,7 @@
   }
   @media print{
     body{background:#fff;color:#111}
-    .grain,.topbar,.hero-actions,.editor,.photo-btn,.add-bar,.prompts,.drag-hint,.toast,.modal{display:none!important}
+    .grain,.topbar,.hero-actions,.editor,.photo-btn,.card-edit,.add-bar,.prompts,.drag-hint,.toast,.modal{display:none!important}
     .hero{padding:20px var(--pad);text-align:left}
     .hero h1{font-size:42px}
     .hero .lede,.status{display:none}
@@ -418,7 +422,6 @@
   <div class="brand"><span class="aperture" aria-hidden="true"></span><span>One Year of Us</span></div>
   <div class="status" id="status">Your space · nothing is uploaded</div>
   <button class="btn" id="editToggle" aria-pressed="false">✎ Edit page</button>
-  <button class="btn primary" id="shareBtn">Save &amp; share</button>
 </header>
 
 <main>
@@ -473,7 +476,7 @@
         <p class="eyebrow">The album</p>
         <h2>Memories, in your order.</h2>
       </div>
-      <p id="storyNote">Tap <strong>Edit page</strong> to add photos and words, drag cards to reorder, or delete anything you don't want.</p>
+      <p id="storyNote">Tap <strong>✎ Edit</strong> on a memory to change its photo or words, drag cards to reorder, or delete anything you don't want.</p>
     </div>
     <p class="drag-hint">Tip: drag a card by its photo to rearrange. Use the arrows if you're on a phone.</p>
 
@@ -531,7 +534,7 @@ For all the things that we have lost</p>
 <footer>
   <div class="stamp">♥ <b>one year down</b> · forever to go <span class="stamp-date">· 25.11.25 → 25.11.26</span></div>
   <div class="mark">one year of us</div>
-  <div>Saved for both of you. To keep an offline copy, use <strong>Save &amp; share</strong> above.</div>
+  <div>Saved for both of you — changes appear on the other device, too.</div>
 </footer>
 
 <!-- photo sheet -->
@@ -550,21 +553,16 @@ For all the things that we have lost</p>
   </div>
 </div>
 
-<!-- share / save -->
-<div class="modal" id="share" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+<!-- how it works -->
+<div class="modal" id="how" role="dialog" aria-modal="true" aria-labelledby="howTitle">
   <div class="panel">
     <div class="panel-head">
-      <div><h2 id="shareTitle">Save &amp; share</h2><p>This album is shared — anything you add shows up on the other device too.</p></div>
+      <div><h2 id="howTitle">How this works</h2><p>A little album that belongs to the two of you.</p></div>
       <button class="x" data-close aria-label="Close">✕</button>
     </div>
-    <div class="share-actions">
-      <button class="btn sync" id="syncBtn">↻ Sync now</button>
-      <button class="btn" id="exportBtn">⬇ Download a copy <small>(a .json file)</small></button>
-      <button class="btn" id="importBtn">⬆ Open a saved copy <small>(restore from .json)</small></button>
-      <button class="btn" id="printBtn">🖨 Print / save as PDF</button>
-      <button class="btn ghost-danger" id="resetBtn">↺ Start over <small>(erase everyone's memories)</small></button>
+    <div class="note-box">
+      <p>Add a memory, then tap <strong>✎ Edit</strong> on its card to change the date, words, photo, or music. Drag cards to reorder. Everything saves itself to the shared album, so the other device sees your changes within a few seconds. Anyone with the page link can add and edit — treat it like a scrapbook you both hold.</p>
     </div>
-    <div class="note-box" id="howNote">Changes save automatically to the shared capsule, so both of you see the same album. It refreshes itself every few seconds — or tap <strong>Sync now</strong>. Anyone with the page link can add and edit memories. Download a copy now and then as a backup: you can restore it with <strong>Open a saved copy</strong>.</div>
   </div>
 </div>
 
@@ -574,7 +572,6 @@ For all the things that we have lost</p>
   <img id="lightboxImg" alt="">
 </div>
 
-<input type="file" id="importFile" accept="application/json,.json" hidden>
 <input type="file" id="audioInput" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -616,6 +613,7 @@ For all the things that we have lost</p>
   let syncing = false;
   let saveSeq = 0;
   let audioTarget = null;
+  let editingIds = new Set();
 
   /* ---------- helpers ---------- */
   const uid = () => 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
@@ -805,8 +803,8 @@ For all the things that we have lost</p>
       if (seq !== saveSeq) return;
       try { localStorage.setItem(KEY, JSON.stringify(state)); }
       catch (e) {
-        setStatus('Storage full — export a copy');
-        toast('Storage is full. Download a copy, then remove a few large photos.');
+        setStatus('Storage full — remove a large photo');
+        toast('Storage is full. Remove a large photo to save your changes.');
         return;
       }
       if (!sbEnabled()) { setStatus('Saved in this browser'); return; }
@@ -886,7 +884,7 @@ For all the things that we have lost</p>
           <button class="photo-btn" data-act="photo" type="button">Change photo</button>
         </div>
         <div class="caption">
-          <p class="meta"><span class="num">${num}</span><span class="date">${esc(m.date)}</span></p>
+          <p class="meta"><span class="num">${num}</span><span class="date">${esc(m.date)}</span><button class="card-edit" data-act="edit" type="button" aria-label="Edit this memory">✎ Edit</button></p>
           <h3 class="title">${esc(m.title)}</h3>
           <p class="text">${esc(m.text)}</p>
         </div>
@@ -911,6 +909,7 @@ For all the things that we have lost</p>
 
   function render() {
     timeline.innerHTML = '';
+    editingIds = new Set([...editingIds].filter(id => find(id)));
     state.memories.forEach((m, i) => {
       const art = document.createElement('article');
       art.className = 'memory';
@@ -919,6 +918,7 @@ For all the things that we have lost</p>
       art.innerHTML = cardHTML(m, i);
       timeline.appendChild(art);
     });
+    applyEditing();
     bindDrag();
     $('#empty').hidden = state.memories.length > 0;
     const full = state.memories.length >= MAX_MEMORIES;
@@ -926,8 +926,8 @@ For all the things that we have lost</p>
     document.querySelectorAll('[data-prompt]').forEach(b => { b.disabled = full; });
     $('#heroAdd').textContent = full ? MAX_MEMORIES + ' memories — the max' : state.memories.length ? '+ Add another memory' : '+ Add your first memory';
     $('#storyNote').innerHTML = state.memories.length
-      ? `Tap <strong>Edit page</strong> to change a photo or the words, drag cards to reorder, or delete anything you don't want.`
-      : `Tap <strong>Edit page</strong> to add photos and words, drag cards to reorder, or delete anything you don't want.`;
+      ? `Tap <strong>✎ Edit</strong> on a memory to change its photo or words, drag cards to reorder, or delete anything you don't want.`
+      : `Tap <strong>✎ Edit</strong> on a memory to add photos and words, drag cards to reorder, or delete anything you don't want.`;
     renderFrames();
   }
 
@@ -936,10 +936,9 @@ For all the things that we have lost</p>
     if (state.memories.length >= MAX_MEMORIES) { toast(MAX_MEMORIES + ' memories is the max — remove one to add another'); return; }
     const m = clean({ title });
     state.memories.push(m);
-    document.body.classList.add('editing');
-    syncEditButton();
     save();
     render();
+    setEditing([m.id]);
     const card = timeline.querySelector(`.memory[data-id="${m.id}"]`);
     if (card) {
       card.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -949,7 +948,7 @@ For all the things that we have lost</p>
     toast('Memory added — make it yours');
   }
   function removeMemory(id) {
-    if (!confirm('Delete this memory? This can’t be undone unless you have a downloaded copy.')) return;
+    if (!confirm('Delete this memory? This can’t be undone.')) return;
     state.memories = state.memories.filter(m => m.id !== id);
     save(); render(); toast('Memory deleted');
   }
@@ -964,6 +963,21 @@ For all the things that we have lost</p>
     const on = document.body.classList.contains('editing');
     $('#editToggle').textContent = on ? '✓ Done editing' : '✎ Edit page';
     $('#editToggle').setAttribute('aria-pressed', String(on));
+  }
+  function applyEditing() {
+    timeline.querySelectorAll('.memory').forEach(card => {
+      const on = editingIds.has(card.dataset.id);
+      card.classList.toggle('editing', on);
+      const btn = card.querySelector('.card-edit');
+      if (btn) btn.textContent = on ? '✓ Done' : '✎ Edit';
+    });
+  }
+  function setEditing(ids) {
+    editingIds = new Set(ids);
+    document.body.classList.toggle('editing', editingIds.size > 0);
+    syncEditButton();
+    applyEditing();
+    bindDrag();
   }
 
   /* ---------- photo sheet ---------- */
@@ -1056,40 +1070,6 @@ For all the things that we have lost</p>
     });
   }
 
-  /* ---------- import / export ---------- */
-  function exportData() {
-    const payload = {
-      app: 'one-year-of-us', version: 1,
-      exportedAt: new Date().toISOString(),
-      memories: state.memories
-    };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'one-year-of-us.json';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    toast('Copy downloaded');
-  }
-  function importFile(file) {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = JSON.parse(reader.result);
-        const list = Array.isArray(data?.memories) ? data.memories : Array.isArray(data) ? data : null;
-        if (!list) throw new Error('bad file');
-        if (!confirm('This will replace everything currently on this page. Continue?')) return;
-        state.memories = list.map(clean).slice(0, MAX_MEMORIES);
-        if (list.length > MAX_MEMORIES) toast('Kept the first ' + MAX_MEMORIES + ' memories');
-        save(); render(); closeModals();
-        toast('Album restored — ' + state.memories.length + ' memories');
-      } catch (e) { toast('That file could not be read — choose a saved .json copy'); }
-    };
-    reader.readAsText(file);
-  }
-
   /* ---------- drag & drop ---------- */
   function bindDrag() {
     timeline.querySelectorAll('.memory').forEach(card => {
@@ -1177,11 +1157,16 @@ For all the things that we have lost</p>
 
   /* ---------- events ---------- */
   $('#editToggle').addEventListener('click', () => {
-    document.body.classList.toggle('editing');
-    syncEditButton();
-    bindDrag();
-    if (!document.body.classList.contains('editing')) render();
-    toast(document.body.classList.contains('editing') ? 'Editing on — tap any photo to change it' : 'Editing off');
+    if (editingIds.size) {
+      setEditing([]);
+      render();
+      toast('Editing off');
+    } else if (!state.memories.length) {
+      toast('Add a memory first');
+    } else {
+      setEditing(state.memories.map(m => m.id));
+      toast('Editing on — tap Edit on a memory to change it');
+    }
   });
   [$('#heroAdd'), $('#emptyAdd'), $('#addBtn')].forEach(b => b.addEventListener('click', () => addMemory()));
   $('#framesPrev').addEventListener('click', () => $('#frames').scrollBy({ left: -264, behavior:'smooth' }));
@@ -1199,11 +1184,22 @@ For all the things that we have lost</p>
     const id = card.dataset.id;
     const act = e.target.closest('[data-act]')?.dataset.act;
     if (!act) return;
+    if (act === 'edit') {
+      if (editingIds.has(id)) {
+        setEditing([...editingIds].filter(x => x !== id));
+        toast('Done editing this memory');
+      } else {
+        setEditing([id]);
+        const input = card.querySelector('input[data-field="title"]');
+        if (input) setTimeout(() => input.focus(), 60);
+      }
+      return;
+    }
     if (act === 'photo') {
       const m = find(id);
-      if (document.body.classList.contains('editing')) openSheet(id);
+      if (card.classList.contains('editing')) openSheet(id);
       else if (m?.photo) { $('#lightboxImg').src = m.photo; $('#lightboxImg').alt = m.title || 'Photo'; openOverlay(); $('#lightbox').classList.add('show'); }
-      else { document.body.classList.add('editing'); syncEditButton(); bindDrag(); openSheet(id); }
+      else { setEditing([id]); openSheet(id); }
     }
     if (act === 'media') {
       const m = find(id);
@@ -1256,29 +1252,8 @@ For all the things that we have lost</p>
 
   $('#uploadInput').addEventListener('change', e => { handleUpload(e.target.files[0]); e.target.value = ''; });
   $('#audioInput').addEventListener('change', e => { uploadAudio(e.target.files[0], audioTarget); e.target.value = ''; });
-  $('#importFile').addEventListener('change', e => { importFile(e.target.files[0]); e.target.value = ''; });
 
-  $('#howBtn').addEventListener('click', () => {
-    $('#shareBtn').click();
-  });
-  $('#shareBtn').addEventListener('click', () => { openOverlay(); $('#share').classList.add('show'); });
-  $('#syncBtn').addEventListener('click', async () => {
-    if (!sbEnabled()) { toast('Shared saving is not set up yet'); return; }
-    setStatus('Syncing…');
-    try {
-      await pullRemote(true);
-      await pushRemote();
-      setStatus('Shared capsule · synced');
-      toast('Synced');
-    } catch (e) { setStatus('Offline — saved here'); toast('Could not sync right now'); }
-  });
-  $('#exportBtn').addEventListener('click', exportData);
-  $('#importBtn').addEventListener('click', () => $('#importFile').click());
-  $('#printBtn').addEventListener('click', () => { closeModals(); window.print(); });
-  $('#resetBtn').addEventListener('click', () => {
-    if (!confirm('Erase every memory on this page? Download a copy first if you want to keep it.')) return;
-    state.memories = []; save(); render(); closeModals(); toast('Album cleared');
-  });
+  $('#howBtn').addEventListener('click', () => { openOverlay(); $('#how').classList.add('show'); });
   document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeEverything));
   document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeEverything(); }));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEverything(); });
