@@ -58,30 +58,21 @@ You can also just double-click `index.html` — everything works from `file://` 
 - **Wrapped** — `data-count` values animate up; `data-days` is computed live from `<body data-since="…">`. Bar heights are inline `--h` percentages.
 - **Open When** — the six letters are `<template id="l1">` … `l6`. They're written for a long-distance year; the card titles are separate, so update both if you change a topic.
 
-### One small privacy step
+### Privacy
 
-If you deploy publicly, add this inside `<head>` so it doesn't show up in search results:
-
-```html
-<meta name="robots" content="noindex, nofollow">
-```
+Every page already includes `<meta name="robots" content="noindex, nofollow">`, so the site won't appear in search results. The repo itself is public, so anyone with the GitHub link can see the photos — flip it back to private after moving hosting elsewhere if you want it fully closed.
 
 ---
 
 ## Deploy
 
-**GitHub Pages** (free for public repos):
+**Live now:** https://enricjake.github.io/one-year-of-us/
 
-```bash
-cd one-year-of-us
-git add .
-git commit -m "one year"
-gh repo create one-year-of-us --public --source=. --push
-```
+The repo is public and GitHub Pages is configured from `main` / root (with a `.nojekyll` file so nothing gets preprocessed). Every page has `noindex, nofollow` so the photos aren't searchable — anyone with the link can still open them.
 
-Then: repo **Settings → Pages → Deploy from a branch → `main` / root**. Your link will be `https://<username>.github.io/one-year-of-us/`.
+To deploy a different folder after you pick one, replace the root `index.html` with the chosen template (and its photo paths become `assets/photos/...`), then commit and push. Pages rebuilds automatically.
 
-For a private repo, GitHub Pages needs a paid plan — Netlify or Vercel will host it free by dragging the folder in.
+If you ever want it private again: GitHub Pages on a private repo needs a paid plan, so move the site to Netlify or Vercel first, then flip the repo back to private.
 
 ---
 
